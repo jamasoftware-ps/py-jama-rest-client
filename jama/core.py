@@ -24,21 +24,17 @@ class Core:
         url = self.__host_name + resource
         return requests.get(url, auth=self.__credentials, params=params, **kwargs)
 
-    def patch(self, resource, params=None, body=None, json=None, **kwargs):
+    def patch(self, resource, params=None, data=None, json=None, **kwargs):
         """ This method will perform a patch operation to the specified resource"""
         url = self.__host_name + resource
-        return requests.patch(url, auth=self.__credentials, params=params, body=body, json=json, **kwargs)
+        return requests.patch(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
 
-    def post(self, resource, params=None, body=None, json=None, **kwargs):
+    def post(self, resource, params=None, data=None, json=None, **kwargs):
         """ This method will perform a post operation to the specified resource."""
         url = self.__host_name + resource
-        return requests.post(url, auth=self.__credentials, params=params, body=body, json=json, **kwargs)
+        return requests.post(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
 
-    def put(self, resource, params=None, body=None, json=None, **kwargs):
+    def put(self, resource, params=None, data=None, json=None, **kwargs):
         """ This method will perform a put operation to the specified resource"""
         url = self.__host_name + resource
-        return requests.put(url, auth=self.__credentials, params=params, body=body, json=json, **kwargs)
-
-
-    #TODO Move functions below this to another file.
-
+        return requests.put(url, auth=self.__credentials, data=data, params=params, json=json, **kwargs)

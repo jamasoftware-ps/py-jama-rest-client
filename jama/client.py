@@ -12,19 +12,19 @@ class JamaClient:
         """Jama Client initializer
         :param host_domain The domain associated with the jama connect host
         :param credentials the user name and password as a tuple
-        :param api_version valid args are '/rest/[v1|latest|labs]' """
+        :param api_version valid args are '/rest/[v1|latest|labs]/' """
         self.__credentials = credentials
         self.__core = Core(host_domain, credentials, api_version=api_version)
 
     def get_projects(self):
         """This method will return all projects as JSON object"""
-        resource_path = '/projects'
+        resource_path = 'projects'
         project_data = self.__get_all(resource_path)
         return project_data
 
     def get_items(self, project_id):
         """This method will return all items in the specified project.  it will return a Json array of item objects"""
-        resource_path = '/items'
+        resource_path = 'items'
         params = {'project': project_id}
         item_data = self.__get_all(resource_path, params=params)
         return item_data
@@ -32,7 +32,7 @@ class JamaClient:
     def get_abstract_items_from_doc_key(self, doc_key_list):
         """This method will take in a list of document keys and return an array of JSON Objects associated with the
         document keys."""
-        resource_path = '/abstractitems'
+        resource_path = 'abstractitems'
         params = {'documentKey': doc_key_list}
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
@@ -40,21 +40,22 @@ class JamaClient:
     def get_testruns(self, test_cycle_id):
         """This method will return all test runs associated with the specified test cycle.  Test runs will be returned
         as a list of json objects."""
-        resource_path = '/testcycles/' + str(test_cycle_id) + '/testruns'
+        resource_path = 'testcycles/' + str(test_cycle_id) + '/testruns'
         testrun_data = self.__get_all(resource_path)
         return testrun_data
 
     def get_test_cycle(self, test_cycle_id):
         """ This method will return JSON data about the test cycle specified by the test cycle id."""
-        resource_path = '/testcycles/' + str(test_cycle_id)
+        resource_path = 'testcycles/' + str(test_cycle_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
-    def put_test_run(self, test_run_id, body=None):
+    def put_test_run(self, test_run_id, data=None):
         """ This method will post a test run to Jama through the API"""
-        resource_path = '/testruns/' + str(test_run_id)
-        response = self.__core.put(resource_path, body=body)
+        resource_path = 'testruns/' + str(test_run_id)
+        headers = {'content-type': 'application/json'}
+        response = self.__core.put(resource_path, data=data, headers=headers)
         return self.__handle_response_status(response)
 
     def __get_all(self, resource, params=None, **kwargs):

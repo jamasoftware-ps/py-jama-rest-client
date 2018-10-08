@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoTestManager">
+    <enabled-run-configurations>
+      <run-configuration type="tests" name="Unittests for test_jamaClient.TestJamaClient.test_get_items" />
+      <run-configuration type="tests" name="Unittests for test_jamaClient.TestJamaClient" />
+    </enabled-run-configurations>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e0244bd-8ca3-4a46-b964-b7314a25f74b" name="Default Changelist" comment="" />
+    <list default="true" id="3e0244bd-8ca3-4a46-b964-b7314a25f74b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jama/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/jama/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jama/core.py" beforeDir="false" afterPath="$PROJECT_DIR$/jama/core.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_jamaClient.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_jamaClient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_jamaClientCore.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_jamaClientCore.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -9,9 +21,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClient_TestJamaClient_test_get_abstract_items_from_doc_key.coverage" NAME="Unittests for test_jamaClient.TestJamaClient.test_get_abstract_items_from_doc_key Coverage Results" MODIFIED="1539013411850" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClientCore_TestJamaClientCore.coverage" NAME="Unittests for test_jamaClientCore.TestJamaClientCore Coverage Results" MODIFIED="1538688848223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
-    <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClient_TestJamaClient.coverage" NAME="Unittests for test_jamaClient.TestJamaClient Coverage Results" MODIFIED="1538867180775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClient_TestJamaClient_test_get_projects.coverage" NAME="Unittests for test_jamaClient.TestJamaClient.test_get_projects Coverage Results" MODIFIED="1539012807277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClient_TestJamaClient.coverage" NAME="Unittests for test_jamaClient.TestJamaClient Coverage Results" MODIFIED="1539016366165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClientCore_TestCore_test_get.coverage" NAME="Unittests for test_jamaClientCore.TestCore.test_get Coverage Results" MODIFIED="1539012764803" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClientCore_TestJamaClientCore_test_get_single_resource.coverage" NAME="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource Coverage Results" MODIFIED="1538854759453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClient_TestJamaClient_test_get_items.coverage" NAME="Unittests for test_jamaClient.TestJamaClient.test_get_items Coverage Results" MODIFIED="1539013391594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/python_client$Unittests_for_test_jamaClient_TestJamaClient_test_put_test_run.coverage" NAME="Unittests for test_jamaClient.TestJamaClient.test_put_test_run Coverage Results" MODIFIED="1539015239341" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1951004976">
@@ -25,78 +42,104 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="10" />
+          <entry key="py" value="15" />
+          <entry key="xml" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="10" />
+          <entry key="Python" value="15" />
+          <entry key="XML" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="16" />
-          <entry key="py" value="5015" />
+          <entry key="py" value="6167" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="16" />
-          <entry key="Python" value="5015" />
+          <entry key="Python" value="6167" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jama/client.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/test_jamaClient.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jama/core.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="77" selection-start-line="10" selection-start-column="77" selection-end-line="10" selection-end-column="77" />
-              <folding>
-                <marker date="1538859452002" expanded="true" signature="48:1427" ph="..." />
-                <marker date="1538859452002" expanded="true" signature="443:452" ph="..." />
-                <marker date="1538859452002" expanded="true" signature="615:620" ph="..." />
-                <marker date="1538859452002" expanded="true" signature="657:861" ph="..." />
-                <marker date="1538859452002" expanded="true" signature="1104:1121" ph="..." />
-                <marker date="1538859452002" expanded="true" signature="2015:2044" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/test_jamaClientCore.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/jama/client.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="154">
+                  <caret line="55" column="54" lean-forward="true" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jama/core.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="386">
+                  <caret line="39" selection-start-line="39" selection-end-line="39" />
+                  <folding>
+                    <marker date="1539015498046" expanded="true" signature="48:1427" ph="..." />
+                    <marker date="1539015498046" expanded="true" signature="443:452" ph="..." />
+                    <marker date="1539015498046" expanded="true" signature="615:620" ph="..." />
+                    <marker date="1539015498046" expanded="true" signature="657:861" ph="..." />
+                    <marker date="1539015498046" expanded="true" signature="1104:1121" ph="..." />
+                    <marker date="1539015498046" expanded="true" signature="2015:2038" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$USER_HOME$/.local/share/virtualenvs/python_client-Q6YAl820/lib/python3.7/site-packages/requests/api.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-10">
+                  <caret line="57" selection-start-line="57" selection-end-line="57" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/test/test_jamaClient.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="414">
+                  <caret line="40" column="68" selection-start-line="40" selection-start-column="68" selection-end-line="40" selection-end-column="68" />
+                  <folding>
+                    <element signature="e#0#11#0" expanded="true" />
+                    <marker date="1539016223712" expanded="true" signature="564:801" ph="..." />
+                    <marker date="1539016223712" expanded="true" signature="829:1014" ph="..." />
+                    <marker date="1539016223712" expanded="true" signature="1044:1247" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/test/test_jamaClientCore.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="90">
+                  <caret line="6" column="59" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="59" />
+                  <folding>
+                    <element signature="e#0#29#0" expanded="true" />
+                    <marker date="1539012764791" expanded="true" signature="188:214" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -110,6 +153,9 @@
       <find>kwargs=</find>
     </findStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -119,8 +165,8 @@
         <option value="$PROJECT_DIR$/jama/client/core/jama_client_core.py" />
         <option value="$PROJECT_DIR$/test/test_jamaClientCore.py" />
         <option value="$PROJECT_DIR$/jama/core.py" />
-        <option value="$PROJECT_DIR$/jama/client.py" />
         <option value="$PROJECT_DIR$/test/test_jamaClient.py" />
+        <option value="$PROJECT_DIR$/jama/client.py" />
       </list>
     </option>
   </component>
@@ -131,13 +177,13 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-3000" />
-    <option name="y" value="-7" />
-    <option name="width" value="1920" />
-    <option name="height" value="970" />
+    <option name="y" value="23" />
+    <option name="width" value="2560" />
+    <option name="height" value="1330" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -162,16 +208,21 @@
               <item name="python_client" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
             <path>
-              <item name="python_client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Pipenv (python_client) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="python_client" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -179,7 +230,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -199,36 +250,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python tests.Unittests for test_jamaClient.TestJamaClient">
-    <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="python_client" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_jamaClientCore.TestJamaClientCore&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="python_client" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_jamaClientCore.TestJamaClientCore.test_get_single_resource&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Unittests for test_jamaClient.TestJamaClient" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="python_client" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -244,16 +265,80 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for test_jamaClient.TestJamaClient.test_get_abstract_items_from_doc_key" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="python_client" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_jamaClient.TestJamaClient.test_get_abstract_items_from_doc_key&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_jamaClient.TestJamaClient.test_get_items" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="python_client" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_jamaClient.TestJamaClient.test_get_items&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_jamaClient.TestJamaClient.test_get_projects" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="python_client" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_jamaClient.TestJamaClient.test_get_projects&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_jamaClient.TestJamaClient.test_put_test_run" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="python_client" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_jamaClient.TestJamaClient.test_put_test_run&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Python tests.Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" />
-      <item itemvalue="Python tests.Unittests for test_jamaClientCore.TestJamaClientCore" />
       <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient" />
+      <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient.test_get_projects" />
+      <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient.test_get_items" />
+      <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient.test_get_abstract_items_from_doc_key" />
+      <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient.test_put_test_run" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient" />
-        <item itemvalue="Python tests.Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" />
-        <item itemvalue="Python tests.Unittests for test_jamaClientCore.TestJamaClientCore" />
+        <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient.test_put_test_run" />
+        <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient.test_get_abstract_items_from_doc_key" />
+        <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient.test_get_items" />
+        <item itemvalue="Python tests.Unittests for test_jamaClient.TestJamaClient.test_get_projects" />
       </list>
     </recent_temporary>
   </component>
@@ -271,56 +356,66 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore_test_get_single_resource - 2018.10.04 at 14h 32m 50s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 29m 03s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore - 2018.10.04 at 14h 33m 25s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 29m 21s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore - 2018.10.04 at 14h 34m 08s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 29m 29s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore_test_get_single_resource - 2018.10.04 at 14h 38m 26s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 29m 47s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore_test_get_single_resource - 2018.10.04 at 14h 39m 19s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 29m 51s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore_test_get_single_resource - 2018.10.04 at 14h 39m 36s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 30m 03s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore_test_get_single_resource - 2018.10.06 at 12h 36m 54s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 30m 19s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore_test_get_single_resource - 2018.10.06 at 12h 37m 04s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 30m 25s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClientCore_TestJamaClientCore_test_get_single_resource - 2018.10.06 at 12h 39m 20s.xml">
-      <configuration name="Unittests for test_jamaClientCore.TestJamaClientCore.test_get_single_resource" configurationId="tests" />
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 30m 44s.xml">
+      <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.06 at 16h 06m 20s.xml">
+    <history-entry file="Unittests_for_test_jamaClient_TestJamaClient - 2018.10.08 at 09h 31m 16s.xml">
       <configuration name="Unittests for test_jamaClient.TestJamaClient" configurationId="tests" />
     </history-entry>
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-3000" y="-7" width="1920" height="970" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="940" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.1368477" />
+      <window_info content_ui="combo" id="Project" order="1" weight="0.10206513" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="1" />
+      <window_info anchor="bottom" id="Terminal" order="1" weight="0.23344104" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="3" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Python Console" order="4" />
+      <window_info anchor="bottom" id="Python Console" order="4" weight="0.32915717" />
       <window_info anchor="bottom" id="Docker" order="5" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="6" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.32915717" />
-      <window_info anchor="bottom" id="Run" order="8" weight="0.32915717" />
-      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.36556605" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.39976415" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="12" />
+      <window_info anchor="bottom" id="TODO" order="12" weight="0.32915717" />
       <window_info anchor="right" id="Database" order="0" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="SciView" order="2" />
@@ -329,21 +424,21 @@
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.1368477" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.10206513" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="1" />
+      <window_info anchor="bottom" id="Terminal" order="1" weight="0.23344104" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="3" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Python Console" order="4" />
+      <window_info anchor="bottom" id="Python Console" order="4" weight="0.32915717" />
       <window_info anchor="bottom" id="Docker" order="5" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="6" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.32915717" />
-      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.32915717" />
-      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="8" visible="true" weight="0.32875606" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.39983845" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="12" />
+      <window_info anchor="bottom" id="TODO" order="12" weight="0.32915717" />
       <window_info anchor="right" id="Database" order="0" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="SciView" order="2" />
@@ -357,6 +452,26 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/jama/client.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="setValue">
+      <expression>
+        <expression-string>'https://your_jama_instance.jamacloud.com/rest/v1/projects'</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/jama/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -365,31 +480,6 @@
     <entry file="file://$PROJECT_DIR$/jama/client/core/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/test_jamaClientCore.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jama/core.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="77" selection-start-line="10" selection-start-column="77" selection-end-line="10" selection-end-column="77" />
-          <folding>
-            <marker date="1538859452002" expanded="true" signature="48:1427" ph="..." />
-            <marker date="1538859452002" expanded="true" signature="443:452" ph="..." />
-            <marker date="1538859452002" expanded="true" signature="615:620" ph="..." />
-            <marker date="1538859452002" expanded="true" signature="657:861" ph="..." />
-            <marker date="1538859452002" expanded="true" signature="1104:1121" ph="..." />
-            <marker date="1538859452002" expanded="true" signature="2015:2044" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jama/jama_client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9">
@@ -397,17 +487,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6117">
+          <caret line="11" column="47" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test_jamaClientCore.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="59" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+            <marker date="1539012764791" expanded="true" signature="188:214" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jama/core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="386">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <marker date="1539015498046" expanded="true" signature="48:1427" ph="..." />
+            <marker date="1539015498046" expanded="true" signature="443:452" ph="..." />
+            <marker date="1539015498046" expanded="true" signature="615:620" ph="..." />
+            <marker date="1539015498046" expanded="true" signature="657:861" ph="..." />
+            <marker date="1539015498046" expanded="true" signature="1104:1121" ph="..." />
+            <marker date="1539015498046" expanded="true" signature="2015:2038" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/share/virtualenvs/python_client-Q6YAl820/lib/python3.7/site-packages/requests/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test/test_jamaClient.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        <state relative-caret-position="414">
+          <caret line="40" column="68" selection-start-line="40" selection-start-column="68" selection-end-line="40" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <marker date="1539016223712" expanded="true" signature="564:801" ph="..." />
+            <marker date="1539016223712" expanded="true" signature="829:1014" ph="..." />
+            <marker date="1539016223712" expanded="true" signature="1044:1247" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jama/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+        <state relative-caret-position="154">
+          <caret line="55" column="54" lean-forward="true" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
         </state>
       </provider>
     </entry>
