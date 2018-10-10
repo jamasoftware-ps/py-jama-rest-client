@@ -77,6 +77,20 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
+    def put_attachments_file(self, attachment_id, file_path):
+        """
+        Upload a file to a jama attachment
+        :param attachment_id: the integer ID of the attachment item to which we are uploading the file
+        :param file_path: the file path of the file to be uploaded
+        :return: returns the status code of the call
+        """
+        resource_path = 'attachments/' + str(attachment_id) + '/file'
+        with open(file_path, 'rb') as f:
+            response = self.__core.put(resource_path, data=f)
+
+        self.__handle_response_status(response)
+        return response.status_code
+
     def put_test_run(self, test_run_id, data=None):
         """ This method will post a test run to Jama through the API"""
         resource_path = 'testruns/' + str(test_run_id)
