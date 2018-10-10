@@ -1,3 +1,5 @@
+import json
+
 from jama.core import Core
 
 __DEBUG__ = False
@@ -50,6 +52,30 @@ class JamaClient:
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
+
+    def post_item(self, project, item_type_id, child_item_type_id, location, fields):
+        """ This method will post a new item to Jama Connect.
+        :param project integer representing the project to which this item is to be posted
+        :param item_type_id integer ID of an Item Type.
+        :param child_item_type_id integer ID of an Item Type.
+        :param location dictionary with integer ID of the parent item or project.
+        :param fields dictionary item field data.
+        :return integer ID of the successfully posted item or None if there was an error."""
+
+        body = {
+            "project": project,
+            "itemType": item_type_id,
+            "childItemType": child_item_type_id,
+            "location": {
+                "parent": location
+            },
+            "fields": fields
+        }
+        resource_path = 'items/'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
 
     def put_test_run(self, test_run_id, data=None):
         """ This method will post a test run to Jama through the API"""

@@ -40,3 +40,20 @@ class TestJamaClient(TestCase):
         data_to_send = json.dumps(data_to_send)
         res_status = self.jama_client.put_test_run(test_run_id, data=data_to_send)
         self.assertEqual(res_status, 200)
+
+    def test_post_items(self):
+        project_id = 116
+        item_type = 104
+        child_item_type = 104
+        location = {
+            'item': 66997
+        }
+        fields = {
+            'name': 'testing post',
+            'description': 'this was posted through the API via the python client.',
+            'custom_field': 'this field needs to be appended with $ item type to post properly'
+        }
+
+        item_id = self.jama_client.post_item(project_id, item_type, child_item_type, location, fields)
+        self.assertIsNotNone(item_id)
+
