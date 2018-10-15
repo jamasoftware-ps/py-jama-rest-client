@@ -77,6 +77,41 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
+    def post_item_attachment(self, item_id, attachment_id):
+        """
+        Add an existing attachment to the item with the specified ID
+        :param item_id: this is the ID of the item
+        :param attachment_id: The ID of the attachment
+        :return: 201 if successful / the response status of the post operation
+        """
+        body = {"attachment": attachment_id}
+        resource_path = 'items/' + str(item_id) + '/attachments'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+    def post_project_attachment(self, project_id, name, description):
+        """
+        This Method will make a new attachment object in the specified project
+        :param project_id: The integer project ID to create the attachment in.
+        :param name:  The name of the attachment
+        :param description: The description of the attachment
+        :return: Returns the ID of the newly created attachment object.
+        """
+        body = {
+            "fields": {
+                "name": name,
+                "description": description
+            }
+        }
+
+        resource_path = 'projects/' + str(project_id) + '/attachments'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
+
     def put_attachments_file(self, attachment_id, file_path):
         """
         Upload a file to a jama attachment
@@ -86,7 +121,8 @@ class JamaClient:
         """
         resource_path = 'attachments/' + str(attachment_id) + '/file'
         with open(file_path, 'rb') as f:
-            response = self.__core.put(resource_path, data=f)
+            files = {'file': f}
+            response = self.__core.put(resource_path, files=files)
 
         self.__handle_response_status(response)
         return response.status_code
