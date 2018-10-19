@@ -12,14 +12,17 @@ class JamaClient:
 
     def __init__(self, host_domain, credentials=('username', 'password'), api_version='/rest/v1/'):
         """Jama Client initializer
-        :param host_domain The domain associated with the jama connect host
-        :param credentials the user name and password as a tuple
-        :param api_version valid args are '/rest/[v1|latest|labs]/' """
+        :rtype: JamaClient
+        :param host_domain: String The domain associated with the Jama Connect host
+        :param credentials: the user name and password as a tuple
+        :param api_version: valid args are '/rest/[v1|latest|labs]/' """
         self.__credentials = credentials
         self.__core = Core(host_domain, credentials, api_version=api_version)
 
     def get_projects(self):
-        """This method will return all projects as JSON object"""
+        """This method will return all projects as JSON object
+        :return: JSON Array of Item Objects.
+        """
         resource_path = 'projects'
         project_data = self.__get_all(resource_path)
         return project_data
@@ -52,6 +55,47 @@ class JamaClient:
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
+
+    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
+        """
+        This method will create a new Test Cycle.
+
+        Args:
+            testplan_id (int): The API_ID of the testplan to create the test cycle from.
+            testcycle_name (str): The name you would like to set for the new Test Cycle
+            start_date (str): Start date in 'yyyy-mm-dd' Format
+            end_date (str): End date in 'yyyy-mm-dd' Format
+            testgroups_to_include (int[]):  This array of integers specify the test groups to be included.
+            testrun_status_to_include (str[]): Only valid after generating the first Test Cycle, you may choose to only
+                generate Test Runs that were a specified status in the previous cycle. Do not specify anything to
+                include all statuses
+
+        Returns:
+            (int): Returns the integer id for the newly created testcycle, or None if something went terribly wrong.
+        """
+        resource_path = 'testplans/' + str(testplan_id) + '/testcycles'
+        headers = {'content-type': 'application/json'}
+        fields = {
+            'name': testcycle_name,
+            'startDate': start_date,
+            'endDate': end_date
+        }
+        test_run_gen_config = {}
+        if testgroups_to_include is not None:
+            test_run_gen_config['testGroupsToInclude'] = testgroups_to_include
+        if testrun_status_to_include is not None:
+            test_run_gen_config['testRunStatusesToInclude'] = testrun_status_to_include
+        body = {
+            'fields': fields,
+            'testRunGenerationConfig': test_run_gen_config
+        }
+
+        # Make the API Call
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+
+        # Validate response
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
 
     def post_item(self, project, item_type_id, child_item_type_id, location, fields):
         """ This method will post a new item to Jama Connect.
@@ -196,7 +240,7 @@ class JamaClient:
             if status == 429:
                 raise Exception("Too many requests.  API throttling limit reached, or system under maintenance.")
 
-            raise Exception("{} Client Error.  Bad Request.".format(status))
+            raise Exception("{} Client Error.  Bad Request.  ".format(status) + response.reason)
 
         if status in range(500, 600):
             """These are server errors and network errors."""

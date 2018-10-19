@@ -144,3 +144,13 @@ class TestJamaClient(TestCase):
 
         res_status = self.jama_client.post_item_attachment(item_id, attachment_id)
         self.assertEqual(res_status, 201)
+
+    def test_post_testplan_testcycles(self):
+        testplan_id = 66982
+        testplan_name = 'unittest'
+
+        testcycle_id = self.jama_client.post_testplans_testcycles(testplan_id,
+                                                                  testplan_name,
+                                                                  '2018-10-19',
+                                                                  '2020-01-01')
+        self.assertIsNotNone(testcycle_id)
