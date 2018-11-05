@@ -1,10 +1,13 @@
 from unittest import TestCase
 from jama.core import Core
+import os
 
 
 class TestCore(TestCase):
-
-    core = Core('https://your_jama_instance.jamacloud.com', ('username', 'password'))
+    jama_url = os.environ['JAMA_API_URL']
+    jama_api_username = os.environ['JAMA_API_USERNAME']
+    jama_api_password = os.environ['JAMA_API_PASSWORD']
+    core = Core(jama_url, (jama_api_username, jama_api_password))
 
     def test_delete(self):
         self.fail()

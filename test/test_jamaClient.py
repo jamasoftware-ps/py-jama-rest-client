@@ -6,9 +6,9 @@ from jama.client import JamaClient
 
 class TestJamaClient(TestCase):
     jama_url = os.environ['JAMA_API_URL']
-    jama_usernamename = os.environ['JAMA_API_USERNAME']
+    jama_api_username = os.environ['JAMA_API_USERNAME']
     jama_api_password = os.environ['JAMA_API_PASSWORD']
-    jama_client = JamaClient(jama_url, (jama_usernamename, jama_api_password))
+    jama_client = JamaClient(jama_url, (jama_api_username, jama_api_password))
 
     def test_get_projects(self):
         projects = self.jama_client.get_projects()
