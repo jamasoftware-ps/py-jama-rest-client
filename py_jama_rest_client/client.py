@@ -1,6 +1,6 @@
 import json
 
-from jama.core import Core
+from .core import Core
 
 __DEBUG__ = False
 
