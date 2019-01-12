@@ -17,8 +17,8 @@ Please note that this client is distributed as-is as an example and will likely 
 specific use-case.
 
 ## Requirements
-- Python 3.7
-- Pipenv(recommended)
+- [Python 3.7](https://www.python.org/downloads/release/python-372/)
+- [Pipenv(recommended)](https://pipenv.readthedocs.io/en/latest/)
 
 ## Setup
 Create a new directory and install py-jama-rest-client using pipenv.
