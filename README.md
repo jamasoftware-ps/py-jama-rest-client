@@ -58,6 +58,7 @@ Create a new directory and install py-jama-rest-client using pipenv.
 
 ## Usage Examples
 
+
 #### Get all projects
 1) Download [get_all_projets.py](examples/get_all_projects.py) to your example_project directory
 2) Enter your Jama URL, username, and password into the corrisponding variables at the top of the file.
@@ -65,3 +66,6 @@ Create a new directory and install py-jama-rest-client using pipenv.
     ```bash
     pipenv run python get_all_projects.py
     ```
+
+## Additional Documentation
+https://jamasoftware.github.io/py-jama-rest-client/
