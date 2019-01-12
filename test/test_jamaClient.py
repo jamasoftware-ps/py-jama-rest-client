@@ -1,7 +1,8 @@
 import json
 import os
+import unittest
 from unittest import TestCase
-from jama.client import JamaClient
+from py_jama_rest_client.client import JamaClient
 
 
 class TestJamaClient(TestCase):
@@ -141,6 +142,7 @@ class TestJamaClient(TestCase):
         # Ensure the upload was a success
         self.assertEqual(upload_status, 200)
 
+    @unittest.expectedFailure
     def test_post_item_attachment(self):
         # TODO Can only run this once... need to make anew item and post a new attachment to it each time
         item_id = 66972

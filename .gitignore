@@ -1,1 +1,4 @@
 .idea/
+dist/
+build/
+py_jama_rest_client.egg-info/
