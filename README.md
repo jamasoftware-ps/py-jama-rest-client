@@ -21,10 +21,10 @@ specific use-case.
 - Pipenv(recommended)
 
 ## Setup
-Create a new directory and install the client using pipenv.
+Create a new directory and install py-jama-rest-client using pipenv.
  ```bash
- mkdir <new_project_dir>
- cd <new_project_dir>
+ mkdir example_project
+ cd example_project
  pipenv --python 3.7
  pipenv install py-jama-rest-client
 ```
@@ -57,3 +57,11 @@ Create a new directory and install the client using pipenv.
 - PUT test runs by id. Allows updating of test run fields.
 
 ## Usage Examples
+
+#### Get all projects
+1) Download [get_all_projets.py](examples/get_all_projects.py) to your example_project directory
+2) Enter your Jama URL, username, and password into the corrisponding variables at the top of the file.
+3) To execute the script execute the following form your example_project directory: 
+    ```bash
+    pipenv run python get_all_projects.py
+    ```
