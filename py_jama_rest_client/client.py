@@ -5,19 +5,54 @@ from .core import Core
 __DEBUG__ = False
 
 
+class APIException(Exception):
+    """This is the base class for all exceptions raised by the JamaClient"""
+    pass
+
+
+class UnauthorizedException(APIException):
+    """This exception is thrown whenever the api returns a 401 unauthorized response."""
+    pass
+
+
+class TooManyRequestsException(APIException):
+    """This exception is thrown whenever the api returns a 429 too many requests response."""
+    pass
+
+
+class ResourceNotFoundException(APIException):
+    """This exception is raised whenever the api returns a 404 not found response."""
+    pass
+
+
+class AlreadyExistsException(APIException):
+    """This exception is thrown when the API returns a 400 response with a message that the resource already exists."""
+    pass
+
+
+class APIClientException(APIException):
+    """This exception is thrown whenever a unknown 400 error is encountered."""
+    pass
+
+
+class APIServerException(APIException):
+    """This exception is thrown whenever an unknown 500 response is encountered."""
+    pass
+
+
 class JamaClient:
     """A class to abstract communication with the Jama Connect API"""
 
     __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
 
-    def __init__(self, host_domain, credentials=('username', 'password'), api_version='/rest/v1/'):
+    def __init__(self, host_domain, credentials=('username', 'password'), api_version='/rest/v1/', oauth=False):
         """Jama Client initializer
         :rtype: JamaClient
         :param host_domain: String The domain associated with the Jama Connect host
         :param credentials: the user name and password as a tuple
         :param api_version: valid args are '/rest/[v1|latest|labs]/' """
         self.__credentials = credentials
-        self.__core = Core(host_domain, credentials, api_version=api_version)
+        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
 
     def get_projects(self):
         """This method will return all projects as JSON object
@@ -55,6 +90,20 @@ class JamaClient:
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
+
+    def delete_item(self, item_id):
+        """
+        This method will delete an item in Jama Connect.
+
+        Args:
+            item_id: The jama connect API ID of the item to be deleted
+
+        Returns: The success status code.
+        """
+        resource_path = 'items/' + str(item_id)
+        response = self.__core.delete(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
 
     def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
         """
@@ -97,6 +146,36 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
+    def patch_item(self, item_id, patches):
+        """
+        This method will patch an item.
+        Args:
+            item_id: the API ID of the item that is to be patched
+            patches: An array of dicts, that represent patch operations each dict should have the following entries
+             [
+                {
+                    "op": string,
+                    "path": string,
+                    "value": {}
+                }
+            ]
+
+        Returns: The response status code
+
+        """
+        resource_path = 'items/' + str(item_id)
+        headers = {'Content-Type': 'application/json',
+                   'Accept': 'application/json'
+                   }
+        data = json.dumps(patches)
+
+        # Make the API Call
+        response = self.__core.patch(resource_path, data=data, headers=headers)
+
+        # validate response
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['status']
+
     def post_item(self, project, item_type_id, child_item_type_id, location, fields):
         """ This method will post a new item to Jama Connect.
         :param project integer representing the project to which this item is to be posted
@@ -120,6 +199,30 @@ class JamaClient:
         response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
+
+    def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
+        """
+
+        Args:
+            from_item: integer API id of the source item
+            to_item: integer API id of the target item
+            relationship_type: Optional integer API id of the relationship type to create
+
+        Returns: The integer ID of the newly created relationship.
+
+        """
+        body = {
+          "fromItem": from_item,
+          "toItem": to_item,
+        }
+        if relationship_type is not None:
+            body['relationshipType'] = relationship_type
+        resource_path = 'relationships/'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
+
 
     def post_item_attachment(self, item_id, attachment_id):
         """
@@ -232,19 +335,30 @@ class JamaClient:
         if status in range(400, 500):
             """These are client errors. It is likely that something is wrong with the request."""
             if status == 401:
-                raise Exception("Unauthorized: check credentials and permissions.")
+                raise UnauthorizedException("Unauthorized: check credentials and permissions.")
 
             if status == 404:
-                raise Exception("Resource not found. check host url.")
+                raise ResourceNotFoundException("Resource not found. check host url.")
 
             if status == 429:
-                raise Exception("Too many requests.  API throttling limit reached, or system under maintenance.")
+                raise TooManyRequestsException("Too many requests.  API throttling limit reached, or system under "
+                                               "maintenance.")
 
-            raise Exception("{} Client Error.  Bad Request.  ".format(status) + response.reason)
+            try:
+                response_json = json.loads(response.text)
+                response_message = response_json.get('meta').get('message')
+
+                if "already exists" in response_message:
+                    raise AlreadyExistsException("Entity already Exists.")
+
+            except json.JSONDecodeError:
+                pass
+
+            raise APIClientException("{} Client Error.  Bad Request.  ".format(status) + response.reason)
 
         if status in range(500, 600):
             """These are server errors and network errors."""
-            raise Exception("{} Server Error.".format(status))
+            raise APIServerException("{} Server Error.".format(status))
 
 
 

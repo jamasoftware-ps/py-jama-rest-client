@@ -8,6 +8,7 @@ requests = "*"
 aiohttp = "*"
 aiodns = "*"
 cchardet = "*"
+halo = "*"
 
 [dev-packages]
 

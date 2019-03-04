@@ -1,4 +1,5 @@
 import json
+import time
 import os
 import unittest
 from unittest import TestCase
@@ -44,7 +45,20 @@ class TestJamaClient(TestCase):
         data_to_send = {"fields": {"status": "PASS"}}
         data_to_send = json.dumps(data_to_send)
         res_status = self.jama_client.put_test_run(test_run_id, data=data_to_send)
-        self.assertEqual(res_status, 200)
+        self.assertEqual(200, res_status)
+
+    def test_patch_item(self):
+        test_item_id = 77962
+        patches = [
+                {
+                    "op": "replace",
+                    "path": "/fields/name",
+                    "value": "PATCHED: "
+                }
+            ]
+
+        res_status = self.jama_client.patch_item(test_item_id, patches)
+        self.assertEqual("OK", res_status)
 
     def test_post_items(self):
         project_id = 116

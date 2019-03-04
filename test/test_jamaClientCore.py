@@ -1,5 +1,5 @@
 from unittest import TestCase
-from jama.core import Core
+from core import Core
 import os
 
 
@@ -25,6 +25,13 @@ class TestCore(TestCase):
 
     def test_put(self):
         self.fail()
+
+    def test_oauth(self):
+        oauth_core = Core(TestCore.jama_url,
+                          (os.environ['JAMA_CLIENT_ID'], os.environ['JAMA_CLIENT_SECRET']),
+                          oauth=True)
+
+
 
 
 

@@ -58,6 +58,18 @@ Create a new directory and install py-jama-rest-client using pipenv.
 
 ## Usage Examples
 
+#### Client instantiation
+To instantiate a Basic authentication client:
+```python
+
+basic_auth_client = JamaClient('https://yourdomain.jamacloud.com', credentials=('username', 'password'))
+```
+
+To instantiate a OAuth authenticated client: 
+```python
+oauth_client = JamaClient('https://yourdomain.jamacloud.com', credentials=('clientID', 'ClientSecret'), oauth=True)
+```
+
 
 #### Get all projects
 1) Download [get_all_projets.py](examples/get_all_projects.py) to your example_project directory
