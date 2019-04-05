@@ -30,7 +30,8 @@ class Core:
 
         if self.__oauth:
             self.__check_oauth_token()
-            self.__add_auth_header(**kwargs)
+            kwargs['headers'] = self.__add_auth_header(**kwargs)
+            return requests.delete(url, **kwargs)
 
         return requests.delete(url, auth=self.__credentials, **kwargs)
 
@@ -40,7 +41,8 @@ class Core:
 
         if self.__oauth:
             self.__check_oauth_token()
-            self.__add_auth_header(**kwargs)
+            kwargs['headers'] = self.__add_auth_header(**kwargs)
+            return requests.get(url, params=params, **kwargs)
 
         return requests.get(url, auth=self.__credentials, params=params, **kwargs)
 
@@ -50,7 +52,8 @@ class Core:
 
         if self.__oauth:
             self.__check_oauth_token()
-            self.__add_auth_header(**kwargs)
+            kwargs['headers'] = self.__add_auth_header(**kwargs)
+            return requests.patch(url, params=params, data=data, json=json, **kwargs)
 
         return requests.patch(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
 
@@ -60,7 +63,8 @@ class Core:
 
         if self.__oauth:
             self.__check_oauth_token()
-            self.__add_auth_header(**kwargs)
+            kwargs['headers'] = self.__add_auth_header(**kwargs)
+            return requests.post(url, params=params, data=data, json=json, **kwargs)
 
         return requests.post(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
 
@@ -70,7 +74,8 @@ class Core:
 
         if self.__oauth:
             self.__check_oauth_token()
-            self.__add_auth_header(**kwargs)
+            kwargs['headers'] = self.__add_auth_header(**kwargs)
+            return requests.put(url, data=data, params=params, json=json, **kwargs)
 
         return requests.put(url, auth=self.__credentials, data=data, params=params, json=json, **kwargs)
 
@@ -112,6 +117,6 @@ class Core:
         headers = kwargs.get('headers')
         if headers is None:
             headers = {}
-        headers.append('Authorization', 'BEARER ' + self.__token )
-
+        headers['Authorization'] = 'Bearer ' + self.__token
+        return headers
 

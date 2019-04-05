@@ -30,6 +30,9 @@ class TestCore(TestCase):
         oauth_core = Core(TestCore.jama_url,
                           (os.environ['JAMA_CLIENT_ID'], os.environ['JAMA_CLIENT_SECRET']),
                           oauth=True)
+        response = oauth_core.get('projects')
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(True, len(response.json()['data']) > 0)
 
 
 
