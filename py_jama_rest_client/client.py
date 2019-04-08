@@ -77,6 +77,69 @@ class JamaClient:
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
 
+    def get_abstract_items(self,
+                           project = None,
+                           item_type = None,
+                           document_key = None,
+                           release = None,
+                           created_date = None,
+                           modified_date = None,
+                           last_activity_date = None,
+                           contains = None,
+                           sort_by = None ):
+        """
+        This method will return all items that match the query parameters entered.
+
+        Args:
+            project:            Array[integer]
+            item_type:          Array[integer]
+            document_key:       Array[string]
+            release:            Array[integer]
+            created_date:       Array[string]
+            modified_date:      Array[string]
+            last_activity_date: Array[string]
+            contains:           Array[string]
+            sort_by:            Array[string]
+
+        Returns:
+            A JSON Array of items.
+
+        """
+        resource_path = 'abstractitems'
+
+        # Add each parameter that is not null to the request.
+        params = {}
+
+        if project is not None:
+            params['project'] = project
+
+        if item_type is not None:
+            params['itemType'] = item_type
+
+        if document_key is not None:
+            params['documentKey'] = document_key
+
+        if release is not None:
+            params['release'] = release
+
+        if created_date is not None:
+            params['createdDate'] = created_date
+
+        if modified_date is not None:
+            params['modifiedDate'] = modified_date
+
+        if last_activity_date is not None:
+            params['lastActivityDate'] = last_activity_date
+
+        if contains is not None:
+            params['contains'] = contains
+
+        if sort_by is not None:
+            params['sortBy'] = sort_by
+
+        abstract_items = self.__get_all(resource_path, params=params)
+        return abstract_items
+
     def get_testruns(self, test_cycle_id):
         """This method will return all test runs associated with the specified test cycle.  Test runs will be returned
         as a list of json objects."""
@@ -359,6 +422,5 @@ class JamaClient:
         if status in range(500, 600):
             """These are server errors and network errors."""
             raise APIServerException("{} Server Error.".format(status))
-
 
 

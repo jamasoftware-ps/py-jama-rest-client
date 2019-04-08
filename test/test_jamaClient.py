@@ -5,7 +5,6 @@ import unittest
 from unittest import TestCase
 from py_jama_rest_client.client import JamaClient
 
-
 class TestJamaClient(TestCase):
     jama_url = os.environ['JAMA_API_URL']
     jama_api_username = os.environ['JAMA_API_USERNAME']
@@ -27,6 +26,12 @@ class TestJamaClient(TestCase):
         items = self.jama_client.get_abstract_items_from_doc_key(doc_key_list)
         self.assertIsNotNone(items)
         self.assertEqual(len(items), len(doc_key_list))
+
+    def test_get_abstract_items(self):
+        project = 116
+        item_type = 104
+        items = self.jama_client.get_abstract_items(project=project, item_type=item_type)
+        self.assertIsNotNone(items)
 
     def test_get_testruns(self):
         test_cycle_id = 66983

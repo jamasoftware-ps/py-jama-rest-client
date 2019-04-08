@@ -1,0 +1,1569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.5.3" />
+<title>py_jama_rest_client.client API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.name small{font-weight:normal}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title"><code>py_jama_rest_client.client</code> module</h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import json
+
+from .core import Core
+
+__DEBUG__ = False
+
+
+class APIException(Exception):
+    &#34;&#34;&#34;This is the base class for all exceptions raised by the JamaClient&#34;&#34;&#34;
+    pass
+
+
+class UnauthorizedException(APIException):
+    &#34;&#34;&#34;This exception is thrown whenever the api returns a 401 unauthorized response.&#34;&#34;&#34;
+    pass
+
+
+class TooManyRequestsException(APIException):
+    &#34;&#34;&#34;This exception is thrown whenever the api returns a 429 too many requests response.&#34;&#34;&#34;
+    pass
+
+
+class ResourceNotFoundException(APIException):
+    &#34;&#34;&#34;This exception is raised whenever the api returns a 404 not found response.&#34;&#34;&#34;
+    pass
+
+
+class AlreadyExistsException(APIException):
+    &#34;&#34;&#34;This exception is thrown when the API returns a 400 response with a message that the resource already exists.&#34;&#34;&#34;
+    pass
+
+
+class APIClientException(APIException):
+    &#34;&#34;&#34;This exception is thrown whenever a unknown 400 error is encountered.&#34;&#34;&#34;
+    pass
+
+
+class APIServerException(APIException):
+    &#34;&#34;&#34;This exception is thrown whenever an unknown 500 response is encountered.&#34;&#34;&#34;
+    pass
+
+
+class JamaClient:
+    &#34;&#34;&#34;A class to abstract communication with the Jama Connect API&#34;&#34;&#34;
+
+    __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
+
+    def __init__(self, host_domain, credentials=(&#39;username&#39;, &#39;password&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False):
+        &#34;&#34;&#34;Jama Client initializer
+        :rtype: JamaClient
+        :param host_domain: String The domain associated with the Jama Connect host
+        :param credentials: the user name and password as a tuple
+        :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39; &#34;&#34;&#34;
+        self.__credentials = credentials
+        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+
+    def get_projects(self):
+        &#34;&#34;&#34;This method will return all projects as JSON object
+        :return: JSON Array of Item Objects.
+        &#34;&#34;&#34;
+        resource_path = &#39;projects&#39;
+        project_data = self.__get_all(resource_path)
+        return project_data
+
+    def get_items(self, project_id):
+        &#34;&#34;&#34;This method will return all items in the specified project.  it will return a Json array of item objects&#34;&#34;&#34;
+        resource_path = &#39;items&#39;
+        params = {&#39;project&#39;: project_id}
+        item_data = self.__get_all(resource_path, params=params)
+        return item_data
+
+    def get_abstract_items_from_doc_key(self, doc_key_list):
+        &#34;&#34;&#34;This method will take in a list of document keys and return an array of JSON Objects associated with the
+        document keys.&#34;&#34;&#34;
+        resource_path = &#39;abstractitems&#39;
+        params = {&#39;documentKey&#39;: doc_key_list}
+        abstract_items = self.__get_all(resource_path, params=params)
+        return abstract_items
+
+    def get_abstract_items(self,
+                           project = None,
+                           item_type = None,
+                           document_key = None,
+                           release = None,
+                           created_date = None,
+                           modified_date = None,
+                           last_activity_date = None,
+                           contains = None,
+                           sort_by = None ):
+        &#34;&#34;&#34;
+        This method will return all items that match the query parameters entered.
+
+        Args:
+            project:            Array[integer]
+            item_type:          Array[integer]
+            document_key:       Array[string]
+            release:            Array[integer]
+            created_date:       Array[string]
+            modified_date:      Array[string]
+            last_activity_date: Array[string]
+            contains:           Array[string]
+            sort_by:            Array[string]
+
+        Returns:
+            A JSON Array of items.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;abstractitems&#39;
+
+        # Add each parameter that is not null to the request.
+        params = {}
+
+        if project is not None:
+            params[&#39;project&#39;] = project
+
+        if item_type is not None:
+            params[&#39;itemType&#39;] = item_type
+
+        if document_key is not None:
+            params[&#39;documentKey&#39;] = document_key
+
+        if release is not None:
+            params[&#39;release&#39;] = release
+
+        if created_date is not None:
+            params[&#39;createdDate&#39;] = created_date
+
+        if modified_date is not None:
+            params[&#39;modifiedDate&#39;] = modified_date
+
+        if last_activity_date is not None:
+            params[&#39;lastActivityDate&#39;] = last_activity_date
+
+        if contains is not None:
+            params[&#39;contains&#39;] = contains
+
+        if sort_by is not None:
+            params[&#39;sortBy&#39;] = sort_by
+
+        abstract_items = self.__get_all(resource_path, params=params)
+        return abstract_items
+
+    def get_testruns(self, test_cycle_id):
+        &#34;&#34;&#34;This method will return all test runs associated with the specified test cycle.  Test runs will be returned
+        as a list of json objects.&#34;&#34;&#34;
+        resource_path = &#39;testcycles/&#39; + str(test_cycle_id) + &#39;/testruns&#39;
+        testrun_data = self.__get_all(resource_path)
+        return testrun_data
+
+    def get_test_cycle(self, test_cycle_id):
+        &#34;&#34;&#34; This method will return JSON data about the test cycle specified by the test cycle id.&#34;&#34;&#34;
+        resource_path = &#39;testcycles/&#39; + str(test_cycle_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
+    def delete_item(self, item_id):
+        &#34;&#34;&#34;
+        This method will delete an item in Jama Connect.
+
+        Args:
+            item_id: The jama connect API ID of the item to be deleted
+
+        Returns: The success status code.
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id)
+        response = self.__core.delete(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
+        &#34;&#34;&#34;
+        This method will create a new Test Cycle.
+
+        Args:
+            testplan_id (int): The API_ID of the testplan to create the test cycle from.
+            testcycle_name (str): The name you would like to set for the new Test Cycle
+            start_date (str): Start date in &#39;yyyy-mm-dd&#39; Format
+            end_date (str): End date in &#39;yyyy-mm-dd&#39; Format
+            testgroups_to_include (int[]):  This array of integers specify the test groups to be included.
+            testrun_status_to_include (str[]): Only valid after generating the first Test Cycle, you may choose to only
+                generate Test Runs that were a specified status in the previous cycle. Do not specify anything to
+                include all statuses
+
+        Returns:
+            (int): Returns the integer id for the newly created testcycle, or None if something went terribly wrong.
+        &#34;&#34;&#34;
+        resource_path = &#39;testplans/&#39; + str(testplan_id) + &#39;/testcycles&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        fields = {
+            &#39;name&#39;: testcycle_name,
+            &#39;startDate&#39;: start_date,
+            &#39;endDate&#39;: end_date
+        }
+        test_run_gen_config = {}
+        if testgroups_to_include is not None:
+            test_run_gen_config[&#39;testGroupsToInclude&#39;] = testgroups_to_include
+        if testrun_status_to_include is not None:
+            test_run_gen_config[&#39;testRunStatusesToInclude&#39;] = testrun_status_to_include
+        body = {
+            &#39;fields&#39;: fields,
+            &#39;testRunGenerationConfig&#39;: test_run_gen_config
+        }
+
+        # Make the API Call
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+
+        # Validate response
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def patch_item(self, item_id, patches):
+        &#34;&#34;&#34;
+        This method will patch an item.
+        Args:
+            item_id: the API ID of the item that is to be patched
+            patches: An array of dicts, that represent patch operations each dict should have the following entries
+             [
+                {
+                    &#34;op&#34;: string,
+                    &#34;path&#34;: string,
+                    &#34;value&#34;: {}
+                }
+            ]
+
+        Returns: The response status code
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id)
+        headers = {&#39;Content-Type&#39;: &#39;application/json&#39;,
+                   &#39;Accept&#39;: &#39;application/json&#39;
+                   }
+        data = json.dumps(patches)
+
+        # Make the API Call
+        response = self.__core.patch(resource_path, data=data, headers=headers)
+
+        # validate response
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;status&#39;]
+
+    def post_item(self, project, item_type_id, child_item_type_id, location, fields):
+        &#34;&#34;&#34; This method will post a new item to Jama Connect.
+        :param project integer representing the project to which this item is to be posted
+        :param item_type_id integer ID of an Item Type.
+        :param child_item_type_id integer ID of an Item Type.
+        :param location dictionary with integer ID of the parent item or project.
+        :param fields dictionary item field data.
+        :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
+
+        body = {
+            &#34;project&#34;: project,
+            &#34;itemType&#34;: item_type_id,
+            &#34;childItemType&#34;: child_item_type_id,
+            &#34;location&#34;: {
+                &#34;parent&#34;: location
+            },
+            &#34;fields&#34;: fields
+        }
+        resource_path = &#39;items/&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
+        &#34;&#34;&#34;
+
+        Args:
+            from_item: integer API id of the source item
+            to_item: integer API id of the target item
+            relationship_type: Optional integer API id of the relationship type to create
+
+        Returns: The integer ID of the newly created relationship.
+
+        &#34;&#34;&#34;
+        body = {
+          &#34;fromItem&#34;: from_item,
+          &#34;toItem&#34;: to_item,
+        }
+        if relationship_type is not None:
+            body[&#39;relationshipType&#39;] = relationship_type
+        resource_path = &#39;relationships/&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+
+    def post_item_attachment(self, item_id, attachment_id):
+        &#34;&#34;&#34;
+        Add an existing attachment to the item with the specified ID
+        :param item_id: this is the ID of the item
+        :param attachment_id: The ID of the attachment
+        :return: 201 if successful / the response status of the post operation
+        &#34;&#34;&#34;
+        body = {&#34;attachment&#34;: attachment_id}
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/attachments&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+    def post_project_attachment(self, project_id, name, description):
+        &#34;&#34;&#34;
+        This Method will make a new attachment object in the specified project
+        :param project_id: The integer project ID to create the attachment in.
+        :param name:  The name of the attachment
+        :param description: The description of the attachment
+        :return: Returns the ID of the newly created attachment object.
+        &#34;&#34;&#34;
+        body = {
+            &#34;fields&#34;: {
+                &#34;name&#34;: name,
+                &#34;description&#34;: description
+            }
+        }
+
+        resource_path = &#39;projects/&#39; + str(project_id) + &#39;/attachments&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def put_attachments_file(self, attachment_id, file_path):
+        &#34;&#34;&#34;
+        Upload a file to a jama attachment
+        :param attachment_id: the integer ID of the attachment item to which we are uploading the file
+        :param file_path: the file path of the file to be uploaded
+        :return: returns the status code of the call
+        &#34;&#34;&#34;
+        resource_path = &#39;attachments/&#39; + str(attachment_id) + &#39;/file&#39;
+        with open(file_path, &#39;rb&#39;) as f:
+            files = {&#39;file&#39;: f}
+            response = self.__core.put(resource_path, files=files)
+
+        self.__handle_response_status(response)
+        return response.status_code
+
+    def put_test_run(self, test_run_id, data=None):
+        &#34;&#34;&#34; This method will post a test run to Jama through the API&#34;&#34;&#34;
+        resource_path = &#39;testruns/&#39; + str(test_run_id)
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=data, headers=headers)
+        return self.__handle_response_status(response)
+
+    def __get_all(self, resource, params=None, **kwargs):
+        &#34;&#34;&#34;This method will get all of the resources specified by the resource parameter, if an id or some other parameter
+        is required for the resource, include it in the params parameter.
+        Returns a single JSON array with all of the retrieved items.&#34;&#34;&#34;
+
+        start_index = 0
+        result_count = -1
+        allowed_results_per_page = 20
+
+        data = []
+
+        while result_count != 0:
+            page_response = self.__get_page(resource, start_index, params=params, **kwargs)
+            page_json = page_response.json()
+
+            page_info = page_json[&#39;meta&#39;][&#39;pageInfo&#39;]
+            start_index = page_info[&#39;startIndex&#39;] + allowed_results_per_page
+            result_count = page_info[&#39;resultCount&#39;]
+
+            page_data = page_json.get(&#39;data&#39;)
+            data.extend(page_data)
+
+        return data
+
+    def __get_page(self, resource, start_at, params=None, **kwargs):
+        &#34;&#34;&#34;This method will return one page of results from the specified resource type.
+        Pass any needed parameters along
+        The response object will be returned&#34;&#34;&#34;
+        parameters = {
+            &#39;startAt&#39;: start_at,
+            &#39;maxResults&#39;: self.__allowed_results_per_page
+        }
+
+        if params is not None:
+            for k, v in params.items():
+                parameters[k] = v
+
+        response = self.__core.get(resource, params=parameters, **kwargs)
+        JamaClient.__handle_response_status(response)
+        return response
+
+    @staticmethod
+    def __handle_response_status(response):
+        &#34;&#34;&#34; Utility method for checking http status codes.
+        If the response code is not in the 200 range, An exception will be thrown.&#34;&#34;&#34;
+
+        status = response.status_code
+
+        if status in range(200, 300):
+            return status
+
+        if status in range(400, 500):
+            &#34;&#34;&#34;These are client errors. It is likely that something is wrong with the request.&#34;&#34;&#34;
+            if status == 401:
+                raise UnauthorizedException(&#34;Unauthorized: check credentials and permissions.&#34;)
+
+            if status == 404:
+                raise ResourceNotFoundException(&#34;Resource not found. check host url.&#34;)
+
+            if status == 429:
+                raise TooManyRequestsException(&#34;Too many requests.  API throttling limit reached, or system under &#34;
+                                               &#34;maintenance.&#34;)
+
+            try:
+                response_json = json.loads(response.text)
+                response_message = response_json.get(&#39;meta&#39;).get(&#39;message&#39;)
+
+                if &#34;already exists&#34; in response_message:
+                    raise AlreadyExistsException(&#34;Entity already Exists.&#34;)
+
+            except json.JSONDecodeError:
+                pass
+
+            raise APIClientException(&#34;{} Client Error.  Bad Request.  &#34;.format(status) + response.reason)
+
+        if status in range(500, 600):
+            &#34;&#34;&#34;These are server errors and network errors.&#34;&#34;&#34;
+            raise APIServerException(&#34;{} Server Error.&#34;.format(status))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="py_jama_rest_client.client.APIClientException"><code class="flex name class">
+<span>class <span class="ident">APIClientException</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a>, builtins.Exception, builtins.BaseException)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This exception is thrown whenever a unknown 400 error is encountered.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class APIClientException(APIException):
+    &#34;&#34;&#34;This exception is thrown whenever a unknown 400 error is encountered.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.APIException"><code class="flex name class">
+<span>class <span class="ident">APIException</span></span>
+<span>(</span><span><small>ancestors:</small> builtins.Exception, builtins.BaseException)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This is the base class for all exceptions raised by the JamaClient</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class APIException(Exception):
+    &#34;&#34;&#34;This is the base class for all exceptions raised by the JamaClient&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="py_jama_rest_client.client.UnauthorizedException" href="#py_jama_rest_client.client.UnauthorizedException">UnauthorizedException</a></li>
+<li><a title="py_jama_rest_client.client.TooManyRequestsException" href="#py_jama_rest_client.client.TooManyRequestsException">TooManyRequestsException</a></li>
+<li><a title="py_jama_rest_client.client.ResourceNotFoundException" href="#py_jama_rest_client.client.ResourceNotFoundException">ResourceNotFoundException</a></li>
+<li><a title="py_jama_rest_client.client.AlreadyExistsException" href="#py_jama_rest_client.client.AlreadyExistsException">AlreadyExistsException</a></li>
+<li><a title="py_jama_rest_client.client.APIClientException" href="#py_jama_rest_client.client.APIClientException">APIClientException</a></li>
+<li><a title="py_jama_rest_client.client.APIServerException" href="#py_jama_rest_client.client.APIServerException">APIServerException</a></li>
+</ul>
+</dd>
+<dt id="py_jama_rest_client.client.APIServerException"><code class="flex name class">
+<span>class <span class="ident">APIServerException</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a>, builtins.Exception, builtins.BaseException)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This exception is thrown whenever an unknown 500 response is encountered.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class APIServerException(APIException):
+    &#34;&#34;&#34;This exception is thrown whenever an unknown 500 response is encountered.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.AlreadyExistsException"><code class="flex name class">
+<span>class <span class="ident">AlreadyExistsException</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a>, builtins.Exception, builtins.BaseException)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This exception is thrown when the API returns a 400 response with a message that the resource already exists.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AlreadyExistsException(APIException):
+    &#34;&#34;&#34;This exception is thrown when the API returns a 400 response with a message that the resource already exists.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient"><code class="flex name class">
+<span>class <span class="ident">JamaClient</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>A class to abstract communication with the Jama Connect API</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class JamaClient:
+    &#34;&#34;&#34;A class to abstract communication with the Jama Connect API&#34;&#34;&#34;
+
+    __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
+
+    def __init__(self, host_domain, credentials=(&#39;username&#39;, &#39;password&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False):
+        &#34;&#34;&#34;Jama Client initializer
+        :rtype: JamaClient
+        :param host_domain: String The domain associated with the Jama Connect host
+        :param credentials: the user name and password as a tuple
+        :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39; &#34;&#34;&#34;
+        self.__credentials = credentials
+        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+
+    def get_projects(self):
+        &#34;&#34;&#34;This method will return all projects as JSON object
+        :return: JSON Array of Item Objects.
+        &#34;&#34;&#34;
+        resource_path = &#39;projects&#39;
+        project_data = self.__get_all(resource_path)
+        return project_data
+
+    def get_items(self, project_id):
+        &#34;&#34;&#34;This method will return all items in the specified project.  it will return a Json array of item objects&#34;&#34;&#34;
+        resource_path = &#39;items&#39;
+        params = {&#39;project&#39;: project_id}
+        item_data = self.__get_all(resource_path, params=params)
+        return item_data
+
+    def get_abstract_items_from_doc_key(self, doc_key_list):
+        &#34;&#34;&#34;This method will take in a list of document keys and return an array of JSON Objects associated with the
+        document keys.&#34;&#34;&#34;
+        resource_path = &#39;abstractitems&#39;
+        params = {&#39;documentKey&#39;: doc_key_list}
+        abstract_items = self.__get_all(resource_path, params=params)
+        return abstract_items
+
+    def get_abstract_items(self,
+                           project = None,
+                           item_type = None,
+                           document_key = None,
+                           release = None,
+                           created_date = None,
+                           modified_date = None,
+                           last_activity_date = None,
+                           contains = None,
+                           sort_by = None ):
+        &#34;&#34;&#34;
+        This method will return all items that match the query parameters entered.
+
+        Args:
+            project:            Array[integer]
+            item_type:          Array[integer]
+            document_key:       Array[string]
+            release:            Array[integer]
+            created_date:       Array[string]
+            modified_date:      Array[string]
+            last_activity_date: Array[string]
+            contains:           Array[string]
+            sort_by:            Array[string]
+
+        Returns:
+            A JSON Array of items.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;abstractitems&#39;
+
+        # Add each parameter that is not null to the request.
+        params = {}
+
+        if project is not None:
+            params[&#39;project&#39;] = project
+
+        if item_type is not None:
+            params[&#39;itemType&#39;] = item_type
+
+        if document_key is not None:
+            params[&#39;documentKey&#39;] = document_key
+
+        if release is not None:
+            params[&#39;release&#39;] = release
+
+        if created_date is not None:
+            params[&#39;createdDate&#39;] = created_date
+
+        if modified_date is not None:
+            params[&#39;modifiedDate&#39;] = modified_date
+
+        if last_activity_date is not None:
+            params[&#39;lastActivityDate&#39;] = last_activity_date
+
+        if contains is not None:
+            params[&#39;contains&#39;] = contains
+
+        if sort_by is not None:
+            params[&#39;sortBy&#39;] = sort_by
+
+        abstract_items = self.__get_all(resource_path, params=params)
+        return abstract_items
+
+    def get_testruns(self, test_cycle_id):
+        &#34;&#34;&#34;This method will return all test runs associated with the specified test cycle.  Test runs will be returned
+        as a list of json objects.&#34;&#34;&#34;
+        resource_path = &#39;testcycles/&#39; + str(test_cycle_id) + &#39;/testruns&#39;
+        testrun_data = self.__get_all(resource_path)
+        return testrun_data
+
+    def get_test_cycle(self, test_cycle_id):
+        &#34;&#34;&#34; This method will return JSON data about the test cycle specified by the test cycle id.&#34;&#34;&#34;
+        resource_path = &#39;testcycles/&#39; + str(test_cycle_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
+    def delete_item(self, item_id):
+        &#34;&#34;&#34;
+        This method will delete an item in Jama Connect.
+
+        Args:
+            item_id: The jama connect API ID of the item to be deleted
+
+        Returns: The success status code.
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id)
+        response = self.__core.delete(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
+        &#34;&#34;&#34;
+        This method will create a new Test Cycle.
+
+        Args:
+            testplan_id (int): The API_ID of the testplan to create the test cycle from.
+            testcycle_name (str): The name you would like to set for the new Test Cycle
+            start_date (str): Start date in &#39;yyyy-mm-dd&#39; Format
+            end_date (str): End date in &#39;yyyy-mm-dd&#39; Format
+            testgroups_to_include (int[]):  This array of integers specify the test groups to be included.
+            testrun_status_to_include (str[]): Only valid after generating the first Test Cycle, you may choose to only
+                generate Test Runs that were a specified status in the previous cycle. Do not specify anything to
+                include all statuses
+
+        Returns:
+            (int): Returns the integer id for the newly created testcycle, or None if something went terribly wrong.
+        &#34;&#34;&#34;
+        resource_path = &#39;testplans/&#39; + str(testplan_id) + &#39;/testcycles&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        fields = {
+            &#39;name&#39;: testcycle_name,
+            &#39;startDate&#39;: start_date,
+            &#39;endDate&#39;: end_date
+        }
+        test_run_gen_config = {}
+        if testgroups_to_include is not None:
+            test_run_gen_config[&#39;testGroupsToInclude&#39;] = testgroups_to_include
+        if testrun_status_to_include is not None:
+            test_run_gen_config[&#39;testRunStatusesToInclude&#39;] = testrun_status_to_include
+        body = {
+            &#39;fields&#39;: fields,
+            &#39;testRunGenerationConfig&#39;: test_run_gen_config
+        }
+
+        # Make the API Call
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+
+        # Validate response
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def patch_item(self, item_id, patches):
+        &#34;&#34;&#34;
+        This method will patch an item.
+        Args:
+            item_id: the API ID of the item that is to be patched
+            patches: An array of dicts, that represent patch operations each dict should have the following entries
+             [
+                {
+                    &#34;op&#34;: string,
+                    &#34;path&#34;: string,
+                    &#34;value&#34;: {}
+                }
+            ]
+
+        Returns: The response status code
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id)
+        headers = {&#39;Content-Type&#39;: &#39;application/json&#39;,
+                   &#39;Accept&#39;: &#39;application/json&#39;
+                   }
+        data = json.dumps(patches)
+
+        # Make the API Call
+        response = self.__core.patch(resource_path, data=data, headers=headers)
+
+        # validate response
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;status&#39;]
+
+    def post_item(self, project, item_type_id, child_item_type_id, location, fields):
+        &#34;&#34;&#34; This method will post a new item to Jama Connect.
+        :param project integer representing the project to which this item is to be posted
+        :param item_type_id integer ID of an Item Type.
+        :param child_item_type_id integer ID of an Item Type.
+        :param location dictionary with integer ID of the parent item or project.
+        :param fields dictionary item field data.
+        :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
+
+        body = {
+            &#34;project&#34;: project,
+            &#34;itemType&#34;: item_type_id,
+            &#34;childItemType&#34;: child_item_type_id,
+            &#34;location&#34;: {
+                &#34;parent&#34;: location
+            },
+            &#34;fields&#34;: fields
+        }
+        resource_path = &#39;items/&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
+        &#34;&#34;&#34;
+
+        Args:
+            from_item: integer API id of the source item
+            to_item: integer API id of the target item
+            relationship_type: Optional integer API id of the relationship type to create
+
+        Returns: The integer ID of the newly created relationship.
+
+        &#34;&#34;&#34;
+        body = {
+          &#34;fromItem&#34;: from_item,
+          &#34;toItem&#34;: to_item,
+        }
+        if relationship_type is not None:
+            body[&#39;relationshipType&#39;] = relationship_type
+        resource_path = &#39;relationships/&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+
+    def post_item_attachment(self, item_id, attachment_id):
+        &#34;&#34;&#34;
+        Add an existing attachment to the item with the specified ID
+        :param item_id: this is the ID of the item
+        :param attachment_id: The ID of the attachment
+        :return: 201 if successful / the response status of the post operation
+        &#34;&#34;&#34;
+        body = {&#34;attachment&#34;: attachment_id}
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/attachments&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+    def post_project_attachment(self, project_id, name, description):
+        &#34;&#34;&#34;
+        This Method will make a new attachment object in the specified project
+        :param project_id: The integer project ID to create the attachment in.
+        :param name:  The name of the attachment
+        :param description: The description of the attachment
+        :return: Returns the ID of the newly created attachment object.
+        &#34;&#34;&#34;
+        body = {
+            &#34;fields&#34;: {
+                &#34;name&#34;: name,
+                &#34;description&#34;: description
+            }
+        }
+
+        resource_path = &#39;projects/&#39; + str(project_id) + &#39;/attachments&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def put_attachments_file(self, attachment_id, file_path):
+        &#34;&#34;&#34;
+        Upload a file to a jama attachment
+        :param attachment_id: the integer ID of the attachment item to which we are uploading the file
+        :param file_path: the file path of the file to be uploaded
+        :return: returns the status code of the call
+        &#34;&#34;&#34;
+        resource_path = &#39;attachments/&#39; + str(attachment_id) + &#39;/file&#39;
+        with open(file_path, &#39;rb&#39;) as f:
+            files = {&#39;file&#39;: f}
+            response = self.__core.put(resource_path, files=files)
+
+        self.__handle_response_status(response)
+        return response.status_code
+
+    def put_test_run(self, test_run_id, data=None):
+        &#34;&#34;&#34; This method will post a test run to Jama through the API&#34;&#34;&#34;
+        resource_path = &#39;testruns/&#39; + str(test_run_id)
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=data, headers=headers)
+        return self.__handle_response_status(response)
+
+    def __get_all(self, resource, params=None, **kwargs):
+        &#34;&#34;&#34;This method will get all of the resources specified by the resource parameter, if an id or some other parameter
+        is required for the resource, include it in the params parameter.
+        Returns a single JSON array with all of the retrieved items.&#34;&#34;&#34;
+
+        start_index = 0
+        result_count = -1
+        allowed_results_per_page = 20
+
+        data = []
+
+        while result_count != 0:
+            page_response = self.__get_page(resource, start_index, params=params, **kwargs)
+            page_json = page_response.json()
+
+            page_info = page_json[&#39;meta&#39;][&#39;pageInfo&#39;]
+            start_index = page_info[&#39;startIndex&#39;] + allowed_results_per_page
+            result_count = page_info[&#39;resultCount&#39;]
+
+            page_data = page_json.get(&#39;data&#39;)
+            data.extend(page_data)
+
+        return data
+
+    def __get_page(self, resource, start_at, params=None, **kwargs):
+        &#34;&#34;&#34;This method will return one page of results from the specified resource type.
+        Pass any needed parameters along
+        The response object will be returned&#34;&#34;&#34;
+        parameters = {
+            &#39;startAt&#39;: start_at,
+            &#39;maxResults&#39;: self.__allowed_results_per_page
+        }
+
+        if params is not None:
+            for k, v in params.items():
+                parameters[k] = v
+
+        response = self.__core.get(resource, params=parameters, **kwargs)
+        JamaClient.__handle_response_status(response)
+        return response
+
+    @staticmethod
+    def __handle_response_status(response):
+        &#34;&#34;&#34; Utility method for checking http status codes.
+        If the response code is not in the 200 range, An exception will be thrown.&#34;&#34;&#34;
+
+        status = response.status_code
+
+        if status in range(200, 300):
+            return status
+
+        if status in range(400, 500):
+            &#34;&#34;&#34;These are client errors. It is likely that something is wrong with the request.&#34;&#34;&#34;
+            if status == 401:
+                raise UnauthorizedException(&#34;Unauthorized: check credentials and permissions.&#34;)
+
+            if status == 404:
+                raise ResourceNotFoundException(&#34;Resource not found. check host url.&#34;)
+
+            if status == 429:
+                raise TooManyRequestsException(&#34;Too many requests.  API throttling limit reached, or system under &#34;
+                                               &#34;maintenance.&#34;)
+
+            try:
+                response_json = json.loads(response.text)
+                response_message = response_json.get(&#39;meta&#39;).get(&#39;message&#39;)
+
+                if &#34;already exists&#34; in response_message:
+                    raise AlreadyExistsException(&#34;Entity already Exists.&#34;)
+
+            except json.JSONDecodeError:
+                pass
+
+            raise APIClientException(&#34;{} Client Error.  Bad Request.  &#34;.format(status) + response.reason)
+
+        if status in range(500, 600):
+            &#34;&#34;&#34;These are server errors and network errors.&#34;&#34;&#34;
+            raise APIServerException(&#34;{} Server Error.&#34;.format(status))</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="py_jama_rest_client.client.JamaClient.__init__"><code class="name flex">
+<span>def <span class="ident">__init__</span></span>(<span>self, host_domain, credentials=(&#39;username&#39;, &#39;password&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Jama Client initializer
+:rtype: JamaClient
+:param host_domain: String The domain associated with the Jama Connect host
+:param credentials: the user name and password as a tuple
+:param api_version: valid args are '/rest/[v1|latest|labs]/'</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def __init__(self, host_domain, credentials=(&#39;username&#39;, &#39;password&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False):
+    &#34;&#34;&#34;Jama Client initializer
+    :rtype: JamaClient
+    :param host_domain: String The domain associated with the Jama Connect host
+    :param credentials: the user name and password as a tuple
+    :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39; &#34;&#34;&#34;
+    self.__credentials = credentials
+    self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.delete_item"><code class="name flex">
+<span>def <span class="ident">delete_item</span></span>(<span>self, item_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will delete an item in Jama Connect.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item_id</code></strong></dt>
+<dd>The jama connect API ID of the item to be deleted</dd>
+</dl>
+<p>Returns: The success status code.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def delete_item(self, item_id):
+    &#34;&#34;&#34;
+    This method will delete an item in Jama Connect.
+
+    Args:
+        item_id: The jama connect API ID of the item to be deleted
+
+    Returns: The success status code.
+    &#34;&#34;&#34;
+    resource_path = &#39;items/&#39; + str(item_id)
+    response = self.__core.delete(resource_path)
+    JamaClient.__handle_response_status(response)
+    return response.status_code</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_abstract_items"><code class="name flex">
+<span>def <span class="ident">get_abstract_items</span></span>(<span>self, project=None, item_type=None, document_key=None, release=None, created_date=None, modified_date=None, last_activity_date=None, contains=None, sort_by=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will return all items that match the query parameters entered.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>project</code></strong></dt>
+<dd>
+<pre><code>   Array[integer]
+</code></pre>
+</dd>
+<dt><strong><code>item_type</code></strong></dt>
+<dd>
+<pre><code> Array[integer]
+</code></pre>
+</dd>
+<dt><strong><code>document_key</code></strong></dt>
+<dd>
+<p>Array[string]</p>
+</dd>
+<dt><strong><code>release</code></strong></dt>
+<dd>
+<pre><code>   Array[integer]
+</code></pre>
+</dd>
+<dt><strong><code>created_date</code></strong></dt>
+<dd>
+<p>Array[string]</p>
+</dd>
+<dt><strong><code>modified_date</code></strong></dt>
+<dd>
+<p>Array[string]</p>
+</dd>
+<dt><strong><code>last_activity_date</code></strong></dt>
+<dd>Array[string]</dd>
+<dt><strong><code>contains</code></strong></dt>
+<dd>
+<pre><code>  Array[string]
+</code></pre>
+</dd>
+<dt><strong><code>sort_by</code></strong></dt>
+<dd>
+<pre><code>   Array[string]
+</code></pre>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A JSON Array of items.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_abstract_items(self,
+                       project = None,
+                       item_type = None,
+                       document_key = None,
+                       release = None,
+                       created_date = None,
+                       modified_date = None,
+                       last_activity_date = None,
+                       contains = None,
+                       sort_by = None ):
+    &#34;&#34;&#34;
+    This method will return all items that match the query parameters entered.
+
+    Args:
+        project:            Array[integer]
+        item_type:          Array[integer]
+        document_key:       Array[string]
+        release:            Array[integer]
+        created_date:       Array[string]
+        modified_date:      Array[string]
+        last_activity_date: Array[string]
+        contains:           Array[string]
+        sort_by:            Array[string]
+
+    Returns:
+        A JSON Array of items.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;abstractitems&#39;
+
+    # Add each parameter that is not null to the request.
+    params = {}
+
+    if project is not None:
+        params[&#39;project&#39;] = project
+
+    if item_type is not None:
+        params[&#39;itemType&#39;] = item_type
+
+    if document_key is not None:
+        params[&#39;documentKey&#39;] = document_key
+
+    if release is not None:
+        params[&#39;release&#39;] = release
+
+    if created_date is not None:
+        params[&#39;createdDate&#39;] = created_date
+
+    if modified_date is not None:
+        params[&#39;modifiedDate&#39;] = modified_date
+
+    if last_activity_date is not None:
+        params[&#39;lastActivityDate&#39;] = last_activity_date
+
+    if contains is not None:
+        params[&#39;contains&#39;] = contains
+
+    if sort_by is not None:
+        params[&#39;sortBy&#39;] = sort_by
+
+    abstract_items = self.__get_all(resource_path, params=params)
+    return abstract_items</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key"><code class="name flex">
+<span>def <span class="ident">get_abstract_items_from_doc_key</span></span>(<span>self, doc_key_list)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will take in a list of document keys and return an array of JSON Objects associated with the
+document keys.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_abstract_items_from_doc_key(self, doc_key_list):
+    &#34;&#34;&#34;This method will take in a list of document keys and return an array of JSON Objects associated with the
+    document keys.&#34;&#34;&#34;
+    resource_path = &#39;abstractitems&#39;
+    params = {&#39;documentKey&#39;: doc_key_list}
+    abstract_items = self.__get_all(resource_path, params=params)
+    return abstract_items</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_items"><code class="name flex">
+<span>def <span class="ident">get_items</span></span>(<span>self, project_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will return all items in the specified project.
+it will return a Json array of item objects</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_items(self, project_id):
+    &#34;&#34;&#34;This method will return all items in the specified project.  it will return a Json array of item objects&#34;&#34;&#34;
+    resource_path = &#39;items&#39;
+    params = {&#39;project&#39;: project_id}
+    item_data = self.__get_all(resource_path, params=params)
+    return item_data</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_projects"><code class="name flex">
+<span>def <span class="ident">get_projects</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will return all projects as JSON object
+:return: JSON Array of Item Objects.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_projects(self):
+    &#34;&#34;&#34;This method will return all projects as JSON object
+    :return: JSON Array of Item Objects.
+    &#34;&#34;&#34;
+    resource_path = &#39;projects&#39;
+    project_data = self.__get_all(resource_path)
+    return project_data</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_test_cycle"><code class="name flex">
+<span>def <span class="ident">get_test_cycle</span></span>(<span>self, test_cycle_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will return JSON data about the test cycle specified by the test cycle id.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_test_cycle(self, test_cycle_id):
+    &#34;&#34;&#34; This method will return JSON data about the test cycle specified by the test cycle id.&#34;&#34;&#34;
+    resource_path = &#39;testcycles/&#39; + str(test_cycle_id)
+    response = self.__core.get(resource_path)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;data&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_testruns"><code class="name flex">
+<span>def <span class="ident">get_testruns</span></span>(<span>self, test_cycle_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will return all test runs associated with the specified test cycle.
+Test runs will be returned
+as a list of json objects.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_testruns(self, test_cycle_id):
+    &#34;&#34;&#34;This method will return all test runs associated with the specified test cycle.  Test runs will be returned
+    as a list of json objects.&#34;&#34;&#34;
+    resource_path = &#39;testcycles/&#39; + str(test_cycle_id) + &#39;/testruns&#39;
+    testrun_data = self.__get_all(resource_path)
+    return testrun_data</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.patch_item"><code class="name flex">
+<span>def <span class="ident">patch_item</span></span>(<span>self, item_id, patches)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will patch an item.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item_id</code></strong></dt>
+<dd>the API ID of the item that is to be patched</dd>
+<dt><strong><code>patches</code></strong></dt>
+<dd>An array of dicts, that represent patch operations each dict should have the following entries</dd>
+<dt>[</dt>
+<dt>{</dt>
+<dt>"op": string,</dt>
+<dt>"path": string,</dt>
+<dt>"value":</dt>
+<dt>}</dt>
+<dt>]</dt>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>The</code> <code>response</code> <code>status</code> <code>code</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def patch_item(self, item_id, patches):
+    &#34;&#34;&#34;
+    This method will patch an item.
+    Args:
+        item_id: the API ID of the item that is to be patched
+        patches: An array of dicts, that represent patch operations each dict should have the following entries
+         [
+            {
+                &#34;op&#34;: string,
+                &#34;path&#34;: string,
+                &#34;value&#34;: {}
+            }
+        ]
+
+    Returns: The response status code
+
+    &#34;&#34;&#34;
+    resource_path = &#39;items/&#39; + str(item_id)
+    headers = {&#39;Content-Type&#39;: &#39;application/json&#39;,
+               &#39;Accept&#39;: &#39;application/json&#39;
+               }
+    data = json.dumps(patches)
+
+    # Make the API Call
+    response = self.__core.patch(resource_path, data=data, headers=headers)
+
+    # validate response
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;meta&#39;][&#39;status&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_item"><code class="name flex">
+<span>def <span class="ident">post_item</span></span>(<span>self, project, item_type_id, child_item_type_id, location, fields)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will post a new item to Jama Connect.
+:param project integer representing the project to which this item is to be posted
+:param item_type_id integer ID of an Item Type.
+:param child_item_type_id integer ID of an Item Type.
+:param location dictionary with integer ID of the parent item or project.
+:param fields dictionary item field data.
+:return integer ID of the successfully posted item or None if there was an error.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_item(self, project, item_type_id, child_item_type_id, location, fields):
+    &#34;&#34;&#34; This method will post a new item to Jama Connect.
+    :param project integer representing the project to which this item is to be posted
+    :param item_type_id integer ID of an Item Type.
+    :param child_item_type_id integer ID of an Item Type.
+    :param location dictionary with integer ID of the parent item or project.
+    :param fields dictionary item field data.
+    :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
+
+    body = {
+        &#34;project&#34;: project,
+        &#34;itemType&#34;: item_type_id,
+        &#34;childItemType&#34;: child_item_type_id,
+        &#34;location&#34;: {
+            &#34;parent&#34;: location
+        },
+        &#34;fields&#34;: fields
+    }
+    resource_path = &#39;items/&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_item_attachment"><code class="name flex">
+<span>def <span class="ident">post_item_attachment</span></span>(<span>self, item_id, attachment_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add an existing attachment to the item with the specified ID
+:param item_id: this is the ID of the item
+:param attachment_id: The ID of the attachment
+:return: 201 if successful / the response status of the post operation</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_item_attachment(self, item_id, attachment_id):
+    &#34;&#34;&#34;
+    Add an existing attachment to the item with the specified ID
+    :param item_id: this is the ID of the item
+    :param attachment_id: The ID of the attachment
+    :return: 201 if successful / the response status of the post operation
+    &#34;&#34;&#34;
+    body = {&#34;attachment&#34;: attachment_id}
+    resource_path = &#39;items/&#39; + str(item_id) + &#39;/attachments&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    JamaClient.__handle_response_status(response)
+    return response.status_code</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_project_attachment"><code class="name flex">
+<span>def <span class="ident">post_project_attachment</span></span>(<span>self, project_id, name, description)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This Method will make a new attachment object in the specified project
+:param project_id: The integer project ID to create the attachment in.
+:param name:
+The name of the attachment
+:param description: The description of the attachment
+:return: Returns the ID of the newly created attachment object.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_project_attachment(self, project_id, name, description):
+    &#34;&#34;&#34;
+    This Method will make a new attachment object in the specified project
+    :param project_id: The integer project ID to create the attachment in.
+    :param name:  The name of the attachment
+    :param description: The description of the attachment
+    :return: Returns the ID of the newly created attachment object.
+    &#34;&#34;&#34;
+    body = {
+        &#34;fields&#34;: {
+            &#34;name&#34;: name,
+            &#34;description&#34;: description
+        }
+    }
+
+    resource_path = &#39;projects/&#39; + str(project_id) + &#39;/attachments&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_relationship"><code class="name flex">
+<span>def <span class="ident">post_relationship</span></span>(<span>self, from_item, to_item, relationship_type=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>from_item</code></strong></dt>
+<dd>integer API id of the source item</dd>
+<dt><strong><code>to_item</code></strong></dt>
+<dd>integer API id of the target item</dd>
+<dt><strong><code>relationship_type</code></strong></dt>
+<dd>Optional integer API id of the relationship type to create</dd>
+</dl>
+<p>Returns: The integer ID of the newly created relationship.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
+    &#34;&#34;&#34;
+
+    Args:
+        from_item: integer API id of the source item
+        to_item: integer API id of the target item
+        relationship_type: Optional integer API id of the relationship type to create
+
+    Returns: The integer ID of the newly created relationship.
+
+    &#34;&#34;&#34;
+    body = {
+      &#34;fromItem&#34;: from_item,
+      &#34;toItem&#34;: to_item,
+    }
+    if relationship_type is not None:
+        body[&#39;relationshipType&#39;] = relationship_type
+    resource_path = &#39;relationships/&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_testplans_testcycles"><code class="name flex">
+<span>def <span class="ident">post_testplans_testcycles</span></span>(<span>self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will create a new Test Cycle.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>testplan_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>The API_ID of the testplan to create the test cycle from.</dd>
+<dt><strong><code>testcycle_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name you would like to set for the new Test Cycle</dd>
+<dt><strong><code>start_date</code></strong> :&ensp;<code>str</code></dt>
+<dd>Start date in 'yyyy-mm-dd' Format</dd>
+<dt><strong><code>end_date</code></strong> :&ensp;<code>str</code></dt>
+<dd>End date in 'yyyy-mm-dd' Format</dd>
+<dt><strong><code>testgroups_to_include</code></strong> :&ensp;<code>int</code>[]</dt>
+<dd>This array of integers specify the test groups to be included.</dd>
+<dt><strong><code>testrun_status_to_include</code></strong> :&ensp;<code>str</code>[]</dt>
+<dd>Only valid after generating the first Test Cycle, you may choose to only
+generate Test Runs that were a specified status in the previous cycle. Do not specify anything to
+include all statuses</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(int): Returns the integer id for the newly created testcycle, or None if something went terribly wrong.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
+    &#34;&#34;&#34;
+    This method will create a new Test Cycle.
+
+    Args:
+        testplan_id (int): The API_ID of the testplan to create the test cycle from.
+        testcycle_name (str): The name you would like to set for the new Test Cycle
+        start_date (str): Start date in &#39;yyyy-mm-dd&#39; Format
+        end_date (str): End date in &#39;yyyy-mm-dd&#39; Format
+        testgroups_to_include (int[]):  This array of integers specify the test groups to be included.
+        testrun_status_to_include (str[]): Only valid after generating the first Test Cycle, you may choose to only
+            generate Test Runs that were a specified status in the previous cycle. Do not specify anything to
+            include all statuses
+
+    Returns:
+        (int): Returns the integer id for the newly created testcycle, or None if something went terribly wrong.
+    &#34;&#34;&#34;
+    resource_path = &#39;testplans/&#39; + str(testplan_id) + &#39;/testcycles&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    fields = {
+        &#39;name&#39;: testcycle_name,
+        &#39;startDate&#39;: start_date,
+        &#39;endDate&#39;: end_date
+    }
+    test_run_gen_config = {}
+    if testgroups_to_include is not None:
+        test_run_gen_config[&#39;testGroupsToInclude&#39;] = testgroups_to_include
+    if testrun_status_to_include is not None:
+        test_run_gen_config[&#39;testRunStatusesToInclude&#39;] = testrun_status_to_include
+    body = {
+        &#39;fields&#39;: fields,
+        &#39;testRunGenerationConfig&#39;: test_run_gen_config
+    }
+
+    # Make the API Call
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+
+    # Validate response
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.put_attachments_file"><code class="name flex">
+<span>def <span class="ident">put_attachments_file</span></span>(<span>self, attachment_id, file_path)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Upload a file to a jama attachment
+:param attachment_id: the integer ID of the attachment item to which we are uploading the file
+:param file_path: the file path of the file to be uploaded
+:return: returns the status code of the call</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def put_attachments_file(self, attachment_id, file_path):
+    &#34;&#34;&#34;
+    Upload a file to a jama attachment
+    :param attachment_id: the integer ID of the attachment item to which we are uploading the file
+    :param file_path: the file path of the file to be uploaded
+    :return: returns the status code of the call
+    &#34;&#34;&#34;
+    resource_path = &#39;attachments/&#39; + str(attachment_id) + &#39;/file&#39;
+    with open(file_path, &#39;rb&#39;) as f:
+        files = {&#39;file&#39;: f}
+        response = self.__core.put(resource_path, files=files)
+
+    self.__handle_response_status(response)
+    return response.status_code</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.put_test_run"><code class="name flex">
+<span>def <span class="ident">put_test_run</span></span>(<span>self, test_run_id, data=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will post a test run to Jama through the API</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def put_test_run(self, test_run_id, data=None):
+    &#34;&#34;&#34; This method will post a test run to Jama through the API&#34;&#34;&#34;
+    resource_path = &#39;testruns/&#39; + str(test_run_id)
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.put(resource_path, data=data, headers=headers)
+    return self.__handle_response_status(response)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="py_jama_rest_client.client.ResourceNotFoundException"><code class="flex name class">
+<span>class <span class="ident">ResourceNotFoundException</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a>, builtins.Exception, builtins.BaseException)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This exception is raised whenever the api returns a 404 not found response.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class ResourceNotFoundException(APIException):
+    &#34;&#34;&#34;This exception is raised whenever the api returns a 404 not found response.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.TooManyRequestsException"><code class="flex name class">
+<span>class <span class="ident">TooManyRequestsException</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a>, builtins.Exception, builtins.BaseException)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This exception is thrown whenever the api returns a 429 too many requests response.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class TooManyRequestsException(APIException):
+    &#34;&#34;&#34;This exception is thrown whenever the api returns a 429 too many requests response.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.UnauthorizedException"><code class="flex name class">
+<span>class <span class="ident">UnauthorizedException</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a>, builtins.Exception, builtins.BaseException)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This exception is thrown whenever the api returns a 401 unauthorized response.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class UnauthorizedException(APIException):
+    &#34;&#34;&#34;This exception is thrown whenever the api returns a 401 unauthorized response.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="py_jama_rest_client" href="index.html">py_jama_rest_client</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="py_jama_rest_client.client.APIClientException" href="#py_jama_rest_client.client.APIClientException">APIClientException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="py_jama_rest_client.client.APIServerException" href="#py_jama_rest_client.client.APIServerException">APIServerException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="py_jama_rest_client.client.AlreadyExistsException" href="#py_jama_rest_client.client.AlreadyExistsException">AlreadyExistsException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="py_jama_rest_client.client.JamaClient" href="#py_jama_rest_client.client.JamaClient">JamaClient</a></code></h4>
+<ul class="">
+<li><code><a title="py_jama_rest_client.client.JamaClient.__init__" href="#py_jama_rest_client.client.JamaClient.__init__">__init__</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.delete_item" href="#py_jama_rest_client.client.JamaClient.delete_item">delete_item</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items" href="#py_jama_rest_client.client.JamaClient.get_abstract_items">get_abstract_items</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key" href="#py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key">get_abstract_items_from_doc_key</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_items" href="#py_jama_rest_client.client.JamaClient.get_items">get_items</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_projects" href="#py_jama_rest_client.client.JamaClient.get_projects">get_projects</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_test_cycle" href="#py_jama_rest_client.client.JamaClient.get_test_cycle">get_test_cycle</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_testruns" href="#py_jama_rest_client.client.JamaClient.get_testruns">get_testruns</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.patch_item" href="#py_jama_rest_client.client.JamaClient.patch_item">patch_item</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_item" href="#py_jama_rest_client.client.JamaClient.post_item">post_item</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_item_attachment" href="#py_jama_rest_client.client.JamaClient.post_item_attachment">post_item_attachment</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_project_attachment" href="#py_jama_rest_client.client.JamaClient.post_project_attachment">post_project_attachment</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_relationship" href="#py_jama_rest_client.client.JamaClient.post_relationship">post_relationship</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_testplans_testcycles" href="#py_jama_rest_client.client.JamaClient.post_testplans_testcycles">post_testplans_testcycles</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.put_attachments_file" href="#py_jama_rest_client.client.JamaClient.put_attachments_file">put_attachments_file</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.put_test_run" href="#py_jama_rest_client.client.JamaClient.put_test_run">put_test_run</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="py_jama_rest_client.client.ResourceNotFoundException" href="#py_jama_rest_client.client.ResourceNotFoundException">ResourceNotFoundException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="py_jama_rest_client.client.TooManyRequestsException" href="#py_jama_rest_client.client.TooManyRequestsException">TooManyRequestsException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="py_jama_rest_client.client.UnauthorizedException" href="#py_jama_rest_client.client.UnauthorizedException">UnauthorizedException</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.3</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
