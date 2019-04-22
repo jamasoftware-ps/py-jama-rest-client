@@ -54,6 +54,11 @@ class JamaClient:
         self.__credentials = credentials
         self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
 
+    def get_server_response(self):
+        """Runs a check on the user credentials and instance url and returns a response."""
+        return self.__core.get('')
+
+
     def get_projects(self):
         """This method will return all projects as JSON object
         :return: JSON Array of Item Objects.
@@ -69,6 +74,13 @@ class JamaClient:
         item_data = self.__get_all(resource_path, params=params)
         return item_data
 
+    def get_item(self, item_id):
+        """This method will return a singular item of a specified item id"""
+        resource_path = 'items/' + str(item_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_abstract_items_from_doc_key(self, doc_key_list):
         """This method will take in a list of document keys and return an array of JSON Objects associated with the
         document keys."""
@@ -76,6 +88,25 @@ class JamaClient:
         params = {'documentKey': doc_key_list}
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
+
+    def get_item_types(self):
+        """This method will return all item types of the across all projects of the Jama Connect instance."""
+        resource_path = 'itemtypes/'
+        item_types = self.__get_all(resource_path)
+        return item_types
+
+    def get_item_type(self, item_type_id):
+        """This method will return a singular JSON object item type of a specified Item Type ID."""
+        resource_path = 'itemtypes/' + str(item_type_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_children_items(self, parent_item_id):
+        """This method will return a list of children items for a specified parent item ID."""
+        resource_path = 'items/' + str(parent_item_id) + '/children'
+        children_items = self.__get_all(resource_path)
+        return children_items
 
     def get_abstract_items(self,
                            project = None,
@@ -146,6 +177,16 @@ class JamaClient:
         resource_path = 'testcycles/' + str(test_cycle_id) + '/testruns'
         testrun_data = self.__get_all(resource_path)
         return testrun_data
+
+    def get_upstream_relationships(self, item_id):
+        """Returns a list of all the upstream related items"""
+        resource_path = 'items/' + str(item_id) + '/upstreamrelationships'
+        return self.__get_all(resource_path)
+
+    def get_downstream_relationships(self, item_id):
+        """Returns a list of all the downstream related items"""
+        resource_path = 'items/' + str(item_id) + '/downstreamrelationships'
+        return self.__get_all(resource_path)
 
     def get_test_cycle(self, test_cycle_id):
         """ This method will return JSON data about the test cycle specified by the test cycle id."""
