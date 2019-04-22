@@ -54,10 +54,9 @@ class JamaClient:
         self.__credentials = credentials
         self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
 
-    def get_server_response(self):
-        """Runs a check on the user credentials and instance url and returns a response."""
-        return self.__core.get('')
-
+    def get_available_endpoints(self):
+        """Returns a list of all the available endpoints."""
+        return self.__core.get('').json()['data']
 
     def get_projects(self):
         """This method will return all projects as JSON object
