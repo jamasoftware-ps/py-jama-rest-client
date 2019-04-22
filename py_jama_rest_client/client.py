@@ -56,7 +56,9 @@ class JamaClient:
 
     def get_available_endpoints(self):
         """Returns a list of all the available endpoints."""
-        return self.__core.get('').json()['data']
+        response = self.__core.get('')
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
 
     def get_projects(self):
         """This method will return all projects as JSON object
