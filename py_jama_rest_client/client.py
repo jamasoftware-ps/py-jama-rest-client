@@ -103,6 +103,31 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_pick_lists(self):
+        """Returns a list of all the pick lists"""
+        resource_path = 'picklists/'
+        pick_lists = self.__get_all(resource_path)
+        return pick_lists
+
+    def get_pick_list(self, pick_list_id):
+        """Gets all a singular picklist"""
+        resource_path = 'picklists/' + str(pick_list_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_pick_list_options(self, pick_list_id):
+        """Gets all all the picklist options for a single picklist"""
+        resource_path = 'picklists/' + str(pick_list_id) + '/options'
+        pick_list_options = self.__get_all(resource_path)
+        return pick_list_options
+
+    def get_pick_list_option(self, pick_list_option_id):
+        """Gets all all the picklist options for a single picklist"""
+        resource_path = 'picklistoptions/' + str(pick_list_option_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
     def get_children_items(self, parent_item_id):
         """This method will return a list of children items for a specified parent item ID."""
         resource_path = 'items/' + str(parent_item_id) + '/children'
