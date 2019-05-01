@@ -35,7 +35,9 @@ Create a new directory and install py-jama-rest-client using pipenv.
 - GET available endpoints
 
 ##### Abstract Items
-- GET abstract items by document key
+- ~~GET abstract items by document key~~(Deprecated)
+- GET abstract items(second method added to support all parameter options.  Previous method left to preserve backwards 
+compatibility)
 
 ##### Attachments
 - PUT attachment file, uploads content to an attachment object by attachmentID
@@ -45,6 +47,9 @@ Create a new directory and install py-jama-rest-client using pipenv.
 - GET a specific item by ID
 - GET all downstream relationships for an item by item ID
 - GET all upstream relationships for an item by item ID
+- GET all children of an item
+- DELETE an Item by ID
+- PATCH an Item
 - POST an item to a project
 - POST item attachment
 
@@ -73,6 +78,9 @@ Create a new directory and install py-jama-rest-client using pipenv.
 ##### Test Runs
 - GET all test runs associated with a particular test cycle id
 - PUT test runs by id. Allows updating of test run fields.
+
+##### Relationships
+- POST relationship
 
 ## Usage Examples
 

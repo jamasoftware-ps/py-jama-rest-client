@@ -97,6 +97,12 @@ class TestJamaClient(TestCase):
         self.assertIsNotNone(test_cycle)
         self.assertEqual(test_cycle['id'], test_cycle_id)
 
+    def test_get_item_children(self):
+        item_id = 66979
+        children = self.jama_client.get_item_children(item_id)
+        self.assertIsNotNone(children)
+        self.assertEqual(len(children), 2)
+
     def test_put_test_run(self):
         test_run_id = 66985
         data_to_send = {"fields": {"status": "PASS"}}

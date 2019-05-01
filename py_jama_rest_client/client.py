@@ -102,7 +102,8 @@ class JamaClient:
         return response.json()['data']
 
     def get_abstract_items_from_doc_key(self, doc_key_list):
-        """This method will take in a list of document keys and return an array of JSON Objects associated with the
+        """ DEPRECATED INSTEAD USE get_abstract_items below.
+        This method will take in a list of document keys and return an array of JSON Objects associated with the
         document keys."""
         resource_path = 'abstractitems'
         params = {'documentKey': doc_key_list}
@@ -189,15 +190,15 @@ class JamaClient:
         return response.json()['data']
 
     def get_abstract_items(self,
-                           project = None,
-                           item_type = None,
-                           document_key = None,
-                           release = None,
-                           created_date = None,
-                           modified_date = None,
-                           last_activity_date = None,
-                           contains = None,
-                           sort_by = None ):
+                           project=None,
+                           item_type=None,
+                           document_key=None,
+                           release=None,
+                           created_date=None,
+                           modified_date=None,
+                           last_activity_date=None,
+                           contains=None,
+                           sort_by=None):
         """
         This method will return all items that match the query parameters entered.
 
@@ -250,6 +251,18 @@ class JamaClient:
 
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
+
+    def get_item_children(self, item_id):
+        """
+        This method will return list of the child items of the item passed to the function.
+        Args:
+            item_id: (int) The id of the item for which children items should be fetched
+
+        Returns: a List of Objects that represent the children of the item passed in.
+        """
+        resource_path = 'items/' + str(item_id) + '/children'
+        child_items = self.__get_all(resource_path)
+        return child_items
 
     def get_testruns(self, test_cycle_id):
         """This method will return all test runs associated with the specified test cycle.  Test runs will be returned
@@ -312,6 +325,36 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.status_code
 
+    def patch_item(self, item_id, patches):
+        """
+        This method will patch an item.
+        Args:
+            item_id: the API ID of the item that is to be patched
+            patches: An array of dicts, that represent patch operations each dict should have the following entries
+             [
+                {
+                    "op": string,
+                    "path": string,
+                    "value": {}
+                }
+            ]
+
+        Returns: The response status code
+
+        """
+        resource_path = 'items/' + str(item_id)
+        headers = {'Content-Type': 'application/json',
+                   'Accept': 'application/json'
+                   }
+        data = json.dumps(patches)
+
+        # Make the API Call
+        response = self.__core.patch(resource_path, data=data, headers=headers)
+
+        # validate response
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['status']
+
     def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
         """
         This method will create a new Test Cycle.
@@ -352,36 +395,6 @@ class JamaClient:
         # Validate response
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
-
-    def patch_item(self, item_id, patches):
-        """
-        This method will patch an item.
-        Args:
-            item_id: the API ID of the item that is to be patched
-            patches: An array of dicts, that represent patch operations each dict should have the following entries
-             [
-                {
-                    "op": string,
-                    "path": string,
-                    "value": {}
-                }
-            ]
-
-        Returns: The response status code
-
-        """
-        resource_path = 'items/' + str(item_id)
-        headers = {'Content-Type': 'application/json',
-                   'Accept': 'application/json'
-                   }
-        data = json.dumps(patches)
-
-        # Make the API Call
-        response = self.__core.patch(resource_path, data=data, headers=headers)
-
-        # validate response
-        JamaClient.__handle_response_status(response)
-        return response.json()['meta']['status']
 
     def post_item(self, project, item_type_id, child_item_type_id, location, fields):
         """ This method will post a new item to Jama Connect.
@@ -565,5 +578,3 @@ class JamaClient:
         if status in range(500, 600):
             """These are server errors and network errors."""
             raise APIServerException("{} Server Error.".format(status))
-
-
