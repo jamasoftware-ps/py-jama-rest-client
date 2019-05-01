@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.5.3" />
+<meta name="generator" content="pdoc 0.5.4" />
 <title>py_jama_rest_client.core API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
@@ -41,6 +41,7 @@ class Core:
         self.__host_name = host_name + self.__api_version
         self.__credentials = user_credentials
         self.__oauth = oauth
+        self.__session = requests.Session()
 
         # Setup OAuth if needed.
         if self.__oauth:
@@ -55,9 +56,9 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.delete(url, **kwargs)
+            return self.__session.delete(url, **kwargs)
 
-        return requests.delete(url, auth=self.__credentials, **kwargs)
+        return self.__session.delete(url, auth=self.__credentials, **kwargs)
 
     def get(self, resource, params=None, **kwargs):
         &#34;&#34;&#34; This method will perform a get operation on the specified resource&#34;&#34;&#34;
@@ -66,9 +67,9 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.get(url, params=params, **kwargs)
+            return self.__session.get(url, params=params, **kwargs)
 
-        return requests.get(url, auth=self.__credentials, params=params, **kwargs)
+        return self.__session.get(url, auth=self.__credentials, params=params, **kwargs)
 
     def patch(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a patch operation to the specified resource&#34;&#34;&#34;
@@ -77,9 +78,9 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.patch(url, params=params, data=data, json=json, **kwargs)
+            return self.__session.patch(url, params=params, data=data, json=json, **kwargs)
 
-        return requests.patch(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
+        return self.__session.patch(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
 
     def post(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a post operation to the specified resource.&#34;&#34;&#34;
@@ -88,9 +89,9 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.post(url, params=params, data=data, json=json, **kwargs)
+            return self.__session.post(url, params=params, data=data, json=json, **kwargs)
 
-        return requests.post(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
+        return self.__session.post(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
 
     def put(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a put operation to the specified resource&#34;&#34;&#34;
@@ -99,9 +100,9 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.put(url, data=data, params=params, json=json, **kwargs)
+            return self.__session.put(url, data=data, params=params, json=json, **kwargs)
 
-        return requests.put(url, auth=self.__credentials, data=data, params=params, json=json, **kwargs)
+        return self.__session.put(url, auth=self.__credentials, data=data, params=params, json=json, **kwargs)
 
     def __check_oauth_token(self):
 
@@ -176,6 +177,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
         self.__host_name = host_name + self.__api_version
         self.__credentials = user_credentials
         self.__oauth = oauth
+        self.__session = requests.Session()
 
         # Setup OAuth if needed.
         if self.__oauth:
@@ -190,9 +192,9 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.delete(url, **kwargs)
+            return self.__session.delete(url, **kwargs)
 
-        return requests.delete(url, auth=self.__credentials, **kwargs)
+        return self.__session.delete(url, auth=self.__credentials, **kwargs)
 
     def get(self, resource, params=None, **kwargs):
         &#34;&#34;&#34; This method will perform a get operation on the specified resource&#34;&#34;&#34;
@@ -201,9 +203,9 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.get(url, params=params, **kwargs)
+            return self.__session.get(url, params=params, **kwargs)
 
-        return requests.get(url, auth=self.__credentials, params=params, **kwargs)
+        return self.__session.get(url, auth=self.__credentials, params=params, **kwargs)
 
     def patch(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a patch operation to the specified resource&#34;&#34;&#34;
@@ -212,9 +214,9 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.patch(url, params=params, data=data, json=json, **kwargs)
+            return self.__session.patch(url, params=params, data=data, json=json, **kwargs)
 
-        return requests.patch(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
+        return self.__session.patch(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
 
     def post(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a post operation to the specified resource.&#34;&#34;&#34;
@@ -223,9 +225,9 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.post(url, params=params, data=data, json=json, **kwargs)
+            return self.__session.post(url, params=params, data=data, json=json, **kwargs)
 
-        return requests.post(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
+        return self.__session.post(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)
 
     def put(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a put operation to the specified resource&#34;&#34;&#34;
@@ -234,9 +236,9 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
         if self.__oauth:
             self.__check_oauth_token()
             kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-            return requests.put(url, data=data, params=params, json=json, **kwargs)
+            return self.__session.put(url, data=data, params=params, json=json, **kwargs)
 
-        return requests.put(url, auth=self.__credentials, data=data, params=params, json=json, **kwargs)
+        return self.__session.put(url, auth=self.__credentials, data=data, params=params, json=json, **kwargs)
 
     def __check_oauth_token(self):
 
@@ -295,6 +297,7 @@ See help(type(self)) for accurate signature.</p></section>
     self.__host_name = host_name + self.__api_version
     self.__credentials = user_credentials
     self.__oauth = oauth
+    self.__session = requests.Session()
 
     # Setup OAuth if needed.
     if self.__oauth:
@@ -317,9 +320,9 @@ See help(type(self)) for accurate signature.</p></section>
     if self.__oauth:
         self.__check_oauth_token()
         kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-        return requests.delete(url, **kwargs)
+        return self.__session.delete(url, **kwargs)
 
-    return requests.delete(url, auth=self.__credentials, **kwargs)</code></pre>
+    return self.__session.delete(url, auth=self.__credentials, **kwargs)</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.core.Core.get"><code class="name flex">
@@ -336,9 +339,9 @@ See help(type(self)) for accurate signature.</p></section>
     if self.__oauth:
         self.__check_oauth_token()
         kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-        return requests.get(url, params=params, **kwargs)
+        return self.__session.get(url, params=params, **kwargs)
 
-    return requests.get(url, auth=self.__credentials, params=params, **kwargs)</code></pre>
+    return self.__session.get(url, auth=self.__credentials, params=params, **kwargs)</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.core.Core.patch"><code class="name flex">
@@ -355,9 +358,9 @@ See help(type(self)) for accurate signature.</p></section>
     if self.__oauth:
         self.__check_oauth_token()
         kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-        return requests.patch(url, params=params, data=data, json=json, **kwargs)
+        return self.__session.patch(url, params=params, data=data, json=json, **kwargs)
 
-    return requests.patch(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)</code></pre>
+    return self.__session.patch(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.core.Core.post"><code class="name flex">
@@ -374,9 +377,9 @@ See help(type(self)) for accurate signature.</p></section>
     if self.__oauth:
         self.__check_oauth_token()
         kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-        return requests.post(url, params=params, data=data, json=json, **kwargs)
+        return self.__session.post(url, params=params, data=data, json=json, **kwargs)
 
-    return requests.post(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)</code></pre>
+    return self.__session.post(url, auth=self.__credentials, params=params, data=data, json=json, **kwargs)</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.core.Core.put"><code class="name flex">
@@ -393,9 +396,9 @@ See help(type(self)) for accurate signature.</p></section>
     if self.__oauth:
         self.__check_oauth_token()
         kwargs[&#39;headers&#39;] = self.__add_auth_header(**kwargs)
-        return requests.put(url, data=data, params=params, json=json, **kwargs)
+        return self.__session.put(url, data=data, params=params, json=json, **kwargs)
 
-    return requests.put(url, auth=self.__credentials, data=data, params=params, json=json, **kwargs)</code></pre>
+    return self.__session.put(url, auth=self.__credentials, data=data, params=params, json=json, **kwargs)</code></pre>
 </details>
 </dd>
 </dl>
@@ -433,7 +436,7 @@ See help(type(self)) for accurate signature.</p></section>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.4</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>
