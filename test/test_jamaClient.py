@@ -22,11 +22,62 @@ class TestJamaClient(TestCase):
         self.assertIsNotNone(items)
         self.assertGreater(len(items), 0)
 
+    def test_get_item(self):
+        item_id = 66977
+        item = self.jama_client.get_item(item_id)
+        self.assertIsNotNone(item)
+
+    def test_get_item_types(self):
+        item_types = self.jama_client.get_item_types()
+        self.assertIsNotNone(item_types)
+        self.assertGreater(len(item_types), 1)
+
+    def test_get_item_type(self):
+        item_type_id = 184
+        item_type = self.jama_client.get_item_type(item_type_id)
+        self.assertEqual(item_type.get('id'), item_type_id)
+        self.assertEqual(item_type.get('display'), 'Suggestion')
+
     def test_get_abstract_items_from_doc_key(self):
         doc_key_list = ['UT-CMP-1', 'UT-CMP-4', 'UT-CMP-5']
         items = self.jama_client.get_abstract_items_from_doc_key(doc_key_list)
         self.assertIsNotNone(items)
         self.assertEqual(len(items), len(doc_key_list))
+
+    def test_get_pick_lists(self):
+        pick_lists = self.jama_client.get_pick_lists()
+        self.assertIsNotNone(pick_lists)
+        self.assertGreater(len(pick_lists), 1)
+
+    def test_get_pick_list(self):
+        pick_list_id = 62
+        pick_list = self.jama_client.get_pick_list(pick_list_id)
+        self.assertIsNotNone(pick_list)
+        self.assertEqual(pick_list.get('name'), 'Priority')
+
+    def test_get_pick_list_options(self):
+        pick_list_id = 62
+        pick_list_options = self.jama_client.get_pick_list_options(pick_list_id)
+        self.assertIsNotNone(pick_list_options)
+        self.assertGreater(len(pick_list_options), 1)
+
+    def test_get_pick_list_option(self):
+        pick_list_option_id = 300
+        pick_list_option = self.jama_client.get_pick_list_option(pick_list_option_id)
+        self.assertIsNotNone(pick_list_option)
+        self.assertEqual(pick_list_option.get('name'), 'Low')
+
+    def test_get_items_upstream_relationships(self):
+        item_id = 66977
+        upstream_relationships = self.jama_client.get_items_upstream_relationships(item_id)
+        self.assertIsNotNone(upstream_relationships)
+        self.assertEqual(len(upstream_relationships), 1)
+
+    def test_get_items_downstream_relationships(self):
+        item_id = 66977
+        downstream_relationships = self.jama_client.get_items_downstream_relationships(item_id)
+        self.assertIsNotNone(downstream_relationships)
+        self.assertEqual(len(downstream_relationships), 2)
 
     def test_get_abstract_items(self):
         project = 116
@@ -58,6 +109,11 @@ class TestJamaClient(TestCase):
         data_to_send = json.dumps(data_to_send)
         res_status = self.jama_client.put_test_run(test_run_id, data=data_to_send)
         self.assertEqual(200, res_status)
+
+    def test_get_available_endpoints(self):
+        projects = self.jama_client.get_available_endpoints()
+        self.assertIsNotNone(projects)
+        self.assertEqual(len(projects), 24)
 
     def test_patch_item(self):
         test_item_id = 77962

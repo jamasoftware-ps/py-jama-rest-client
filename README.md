@@ -31,6 +31,9 @@ Create a new directory and install py-jama-rest-client using pipenv.
 
 ### REST Calls Supported in the Client
 
+##### API information
+- GET available endpoints
+
 ##### Abstract Items
 - ~~GET abstract items by document key~~(Deprecated)
 - GET abstract items(second method added to support all parameter options.  Previous method left to preserve backwards 
@@ -39,17 +42,32 @@ compatibility)
 ##### Attachments
 - PUT attachment file, uploads content to an attachment object by attachmentID
 
-##### Projects: 
-- GET all projects
-- POST new attachment item
-
 ##### Items
 - GET all items by project 
+- GET a specific item by ID
+- GET all downstream relationships for an item by item ID
+- GET all upstream relationships for an item by item ID
 - GET all children of an item
 - DELETE an Item by ID
 - PATCH an Item
 - POST an item to a project
 - POST item attachment
+
+##### Item Types
+- GET all item types
+- GET a specific item type by ID
+
+##### Pick lists
+- GET all pick lists
+- GET a specific pick list by ID
+- GET all pick list options for a specific pick list by pick list ID
+
+##### Pick list options
+- GET a specific pick list option by pick list option ID
+
+##### Projects: 
+- GET all projects
+- POST new attachment item
 
 ##### Test Cycles
 - GET test cycle by test cycle id

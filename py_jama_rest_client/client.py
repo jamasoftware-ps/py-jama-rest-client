@@ -45,14 +45,25 @@ class JamaClient:
 
     __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
 
-    def __init__(self, host_domain, credentials=('username', 'password'), api_version='/rest/v1/', oauth=False):
+    def __init__(self, host_domain, credentials=('username|clientID', 'password|clientSecret'), api_version='/rest/v1/', oauth=False):
         """Jama Client initializer
         :rtype: JamaClient
         :param host_domain: String The domain associated with the Jama Connect host
-        :param credentials: the user name and password as a tuple
+        :param credentials: the user name and password as a tuple or client id and client secret if using Oauth.
         :param api_version: valid args are '/rest/[v1|latest|labs]/' """
         self.__credentials = credentials
         self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+
+    def get_available_endpoints(self):
+        """
+        Returns a list of all the available endpoints.
+
+        Returns: an array of available endpoints for this API
+
+        """
+        response = self.__core.get('')
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
 
     def get_projects(self):
         """This method will return all projects as JSON object
@@ -63,11 +74,32 @@ class JamaClient:
         return project_data
 
     def get_items(self, project_id):
-        """This method will return all items in the specified project.  it will return a Json array of item objects"""
+        """
+        This method will return all items in the specified project.
+        Args:
+            project_id: the project ID
+
+        Returns: a Json array of item objects
+
+        """
         resource_path = 'items'
         params = {'project': project_id}
         item_data = self.__get_all(resource_path, params=params)
         return item_data
+
+    def get_item(self, item_id):
+        """
+        This method will return a singular item of a specified item id
+        Args:
+            item_id: the item id of the item to fetch
+
+        Returns: a dictonary object representing the item
+
+        """
+        resource_path = 'items/' + str(item_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
 
     def get_abstract_items_from_doc_key(self, doc_key_list):
         """ DEPRECATED INSTEAD USE get_abstract_items below.
@@ -77,6 +109,85 @@ class JamaClient:
         params = {'documentKey': doc_key_list}
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
+
+    def get_item_types(self):
+        """
+        This method will return all item types of the across all projects of the Jama Connect instance.
+
+        Returns: An array of dictionary objects
+
+        """
+        resource_path = 'itemtypes/'
+        item_types = self.__get_all(resource_path)
+        return item_types
+
+    def get_item_type(self, item_type_id):
+        """
+        Gets item type information for a specific item type id.
+
+        Args:
+            item_type_id: The api id of the item type to fetch
+
+        Returns: JSON object
+
+        """
+        resource_path = 'itemtypes/' + str(item_type_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_pick_lists(self):
+        """
+        Returns a list of all the pick lists
+
+        Returns: an array of dictionary objects
+
+        """
+        resource_path = 'picklists/'
+        pick_lists = self.__get_all(resource_path)
+        return pick_lists
+
+    def get_pick_list(self, pick_list_id):
+        """
+        Gets all a singular picklist
+
+        Args:
+            pick_list_id: The API id of the pick list to fetch
+
+        Returns: a dictionary object representing the picklist.
+
+        """
+        resource_path = 'picklists/' + str(pick_list_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_pick_list_options(self, pick_list_id):
+        """
+        Gets all all the picklist options for a single picklist
+        Args:
+            pick_list_id: the api id of the picklist to fetch options for.
+
+        Returns: an array of dictionary objects that represent the picklist options.
+
+        """
+        resource_path = 'picklists/' + str(pick_list_id) + '/options'
+        pick_list_options = self.__get_all(resource_path)
+        return pick_list_options
+
+    def get_pick_list_option(self, pick_list_option_id):
+        """
+        Fetches a single picklist option from the API
+        Args:
+            pick_list_option_id: The API ID of the picklist option to fetch
+
+        Returns: A dictonary object representing the picklist option.
+
+        """
+        resource_path = 'picklistoptions/' + str(pick_list_option_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
 
     def get_abstract_items(self,
                            project=None,
@@ -160,8 +271,41 @@ class JamaClient:
         testrun_data = self.__get_all(resource_path)
         return testrun_data
 
+    def get_items_upstream_relationships(self, item_id):
+        """
+        Returns a list of all the upstream relationships for the item with the specified ID.
+        Args:
+            item_id: the api id of the item
+
+        Returns: an array of dictionary objects that represent the upstream relationships for the item.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/upstreamrelationships'
+        return self.__get_all(resource_path)
+
+    def get_items_downstream_relationships(self, item_id):
+        """
+        Returns a list of all the downstream relationships for the item with the specified ID.
+
+        Args:
+            item_id: the api id of the item
+
+        Returns: an array of dictionary objects that represent the downstream relationships for the item.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/downstreamrelationships'
+        return self.__get_all(resource_path)
+
     def get_test_cycle(self, test_cycle_id):
-        """ This method will return JSON data about the test cycle specified by the test cycle id."""
+        """
+        This method will return JSON data about the test cycle specified by the test cycle id.
+
+        Args:
+            test_cycle_id: the api id of the test cycle to fetch
+
+        Returns: a dictionary object that represents the test cycle
+
+        """
         resource_path = 'testcycles/' + str(test_cycle_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
