@@ -53,6 +53,10 @@ compatibility)
 - POST an item to a project
 - POST item attachment
 
+##### Relationship Types
+- GET all relationship types
+- GET a specific relationship type by ID
+
 ##### Item Types
 - GET all item types
 - GET a specific item type by ID

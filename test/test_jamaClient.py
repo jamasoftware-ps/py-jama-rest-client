@@ -27,6 +27,18 @@ class TestJamaClient(TestCase):
         item = self.jama_client.get_item(item_id)
         self.assertIsNotNone(item)
 
+    def test_get_relationship_types(self):
+        relationship_types = self.jama_client.get_relationship_types()
+        self.assertIsNotNone(relationship_types)
+        self.assertGreater(len(relationship_types), 1)
+
+    def test_get_relationship_type(self):
+        relationship_id = 4
+        relationship = self.jama_client.get_relationship_type(relationship_id)
+        relationship_name = relationship.get('name')
+        self.assertIsNotNone(relationship)
+        self.assertEqual(relationship_name, 'Related to')
+
     def test_get_item_types(self):
         item_types = self.jama_client.get_item_types()
         self.assertIsNotNone(item_types)
@@ -118,12 +130,12 @@ class TestJamaClient(TestCase):
     def test_patch_item(self):
         test_item_id = 77962
         patches = [
-                {
-                    "op": "replace",
-                    "path": "/fields/name",
-                    "value": "PATCHED: "
-                }
-            ]
+            {
+                "op": "replace",
+                "path": "/fields/name",
+                "value": "PATCHED: "
+            }
+        ]
 
         res_status = self.jama_client.patch_item(test_item_id, patches)
         self.assertEqual("OK", res_status)

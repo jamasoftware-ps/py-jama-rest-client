@@ -45,7 +45,8 @@ class JamaClient:
 
     __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
 
-    def __init__(self, host_domain, credentials=('username|clientID', 'password|clientSecret'), api_version='/rest/v1/', oauth=False):
+    def __init__(self, host_domain, credentials=('username|clientID', 'password|clientSecret'), api_version='/rest/v1/',
+                 oauth=False):
         """Jama Client initializer
         :rtype: JamaClient
         :param host_domain: String The domain associated with the Jama Connect host
@@ -109,6 +110,32 @@ class JamaClient:
         params = {'documentKey': doc_key_list}
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
+
+    def get_relationship_types(self):
+        """
+        This method will return all relationship types of the across all projects of the Jama Connect instance.
+
+        Returns: An array of dictionary objects
+
+        """
+        resource_path = 'relationshiptypes/'
+        item_types = self.__get_all(resource_path)
+        return item_types
+
+    def get_relationship_type(self, relationship_type_id):
+        """
+        Gets relationship type information for a specific relationship type id.
+
+        Args:
+            relationship_type_id: The api id of the item type to fetch
+
+        Returns: JSON object
+
+        """
+        resource_path = 'relationshiptypes/' + str(relationship_type_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
 
     def get_item_types(self):
         """
@@ -355,7 +382,8 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['status']
 
-    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
+    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None,
+                                  testrun_status_to_include=None):
         """
         This method will create a new Test Cycle.
 
@@ -432,8 +460,8 @@ class JamaClient:
 
         """
         body = {
-          "fromItem": from_item,
-          "toItem": to_item,
+            "fromItem": from_item,
+            "toItem": to_item,
         }
         if relationship_type is not None:
             body['relationshipType'] = relationship_type
