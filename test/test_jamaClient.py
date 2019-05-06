@@ -236,7 +236,7 @@ class TestJamaClient(TestCase):
         # Ensure the upload was a success
         self.assertEqual(upload_status, 200)
 
-    @unittest.
+    @unittest.expectedFailure
     def test_post_item_attachment(self):
         # TODO Can only run this once... need to make anew item and post a new attachment to it each time
         item_id = 66972
