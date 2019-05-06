@@ -110,6 +110,34 @@ class JamaClient:
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
 
+
+    def get_relationship_types(self):
+        """
+        This method will return all relationship types of the across all projects of the Jama Connect instance.
+
+        Returns: An array of dictionary objects
+
+        """
+        resource_path = 'relationshiptypes/'
+        item_types = self.__get_all(resource_path)
+        return item_types
+
+    def get_relationship_type(self, relationship_type_id):
+        """
+        Gets relationship type information for a specific relationship type id.
+
+        Args:
+            relationship_type_id: The api id of the item type to fetch
+
+        Returns: JSON object
+
+        """
+        resource_path = 'relationshiptypes/' + str(relationship_type_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+
     def get_item_types(self):
         """
         This method will return all item types of the across all projects of the Jama Connect instance.
