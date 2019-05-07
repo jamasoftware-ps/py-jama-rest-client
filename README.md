@@ -41,6 +41,7 @@ compatibility)
 
 ##### Attachments
 - PUT attachment file, uploads content to an attachment object by attachmentID
+- GET a specific attachment by ID
 
 ##### Items
 - GET all items by project 
