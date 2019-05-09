@@ -258,6 +258,14 @@ class TestJamaClient(TestCase):
         res_status = self.jama_client.post_item_attachment(item_id, attachment_id)
         self.assertEqual(res_status, 201)
 
+    @unittest.skip('Entity Already Exists')
+    def test_post_item_tag(self):
+        item_id = 66972
+        tag_id = 25
+
+        res_status = self.jama_client.post_item_tag(item_id, tag_id)
+        self.assertEqual(res_status, 201)
+
     def test_post_testplan_testcycles(self):
         testplan_id = 66982
         testplan_name = 'unittest'

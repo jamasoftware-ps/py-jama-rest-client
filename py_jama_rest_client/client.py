@@ -479,6 +479,25 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
+    def post_item_tag(self, item_id, tag_id):
+        """
+        Add an existing tag to the item with the specified ID
+        Args:
+            item_id: The API ID of the item to add a tag.
+            tag_id: The API ID of the tag to add to the item.
+
+        Returns: 201 if successful
+
+        """
+        body = {
+            "tag": tag_id
+        }
+        resource_path = 'items/' + str(item_id) + '/tags'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
     def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
         """
 
@@ -560,8 +579,8 @@ class JamaClient:
         return self.__handle_response_status(response)
 
     def __get_all(self, resource, params=None, **kwargs):
-        """This method will get all of the resources specified by the resource parameter, if an id or some other parameter
-        is required for the resource, include it in the params parameter.
+        """This method will get all of the resources specified by the resource parameter, if an id or some other
+        parameter is required for the resource, include it in the params parameter.
         Returns a single JSON array with all of the retrieved items."""
 
         start_index = 0

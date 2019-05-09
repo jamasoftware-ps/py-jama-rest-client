@@ -52,6 +52,7 @@ compatibility)
 - PATCH an Item
 - POST an item to a project
 - POST item attachment
+- POST a tag to an item
 
 ##### Relationship Types
 - GET all relationship types
