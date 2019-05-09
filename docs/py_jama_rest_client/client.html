@@ -503,6 +503,25 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;id&#39;]
 
+    def post_item_tag(self, item_id, tag_id):
+        &#34;&#34;&#34;
+        Add an existing tag to the item with the specified ID
+        Args:
+            item_id: The API ID of the item to add a tag.
+            tag_id: The API ID of the tag to add to the item.
+
+        Returns: 201 if successful
+
+        &#34;&#34;&#34;
+        body = {
+            &#34;tag&#34;: tag_id
+        }
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/tags&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
     def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
         &#34;&#34;&#34;
 
@@ -584,8 +603,8 @@ class JamaClient:
         return self.__handle_response_status(response)
 
     def __get_all(self, resource, params=None, **kwargs):
-        &#34;&#34;&#34;This method will get all of the resources specified by the resource parameter, if an id or some other parameter
-        is required for the resource, include it in the params parameter.
+        &#34;&#34;&#34;This method will get all of the resources specified by the resource parameter, if an id or some other
+        parameter is required for the resource, include it in the params parameter.
         Returns a single JSON array with all of the retrieved items.&#34;&#34;&#34;
 
         start_index = 0
@@ -1181,6 +1200,25 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;id&#39;]
 
+    def post_item_tag(self, item_id, tag_id):
+        &#34;&#34;&#34;
+        Add an existing tag to the item with the specified ID
+        Args:
+            item_id: The API ID of the item to add a tag.
+            tag_id: The API ID of the tag to add to the item.
+
+        Returns: 201 if successful
+
+        &#34;&#34;&#34;
+        body = {
+            &#34;tag&#34;: tag_id
+        }
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/tags&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
     def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
         &#34;&#34;&#34;
 
@@ -1262,8 +1300,8 @@ class JamaClient:
         return self.__handle_response_status(response)
 
     def __get_all(self, resource, params=None, **kwargs):
-        &#34;&#34;&#34;This method will get all of the resources specified by the resource parameter, if an id or some other parameter
-        is required for the resource, include it in the params parameter.
+        &#34;&#34;&#34;This method will get all of the resources specified by the resource parameter, if an id or some other
+        parameter is required for the resource, include it in the params parameter.
         Returns a single JSON array with all of the retrieved items.&#34;&#34;&#34;
 
         start_index = 0
@@ -2108,6 +2146,42 @@ as a list of json objects.</p></section>
     return response.status_code</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_item_tag"><code class="name flex">
+<span>def <span class="ident">post_item_tag</span></span>(<span>self, item_id, tag_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add an existing tag to the item with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item_id</code></strong></dt>
+<dd>The API ID of the item to add a tag.</dd>
+<dt><strong><code>tag_id</code></strong></dt>
+<dd>The API ID of the tag to add to the item.</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>201</code> <code>if</code> <code>successful</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_item_tag(self, item_id, tag_id):
+    &#34;&#34;&#34;
+    Add an existing tag to the item with the specified ID
+    Args:
+        item_id: The API ID of the item to add a tag.
+        tag_id: The API ID of the tag to add to the item.
+
+    Returns: 201 if successful
+
+    &#34;&#34;&#34;
+    body = {
+        &#34;tag&#34;: tag_id
+    }
+    resource_path = &#39;items/&#39; + str(item_id) + &#39;/tags&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    JamaClient.__handle_response_status(response)
+    return response.status_code</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.post_project_attachment"><code class="name flex">
 <span>def <span class="ident">post_project_attachment</span></span>(<span>self, project_id, name, description)</span>
 </code></dt>
@@ -2424,6 +2498,7 @@ include all statuses</dd>
 <li><code><a title="py_jama_rest_client.client.JamaClient.patch_item" href="#py_jama_rest_client.client.JamaClient.patch_item">patch_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_item" href="#py_jama_rest_client.client.JamaClient.post_item">post_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_item_attachment" href="#py_jama_rest_client.client.JamaClient.post_item_attachment">post_item_attachment</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_item_tag" href="#py_jama_rest_client.client.JamaClient.post_item_tag">post_item_tag</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_project_attachment" href="#py_jama_rest_client.client.JamaClient.post_project_attachment">post_project_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_relationship" href="#py_jama_rest_client.client.JamaClient.post_relationship">post_relationship</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_tag" href="#py_jama_rest_client.client.JamaClient.post_tag">post_tag</a></code></li>
