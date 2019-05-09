@@ -1,7 +1,7 @@
 # Contributors Guide
 
 # Create a new version and upload to PyPi
-The general process for creating a relase and uploading it to pypi can be found here: 
+The general process for creating a release and uploading it to pypi can be found here: 
 https://packaging.python.org/tutorials/packaging-projects/
 
 1) Open `setup.py` and edit the version string to reflect the next desired release number.  

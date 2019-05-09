@@ -2,8 +2,6 @@ import json
 
 from .core import Core
 
-__DEBUG__ = False
-
 
 class APIException(Exception):
     """This is the base class for all exceptions raised by the JamaClient"""
@@ -323,6 +321,20 @@ class JamaClient:
         resource_path = 'items/' + str(item_id) + '/downstreamrelationships'
         return self.__get_all(resource_path)
 
+    def get_tags(self, project):
+        """
+        Get all tags for the project with the specified id
+        Args:
+            project: The API ID of the project to fetch tags for.
+
+        Returns: A Json Array that contains all the tag data for the specified project.
+
+        """
+        resource_path = 'tags'
+        params = {'project': project}
+        tag_data = self.__get_all(resource_path, params=params)
+        return tag_data
+
     def get_test_cycle(self, test_cycle_id):
         """
         This method will return JSON data about the test cycle specified by the test cycle id.
@@ -381,6 +393,25 @@ class JamaClient:
         # validate response
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['status']
+
+    def post_tag(self, name: str, project: int):
+        """
+        Create a new tag in the project with the specified ID
+        Args:
+            name: The display name for the tag
+            project: The project to create the new tag in
+
+        Returns: The integer API ID fr the newly created Tag.
+        """
+        resource_path = 'tags'
+        body = {
+            'name': name,
+            'project': project
+        }
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
 
     def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None,
                                   testrun_status_to_include=None):
