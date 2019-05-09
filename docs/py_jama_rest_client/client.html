@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.5.4" />
+<meta name="generator" content="pdoc 0.5.3" />
 <title>py_jama_rest_client.client API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
@@ -25,8 +25,6 @@
 <pre><code class="python">import json
 
 from .core import Core
-
-__DEBUG__ = False
 
 
 class APIException(Exception):
@@ -69,7 +67,8 @@ class JamaClient:
 
     __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
 
-    def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False):
+    def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;,
+                 oauth=False):
         &#34;&#34;&#34;Jama Client initializer
         :rtype: JamaClient
         :param host_domain: String The domain associated with the Jama Connect host
@@ -133,6 +132,32 @@ class JamaClient:
         params = {&#39;documentKey&#39;: doc_key_list}
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
+
+    def get_relationship_types(self):
+        &#34;&#34;&#34;
+        This method will return all relationship types of the across all projects of the Jama Connect instance.
+
+        Returns: An array of dictionary objects
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationshiptypes/&#39;
+        item_types = self.__get_all(resource_path)
+        return item_types
+
+    def get_relationship_type(self, relationship_type_id):
+        &#34;&#34;&#34;
+        Gets relationship type information for a specific relationship type id.
+
+        Args:
+            relationship_type_id: The api id of the item type to fetch
+
+        Returns: JSON object
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationshiptypes/&#39; + str(relationship_type_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
 
     def get_item_types(self):
         &#34;&#34;&#34;
@@ -320,6 +345,20 @@ class JamaClient:
         resource_path = &#39;items/&#39; + str(item_id) + &#39;/downstreamrelationships&#39;
         return self.__get_all(resource_path)
 
+    def get_tags(self, project):
+        &#34;&#34;&#34;
+        Get all tags for the project with the specified id
+        Args:
+            project: The API ID of the project to fetch tags for.
+
+        Returns: A Json Array that contains all the tag data for the specified project.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;tags&#39;
+        params = {&#39;project&#39;: project}
+        tag_data = self.__get_all(resource_path, params=params)
+        return tag_data
+
     def get_test_cycle(self, test_cycle_id):
         &#34;&#34;&#34;
         This method will return JSON data about the test cycle specified by the test cycle id.
@@ -379,7 +418,27 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;status&#39;]
 
-    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
+    def post_tag(self, name: str, project: int):
+        &#34;&#34;&#34;
+        Create a new tag in the project with the specified ID
+        Args:
+            name: The display name for the tag
+            project: The project to create the new tag in
+
+        Returns: The integer API ID fr the newly created Tag.
+        &#34;&#34;&#34;
+        resource_path = &#39;tags&#39;
+        body = {
+            &#39;name&#39;: name,
+            &#39;project&#39;: project
+        }
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None,
+                                  testrun_status_to_include=None):
         &#34;&#34;&#34;
         This method will create a new Test Cycle.
 
@@ -456,8 +515,8 @@ class JamaClient:
 
         &#34;&#34;&#34;
         body = {
-          &#34;fromItem&#34;: from_item,
-          &#34;toItem&#34;: to_item,
+            &#34;fromItem&#34;: from_item,
+            &#34;toItem&#34;: to_item,
         }
         if relationship_type is not None:
             body[&#39;relationshipType&#39;] = relationship_type
@@ -686,7 +745,8 @@ class JamaClient:
 
     __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
 
-    def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False):
+    def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;,
+                 oauth=False):
         &#34;&#34;&#34;Jama Client initializer
         :rtype: JamaClient
         :param host_domain: String The domain associated with the Jama Connect host
@@ -750,6 +810,32 @@ class JamaClient:
         params = {&#39;documentKey&#39;: doc_key_list}
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
+
+    def get_relationship_types(self):
+        &#34;&#34;&#34;
+        This method will return all relationship types of the across all projects of the Jama Connect instance.
+
+        Returns: An array of dictionary objects
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationshiptypes/&#39;
+        item_types = self.__get_all(resource_path)
+        return item_types
+
+    def get_relationship_type(self, relationship_type_id):
+        &#34;&#34;&#34;
+        Gets relationship type information for a specific relationship type id.
+
+        Args:
+            relationship_type_id: The api id of the item type to fetch
+
+        Returns: JSON object
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationshiptypes/&#39; + str(relationship_type_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
 
     def get_item_types(self):
         &#34;&#34;&#34;
@@ -937,6 +1023,20 @@ class JamaClient:
         resource_path = &#39;items/&#39; + str(item_id) + &#39;/downstreamrelationships&#39;
         return self.__get_all(resource_path)
 
+    def get_tags(self, project):
+        &#34;&#34;&#34;
+        Get all tags for the project with the specified id
+        Args:
+            project: The API ID of the project to fetch tags for.
+
+        Returns: A Json Array that contains all the tag data for the specified project.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;tags&#39;
+        params = {&#39;project&#39;: project}
+        tag_data = self.__get_all(resource_path, params=params)
+        return tag_data
+
     def get_test_cycle(self, test_cycle_id):
         &#34;&#34;&#34;
         This method will return JSON data about the test cycle specified by the test cycle id.
@@ -996,7 +1096,27 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;status&#39;]
 
-    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
+    def post_tag(self, name: str, project: int):
+        &#34;&#34;&#34;
+        Create a new tag in the project with the specified ID
+        Args:
+            name: The display name for the tag
+            project: The project to create the new tag in
+
+        Returns: The integer API ID fr the newly created Tag.
+        &#34;&#34;&#34;
+        resource_path = &#39;tags&#39;
+        body = {
+            &#39;name&#39;: name,
+            &#39;project&#39;: project
+        }
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None,
+                                  testrun_status_to_include=None):
         &#34;&#34;&#34;
         This method will create a new Test Cycle.
 
@@ -1073,8 +1193,8 @@ class JamaClient:
 
         &#34;&#34;&#34;
         body = {
-          &#34;fromItem&#34;: from_item,
-          &#34;toItem&#34;: to_item,
+            &#34;fromItem&#34;: from_item,
+            &#34;toItem&#34;: to_item,
         }
         if relationship_type is not None:
             body[&#39;relationshipType&#39;] = relationship_type
@@ -1233,7 +1353,8 @@ class JamaClient:
 :param api_version: valid args are '/rest/[v1|latest|labs]/'</p></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False):
+<pre><code class="python">def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;,
+             oauth=False):
     &#34;&#34;&#34;Jama Client initializer
     :rtype: JamaClient
     :param host_domain: String The domain associated with the Jama Connect host
@@ -1742,6 +1863,87 @@ document keys.</p></section>
     return project_data</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_relationship_type"><code class="name flex">
+<span>def <span class="ident">get_relationship_type</span></span>(<span>self, relationship_type_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets relationship type information for a specific relationship type id.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>relationship_type_id</code></strong></dt>
+<dd>The api id of the item type to fetch</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>JSON</code> <code>object</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_relationship_type(self, relationship_type_id):
+    &#34;&#34;&#34;
+    Gets relationship type information for a specific relationship type id.
+
+    Args:
+        relationship_type_id: The api id of the item type to fetch
+
+    Returns: JSON object
+
+    &#34;&#34;&#34;
+    resource_path = &#39;relationshiptypes/&#39; + str(relationship_type_id)
+    response = self.__core.get(resource_path)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;data&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_relationship_types"><code class="name flex">
+<span>def <span class="ident">get_relationship_types</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will return all relationship types of the across all projects of the Jama Connect instance.</p>
+<dl>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>An</code> <code>array</code> of <code>dictionary</code> <code>objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_relationship_types(self):
+    &#34;&#34;&#34;
+    This method will return all relationship types of the across all projects of the Jama Connect instance.
+
+    Returns: An array of dictionary objects
+
+    &#34;&#34;&#34;
+    resource_path = &#39;relationshiptypes/&#39;
+    item_types = self.__get_all(resource_path)
+    return item_types</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_tags"><code class="name flex">
+<span>def <span class="ident">get_tags</span></span>(<span>self, project)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get all tags for the project with the specified id</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>project</code></strong></dt>
+<dd>The API ID of the project to fetch tags for.</dd>
+</dl>
+<p>Returns: A Json Array that contains all the tag data for the specified project.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_tags(self, project):
+    &#34;&#34;&#34;
+    Get all tags for the project with the specified id
+    Args:
+        project: The API ID of the project to fetch tags for.
+
+    Returns: A Json Array that contains all the tag data for the specified project.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;tags&#39;
+    params = {&#39;project&#39;: project}
+    tag_data = self.__get_all(resource_path, params=params)
+    return tag_data</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_test_cycle"><code class="name flex">
 <span>def <span class="ident">get_test_cycle</span></span>(<span>self, test_cycle_id)</span>
 </code></dt>
@@ -1968,12 +2170,47 @@ The name of the attachment
 
     &#34;&#34;&#34;
     body = {
-      &#34;fromItem&#34;: from_item,
-      &#34;toItem&#34;: to_item,
+        &#34;fromItem&#34;: from_item,
+        &#34;toItem&#34;: to_item,
     }
     if relationship_type is not None:
         body[&#39;relationshipType&#39;] = relationship_type
     resource_path = &#39;relationships/&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_tag"><code class="name flex">
+<span>def <span class="ident">post_tag</span></span>(<span>self, name, project)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a new tag in the project with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The display name for the tag</dd>
+<dt><strong><code>project</code></strong></dt>
+<dd>The project to create the new tag in</dd>
+</dl>
+<p>Returns: The integer API ID fr the newly created Tag.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_tag(self, name: str, project: int):
+    &#34;&#34;&#34;
+    Create a new tag in the project with the specified ID
+    Args:
+        name: The display name for the tag
+        project: The project to create the new tag in
+
+    Returns: The integer API ID fr the newly created Tag.
+    &#34;&#34;&#34;
+    resource_path = &#39;tags&#39;
+    body = {
+        &#39;name&#39;: name,
+        &#39;project&#39;: project
+    }
     headers = {&#39;content-type&#39;: &#39;application/json&#39;}
     response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
     JamaClient.__handle_response_status(response)
@@ -2006,7 +2243,8 @@ include all statuses</dd>
 <p>(int): Returns the integer id for the newly created testcycle, or None if something went terribly wrong.</p></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None, testrun_status_to_include=None):
+<pre><code class="python">def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None,
+                              testrun_status_to_include=None):
     &#34;&#34;&#34;
     This method will create a new Test Cycle.
 
@@ -2178,6 +2416,9 @@ include all statuses</dd>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_pick_list_options" href="#py_jama_rest_client.client.JamaClient.get_pick_list_options">get_pick_list_options</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_pick_lists" href="#py_jama_rest_client.client.JamaClient.get_pick_lists">get_pick_lists</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_projects" href="#py_jama_rest_client.client.JamaClient.get_projects">get_projects</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_relationship_type" href="#py_jama_rest_client.client.JamaClient.get_relationship_type">get_relationship_type</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_relationship_types" href="#py_jama_rest_client.client.JamaClient.get_relationship_types">get_relationship_types</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_tags" href="#py_jama_rest_client.client.JamaClient.get_tags">get_tags</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_test_cycle" href="#py_jama_rest_client.client.JamaClient.get_test_cycle">get_test_cycle</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_testruns" href="#py_jama_rest_client.client.JamaClient.get_testruns">get_testruns</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.patch_item" href="#py_jama_rest_client.client.JamaClient.patch_item">patch_item</a></code></li>
@@ -2185,6 +2426,7 @@ include all statuses</dd>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_item_attachment" href="#py_jama_rest_client.client.JamaClient.post_item_attachment">post_item_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_project_attachment" href="#py_jama_rest_client.client.JamaClient.post_project_attachment">post_project_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_relationship" href="#py_jama_rest_client.client.JamaClient.post_relationship">post_relationship</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_tag" href="#py_jama_rest_client.client.JamaClient.post_tag">post_tag</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_testplans_testcycles" href="#py_jama_rest_client.client.JamaClient.post_testplans_testcycles">post_testplans_testcycles</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.put_attachments_file" href="#py_jama_rest_client.client.JamaClient.put_attachments_file">put_attachments_file</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.put_test_run" href="#py_jama_rest_client.client.JamaClient.put_test_run">put_test_run</a></code></li>
@@ -2205,7 +2447,7 @@ include all statuses</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.4</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.3</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>

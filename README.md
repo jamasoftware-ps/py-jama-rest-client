@@ -73,6 +73,10 @@ compatibility)
 - GET all projects
 - POST new attachment item
 
+##### Tags
+- GET all tags for a specific project
+- POST a new tag to a specific project
+
 ##### Test Cycles
 - GET test cycle by test cycle id
 

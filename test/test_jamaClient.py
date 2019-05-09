@@ -39,6 +39,12 @@ class TestJamaClient(TestCase):
         self.assertIsNotNone(relationship)
         self.assertEqual(relationship_name, 'Related to')
 
+    def test_get_tags(self):
+        project_id = 116
+        tags = self.jama_client.get_tags(project_id)
+        self.assertIsNotNone(tags)
+        self.assertGreater(len(tags), 1)
+
     def test_get_item_types(self):
         item_types = self.jama_client.get_item_types()
         self.assertIsNotNone(item_types)
@@ -140,6 +146,13 @@ class TestJamaClient(TestCase):
         res_status = self.jama_client.patch_item(test_item_id, patches)
         self.assertEqual("OK", res_status)
 
+    @unittest.skip('Entity Already Exists')
+    def test_post_tag(self):
+        project_id = 116
+        tag_name = 'Test_tag'
+        tag_id = self.jama_client.post_tag(tag_name, project_id)
+        self.assertIsNotNone(tag_id)
+
     def test_post_items(self):
         project_id = 116
         item_type = 104
@@ -236,7 +249,7 @@ class TestJamaClient(TestCase):
         # Ensure the upload was a success
         self.assertEqual(upload_status, 200)
 
-    @unittest.expectedFailure
+    @unittest.skip('Entity Already Exists')
     def test_post_item_attachment(self):
         # TODO Can only run this once... need to make anew item and post a new attachment to it each time
         item_id = 66972
