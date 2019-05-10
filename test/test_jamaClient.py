@@ -27,6 +27,11 @@ class TestJamaClient(TestCase):
         item = self.jama_client.get_item(item_id)
         self.assertIsNotNone(item)
 
+    def test_get_attachment(self):
+        attachment_id = 67548
+        attachment = self.jama_client.get_attachment(attachment_id)
+        self.assertIsNotNone(attachment)
+
     def test_get_relationship_types(self):
         relationship_types = self.jama_client.get_relationship_types()
         self.assertIsNotNone(relationship_types)
