@@ -1,6 +1,7 @@
 import json
 
 from .core import Core
+from typing import Union
 
 
 class APIException(Exception):
@@ -576,7 +577,15 @@ class JamaClient:
         resource_path = 'testruns/' + str(test_run_id)
         headers = {'content-type': 'application/json'}
         response = self.__core.put(resource_path, data=data, headers=headers)
-        return self.__handle_response_status(response)
+        self.__handle_response_status(response)
+        return response.status_code
+
+    def put_item(self, item_id: Union[int, str], data: dict):
+        resource_path = 'items/' + str(test_run_id)
+        headers = {'content-type': 'application/json'}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        self.__handle_response_status(response)
+        return response.status_code
 
     def __get_all(self, resource, params=None, **kwargs):
         """This method will get all of the resources specified by the resource parameter, if an id or some other

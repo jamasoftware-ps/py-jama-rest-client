@@ -4,3 +4,4 @@ build/
 py_jama_rest_client.egg-info/
 __pycache__/
 venv/
+.vscode
