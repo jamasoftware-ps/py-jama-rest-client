@@ -604,6 +604,20 @@ class JamaClient:
         self.__handle_response_status(response)
         return response.status_code
 
+    def get_item_lock(self, item_id: Union[int, str]):
+        resource_path = f"items/{item_id}/lock"
+        headers = {"content-type": "application/json"}
+        response = self.__core.get(resource_path)
+        self.__handle_response_status(response)
+        return response.status_code
+
+    def put_item_lock(self, item_id: Union[int, str], locked: bool):
+        resource_path = f"items/{item_id}/lock"
+        headers = {"content-type": "application/json"}
+        response = self.__core.put(resource_path, data=json.dumps({'locked': locked}))
+        self.__handle_response_status(response)
+        return response.status_code
+
     def __get_all(self, resource, params=None, **kwargs):
         """This method will get all of the resources specified by the resource parameter, if an id or some other
         parameter is required for the resource, include it in the params parameter.
