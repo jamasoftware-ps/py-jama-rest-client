@@ -39,6 +39,21 @@ class TestJamaClient(TestCase):
         self.assertIsNotNone(relationship)
         self.assertEqual(relationship_name, 'Related to')
 
+    def test_get_relationship(self):
+        relationship_id = 1184
+        relationship = self.jama_client.get_relationship(relationship_id)
+        from_item = relationship.get('fromItem')
+        to_item = relationship.get('toItem')
+        self.assertIsNotNone(relationship)
+        self.assertEqual(from_item, 66999)
+        self.assertEqual(to_item, 66998)
+
+    def test_get_relationships(self):
+        project_id = 116
+        relationships = self.jama_client.get_relationships(project_id)
+        self.assertIsNotNone(relationships)
+        self.assertGreater(len(relationships), 1)
+
     def test_get_tags(self):
         project_id = 116
         tags = self.jama_client.get_tags(project_id)
@@ -145,6 +160,15 @@ class TestJamaClient(TestCase):
 
         res_status = self.jama_client.patch_item(test_item_id, patches)
         self.assertEqual("OK", res_status)
+
+    @unittest.skip('Entity Already Exists')
+    def test_post_relationship(self):
+        from_item = 104755
+        to_item = 104752
+        relationship_type = 4
+        relationship = self.jama_client.post_relationship(from_item, to_item, relationship_type)
+        self.assertIsNotNone(relationship)
+        #
 
     @unittest.skip('Entity Already Exists')
     def test_post_tag(self):
