@@ -239,7 +239,7 @@ class JamaClient:
         Returns: a dictionary object that represents a relationship
 
         """
-        resource_path = 'items/' + str(relationship_id)
+        resource_path = 'relationships/' + str(relationship_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
