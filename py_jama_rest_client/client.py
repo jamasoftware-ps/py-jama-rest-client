@@ -670,37 +670,29 @@ class JamaClient:
 
         if status in range(200, 300):
             return status
-
-        if status in range(400, 500):
-            """These are client errors. It is likely that something is wrong with the request."""
-            if status == 401:
-                raise UnauthorizedException(
-                    "Unauthorized: check credentials and permissions."
-                )
-
-            if status == 404:
-                raise ResourceNotFoundException("Resource not found. check host url.")
-
-            if status == 429:
-                raise TooManyRequestsException(
-                    "Too many requests.  API throttling limit reached, or system under "
-                    "maintenance."
-                )
-
+        
+        else:
             try:
                 response_json = json.loads(response.text)
                 response_message = response_json.get("meta").get("message")
+                if status == 401:
+                    raise UnauthorizedException(response_message)
+
+                elif status == 404:
+                    raise ResourceNotFoundException(response_message)
+
+                elif status == 429:
+                    raise TooManyRequestsException(response_message)
+                elif status in range(500, 600):
+                    raise APIServerException("{} Server Error.".format(status))
+
 
                 if "already exists" in response_message:
-                    raise AlreadyExistsException("Entity already Exists.")
+                    raise AlreadyExistsException(response_message)
 
             except json.JSONDecodeError:
                 pass
 
             raise APIClientException(
-                "{} Client Error.  Bad Request.  ".format(status) + response.reason
-            )
-
-        if status in range(500, 600):
-            """These are server errors and network errors."""
-            raise APIServerException("{} Server Error.".format(status))
+                        "{} Client Error.  Bad Request.  ".format(status) + response_message
+                    )
