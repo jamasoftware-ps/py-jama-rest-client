@@ -626,7 +626,7 @@ class JamaClient:
         :param item_id integer representing the item which is to be updated
         :param item_type_id integer ID of an Item Type.
         :param child_item_type_id integer ID of an Item Type.
-        :param location dictionary with integer ID of the parent item or project.
+        :param location dictionary with integer ID of the parent item or project EX.{"item":0,"project:0}
         :param fields dictionary item field data.
         :return integer ID of the successfully posted item or None if there was an error."""
 
