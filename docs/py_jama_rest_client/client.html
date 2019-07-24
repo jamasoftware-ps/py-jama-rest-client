@@ -29,7 +29,11 @@ from .core import Core
 
 class APIException(Exception):
     &#34;&#34;&#34;This is the base class for all exceptions raised by the JamaClient&#34;&#34;&#34;
-    pass
+
+    def __init__(self, message, status_code=None, reason=None):
+        super(APIException, self).__init__(message)
+        self.status_code = status_code
+        self.reason = reason
 
 
 class UnauthorizedException(APIException):
@@ -124,6 +128,40 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
 
+    def get_item_lock(self, item_id):
+        &#34;&#34;&#34;
+        Get the locked state, last locked date, and last locked by user for the item with the specified ID
+        Args:
+            item_id: The API ID of the item to get the lock info for.
+
+        Returns:
+            A JSON object with the lock information for the item with the specified ID.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/lock&#39;
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
+    def put_item_lock(self, item_id, locked):
+        &#34;&#34;&#34;
+        Update the locked state of the item with the specified ID
+        Args:
+            item_id: the API id of the item to be updated
+            locked: boolean lock state to apply to this item
+
+        Returns:
+            response status 200
+
+        &#34;&#34;&#34;
+        body = {
+            &#34;locked&#34;: locked,
+        }
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/lock&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
+
     def get_attachment(self, attachment_id):
         &#34;&#34;&#34;
         This method will return a singular attachment of a specified attachment id
@@ -199,6 +237,37 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
 
+    def get_items_synceditems(self, item_id):
+        &#34;&#34;&#34;
+        Get all synchronized items for the item with the specified ID
+
+        Args:
+            item_id: The API id of the item being
+
+        Returns: A list of JSON Objects representing the items that are in the same synchronization group as the
+        specified item.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/synceditems&#39;
+        synced_items = self.__get_all(resource_path)
+        return synced_items
+
+    def get_items_synceditems_status(self, item_id, synced_item_id):
+        &#34;&#34;&#34;
+        Get the sync status for the synced item with the specified ID
+
+        Args:
+            item_id: The id of the item to compare against
+            synced_item_id: the id of the item to check if it is in sync
+
+        Returns: The response JSON from the API which contains a single field &#39;inSync&#39; with a boolean value.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/synceditems/&#39; + str(synced_item_id) + &#39;/syncstatus&#39;
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
     def get_pick_lists(self):
         &#34;&#34;&#34;
         Returns a list of all the pick lists
@@ -248,6 +317,36 @@ class JamaClient:
 
         &#34;&#34;&#34;
         resource_path = &#39;picklistoptions/&#39; + str(pick_list_option_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
+    def get_relationships(self, project_id):
+        &#34;&#34;&#34;
+        Returns a list of all relationships of a specified project
+
+        Args:
+            project_id: the api project id of a project
+
+        Returns: a list of dictionary objects that represents a relationships
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationships&#39;
+        params = {&#39;project&#39;: project_id}
+        relationship_data = self.__get_all(resource_path, params=params)
+        return relationship_data
+
+    def get_relationship(self, relationship_id):
+        &#34;&#34;&#34;
+        Returns a specific relationship object of a specified relationship ID
+
+        Args:
+            relationship_id: the api project id of a relationship
+
+        Returns: a dictionary object that represents a relationship
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationships/&#39; + str(relationship_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
@@ -398,6 +497,21 @@ class JamaClient:
         Returns: The success status code.
         &#34;&#34;&#34;
         resource_path = &#39;items/&#39; + str(item_id)
+        response = self.__core.delete(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+    def delete_relationships(self, relationship_id):
+        &#34;&#34;&#34;
+        Deletes a relationship with the specified relationship ID
+
+        Args:
+            relationship_id: the api project id of a relationship
+
+        Returns: The success status code.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationships/&#39; + str(relationship_id)
         response = self.__core.delete(resource_path)
         JamaClient.__handle_response_status(response)
         return response.status_code
@@ -593,6 +707,31 @@ class JamaClient:
         response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def put_item(self, project, item_id, item_type_id, child_item_type_id, location, fields):
+        &#34;&#34;&#34; This method wil
+         PUT a new item to Jama Connect.
+        :param project integer representing the project to which this item is to be posted
+        :param item_id integer representing the item which is to be updated
+        :param item_type_id integer ID of an Item Type.
+        :param child_item_type_id integer ID of an Item Type.
+        :param location dictionary with integer ID of the parent item or project EX.{&#34;item&#34;:0,&#34;project:0}
+        :param fields dictionary item field data.
+        :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
+
+        body = {
+            &#34;project&#34;: project,
+            &#34;itemType&#34;: item_type_id,
+            &#34;childItemType&#34;: child_item_type_id,
+            &#34;location&#34;: {
+                &#34;parent&#34;: location
+            },
+            &#34;fields&#34;: fields
+        }
+        resource_path = &#39;items/&#39; + str(item_id)
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
 
     def put_attachments_file(self, attachment_id, file_path):
         &#34;&#34;&#34;
@@ -717,6 +856,14 @@ class JamaClient:
     &#34;&#34;&#34;This exception is thrown whenever a unknown 400 error is encountered.&#34;&#34;&#34;
     pass</code></pre>
 </details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a></b></code>:
+<ul class="hlist">
+<li><code><a title="py_jama_rest_client.client.APIException.__init__" href="#py_jama_rest_client.client.APIException.__init__">__init__</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="py_jama_rest_client.client.APIException"><code class="flex name class">
 <span>class <span class="ident">APIException</span></span>
@@ -728,17 +875,38 @@ class JamaClient:
 <summary>Source code</summary>
 <pre><code class="python">class APIException(Exception):
     &#34;&#34;&#34;This is the base class for all exceptions raised by the JamaClient&#34;&#34;&#34;
-    pass</code></pre>
+
+    def __init__(self, message, status_code=None, reason=None):
+        super(APIException, self).__init__(message)
+        self.status_code = status_code
+        self.reason = reason</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="py_jama_rest_client.client.TooManyRequestsException" href="#py_jama_rest_client.client.TooManyRequestsException">TooManyRequestsException</a></li>
 <li><a title="py_jama_rest_client.client.UnauthorizedException" href="#py_jama_rest_client.client.UnauthorizedException">UnauthorizedException</a></li>
+<li><a title="py_jama_rest_client.client.TooManyRequestsException" href="#py_jama_rest_client.client.TooManyRequestsException">TooManyRequestsException</a></li>
+<li><a title="py_jama_rest_client.client.ResourceNotFoundException" href="#py_jama_rest_client.client.ResourceNotFoundException">ResourceNotFoundException</a></li>
+<li><a title="py_jama_rest_client.client.AlreadyExistsException" href="#py_jama_rest_client.client.AlreadyExistsException">AlreadyExistsException</a></li>
 <li><a title="py_jama_rest_client.client.APIClientException" href="#py_jama_rest_client.client.APIClientException">APIClientException</a></li>
 <li><a title="py_jama_rest_client.client.APIServerException" href="#py_jama_rest_client.client.APIServerException">APIServerException</a></li>
-<li><a title="py_jama_rest_client.client.AlreadyExistsException" href="#py_jama_rest_client.client.AlreadyExistsException">AlreadyExistsException</a></li>
-<li><a title="py_jama_rest_client.client.ResourceNotFoundException" href="#py_jama_rest_client.client.ResourceNotFoundException">ResourceNotFoundException</a></li>
 </ul>
+<h3>Methods</h3>
+<dl>
+<dt id="py_jama_rest_client.client.APIException.__init__"><code class="name flex">
+<span>def <span class="ident">__init__</span></span>(<span>self, message, status_code=None, reason=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Initialize self.
+See help(type(self)) for accurate signature.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def __init__(self, message, status_code=None, reason=None):
+    super(APIException, self).__init__(message)
+    self.status_code = status_code
+    self.reason = reason</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 <dt id="py_jama_rest_client.client.APIServerException"><code class="flex name class">
 <span>class <span class="ident">APIServerException</span></span>
@@ -752,6 +920,14 @@ class JamaClient:
     &#34;&#34;&#34;This exception is thrown whenever an unknown 500 response is encountered.&#34;&#34;&#34;
     pass</code></pre>
 </details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a></b></code>:
+<ul class="hlist">
+<li><code><a title="py_jama_rest_client.client.APIException.__init__" href="#py_jama_rest_client.client.APIException.__init__">__init__</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="py_jama_rest_client.client.AlreadyExistsException"><code class="flex name class">
 <span>class <span class="ident">AlreadyExistsException</span></span>
@@ -765,6 +941,14 @@ class JamaClient:
     &#34;&#34;&#34;This exception is thrown when the API returns a 400 response with a message that the resource already exists.&#34;&#34;&#34;
     pass</code></pre>
 </details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a></b></code>:
+<ul class="hlist">
+<li><code><a title="py_jama_rest_client.client.APIException.__init__" href="#py_jama_rest_client.client.APIException.__init__">__init__</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient"><code class="flex name class">
 <span>class <span class="ident">JamaClient</span></span>
@@ -834,6 +1018,40 @@ class JamaClient:
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
+
+    def get_item_lock(self, item_id):
+        &#34;&#34;&#34;
+        Get the locked state, last locked date, and last locked by user for the item with the specified ID
+        Args:
+            item_id: The API ID of the item to get the lock info for.
+
+        Returns:
+            A JSON object with the lock information for the item with the specified ID.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/lock&#39;
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
+    def put_item_lock(self, item_id, locked):
+        &#34;&#34;&#34;
+        Update the locked state of the item with the specified ID
+        Args:
+            item_id: the API id of the item to be updated
+            locked: boolean lock state to apply to this item
+
+        Returns:
+            response status 200
+
+        &#34;&#34;&#34;
+        body = {
+            &#34;locked&#34;: locked,
+        }
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/lock&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
 
     def get_attachment(self, attachment_id):
         &#34;&#34;&#34;
@@ -910,6 +1128,37 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
 
+    def get_items_synceditems(self, item_id):
+        &#34;&#34;&#34;
+        Get all synchronized items for the item with the specified ID
+
+        Args:
+            item_id: The API id of the item being
+
+        Returns: A list of JSON Objects representing the items that are in the same synchronization group as the
+        specified item.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/synceditems&#39;
+        synced_items = self.__get_all(resource_path)
+        return synced_items
+
+    def get_items_synceditems_status(self, item_id, synced_item_id):
+        &#34;&#34;&#34;
+        Get the sync status for the synced item with the specified ID
+
+        Args:
+            item_id: The id of the item to compare against
+            synced_item_id: the id of the item to check if it is in sync
+
+        Returns: The response JSON from the API which contains a single field &#39;inSync&#39; with a boolean value.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/synceditems/&#39; + str(synced_item_id) + &#39;/syncstatus&#39;
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
     def get_pick_lists(self):
         &#34;&#34;&#34;
         Returns a list of all the pick lists
@@ -959,6 +1208,36 @@ class JamaClient:
 
         &#34;&#34;&#34;
         resource_path = &#39;picklistoptions/&#39; + str(pick_list_option_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
+    def get_relationships(self, project_id):
+        &#34;&#34;&#34;
+        Returns a list of all relationships of a specified project
+
+        Args:
+            project_id: the api project id of a project
+
+        Returns: a list of dictionary objects that represents a relationships
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationships&#39;
+        params = {&#39;project&#39;: project_id}
+        relationship_data = self.__get_all(resource_path, params=params)
+        return relationship_data
+
+    def get_relationship(self, relationship_id):
+        &#34;&#34;&#34;
+        Returns a specific relationship object of a specified relationship ID
+
+        Args:
+            relationship_id: the api project id of a relationship
+
+        Returns: a dictionary object that represents a relationship
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationships/&#39; + str(relationship_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
@@ -1109,6 +1388,21 @@ class JamaClient:
         Returns: The success status code.
         &#34;&#34;&#34;
         resource_path = &#39;items/&#39; + str(item_id)
+        response = self.__core.delete(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+    def delete_relationships(self, relationship_id):
+        &#34;&#34;&#34;
+        Deletes a relationship with the specified relationship ID
+
+        Args:
+            relationship_id: the api project id of a relationship
+
+        Returns: The success status code.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;relationships/&#39; + str(relationship_id)
         response = self.__core.delete(resource_path)
         JamaClient.__handle_response_status(response)
         return response.status_code
@@ -1304,6 +1598,31 @@ class JamaClient:
         response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
+    def put_item(self, project, item_id, item_type_id, child_item_type_id, location, fields):
+        &#34;&#34;&#34; This method wil
+         PUT a new item to Jama Connect.
+        :param project integer representing the project to which this item is to be posted
+        :param item_id integer representing the item which is to be updated
+        :param item_type_id integer ID of an Item Type.
+        :param child_item_type_id integer ID of an Item Type.
+        :param location dictionary with integer ID of the parent item or project EX.{&#34;item&#34;:0,&#34;project:0}
+        :param fields dictionary item field data.
+        :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
+
+        body = {
+            &#34;project&#34;: project,
+            &#34;itemType&#34;: item_type_id,
+            &#34;childItemType&#34;: child_item_type_id,
+            &#34;location&#34;: {
+                &#34;parent&#34;: location
+            },
+            &#34;fields&#34;: fields
+        }
+        resource_path = &#39;items/&#39; + str(item_id)
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
 
     def put_attachments_file(self, attachment_id, file_path):
         &#34;&#34;&#34;
@@ -1453,6 +1772,35 @@ class JamaClient:
     Returns: The success status code.
     &#34;&#34;&#34;
     resource_path = &#39;items/&#39; + str(item_id)
+    response = self.__core.delete(resource_path)
+    JamaClient.__handle_response_status(response)
+    return response.status_code</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.delete_relationships"><code class="name flex">
+<span>def <span class="ident">delete_relationships</span></span>(<span>self, relationship_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Deletes a relationship with the specified relationship ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>relationship_id</code></strong></dt>
+<dd>the api project id of a relationship</dd>
+</dl>
+<p>Returns: The success status code.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def delete_relationships(self, relationship_id):
+    &#34;&#34;&#34;
+    Deletes a relationship with the specified relationship ID
+
+    Args:
+        relationship_id: the api project id of a relationship
+
+    Returns: The success status code.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;relationships/&#39; + str(relationship_id)
     response = self.__core.delete(resource_path)
     JamaClient.__handle_response_status(response)
     return response.status_code</code></pre>
@@ -1699,6 +2047,36 @@ document keys.</p></section>
     return child_items</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_item_lock"><code class="name flex">
+<span>def <span class="ident">get_item_lock</span></span>(<span>self, item_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get the locked state, last locked date, and last locked by user for the item with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item_id</code></strong></dt>
+<dd>The API ID of the item to get the lock info for.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A JSON object with the lock information for the item with the specified ID.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_item_lock(self, item_id):
+    &#34;&#34;&#34;
+    Get the locked state, last locked date, and last locked by user for the item with the specified ID
+    Args:
+        item_id: The API ID of the item to get the lock info for.
+
+    Returns:
+        A JSON object with the lock information for the item with the specified ID.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;items/&#39; + str(item_id) + &#39;/lock&#39;
+    response = self.__core.get(resource_path)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;data&#39;]</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_item_type"><code class="name flex">
 <span>def <span class="ident">get_item_type</span></span>(<span>self, item_type_id)</span>
 </code></dt>
@@ -1806,6 +2184,69 @@ document keys.</p></section>
     &#34;&#34;&#34;
     resource_path = &#39;items/&#39; + str(item_id) + &#39;/downstreamrelationships&#39;
     return self.__get_all(resource_path)</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_items_synceditems"><code class="name flex">
+<span>def <span class="ident">get_items_synceditems</span></span>(<span>self, item_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get all synchronized items for the item with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item_id</code></strong></dt>
+<dd>The API id of the item being</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>A</code> <code>list</code> of <code>JSON</code> <code>Objects</code> <code>representing</code> <code>the</code> <code>items</code> <code>that</code> <code>are</code> <code>in</code> <code>the</code> <code>same</code> <code>synchronization</code> <code>group</code> <code>as</code> <code>the</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>specified item.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_items_synceditems(self, item_id):
+    &#34;&#34;&#34;
+    Get all synchronized items for the item with the specified ID
+
+    Args:
+        item_id: The API id of the item being
+
+    Returns: A list of JSON Objects representing the items that are in the same synchronization group as the
+    specified item.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;items/&#39; + str(item_id) + &#39;/synceditems&#39;
+    synced_items = self.__get_all(resource_path)
+    return synced_items</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_items_synceditems_status"><code class="name flex">
+<span>def <span class="ident">get_items_synceditems_status</span></span>(<span>self, item_id, synced_item_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get the sync status for the synced item with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item_id</code></strong></dt>
+<dd>The id of the item to compare against</dd>
+<dt><strong><code>synced_item_id</code></strong></dt>
+<dd>the id of the item to check if it is in sync</dd>
+</dl>
+<p>Returns: The response JSON from the API which contains a single field 'inSync' with a boolean value.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_items_synceditems_status(self, item_id, synced_item_id):
+    &#34;&#34;&#34;
+    Get the sync status for the synced item with the specified ID
+
+    Args:
+        item_id: The id of the item to compare against
+        synced_item_id: the id of the item to check if it is in sync
+
+    Returns: The response JSON from the API which contains a single field &#39;inSync&#39; with a boolean value.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;items/&#39; + str(item_id) + &#39;/synceditems/&#39; + str(synced_item_id) + &#39;/syncstatus&#39;
+    response = self.__core.get(resource_path)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;data&#39;]</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_items_upstream_relationships"><code class="name flex">
@@ -1958,6 +2399,36 @@ document keys.</p></section>
     return project_data</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_relationship"><code class="name flex">
+<span>def <span class="ident">get_relationship</span></span>(<span>self, relationship_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns a specific relationship object of a specified relationship ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>relationship_id</code></strong></dt>
+<dd>the api project id of a relationship</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>a</code> <code>dictionary</code> <code>object</code> <code>that</code> <code>represents</code> <code>a</code> <code>relationship</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_relationship(self, relationship_id):
+    &#34;&#34;&#34;
+    Returns a specific relationship object of a specified relationship ID
+
+    Args:
+        relationship_id: the api project id of a relationship
+
+    Returns: a dictionary object that represents a relationship
+
+    &#34;&#34;&#34;
+    resource_path = &#39;relationships/&#39; + str(relationship_id)
+    response = self.__core.get(resource_path)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;data&#39;]</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_relationship_type"><code class="name flex">
 <span>def <span class="ident">get_relationship_type</span></span>(<span>self, relationship_type_id)</span>
 </code></dt>
@@ -2009,6 +2480,36 @@ document keys.</p></section>
     resource_path = &#39;relationshiptypes/&#39;
     item_types = self.__get_all(resource_path)
     return item_types</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_relationships"><code class="name flex">
+<span>def <span class="ident">get_relationships</span></span>(<span>self, project_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns a list of all relationships of a specified project</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>project_id</code></strong></dt>
+<dd>the api project id of a project</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>a</code> <code>list</code> of <code>dictionary</code> <code>objects</code> <code>that</code> <code>represents</code> <code>a</code> <code>relationships</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_relationships(self, project_id):
+    &#34;&#34;&#34;
+    Returns a list of all relationships of a specified project
+
+    Args:
+        project_id: the api project id of a project
+
+    Returns: a list of dictionary objects that represents a relationships
+
+    &#34;&#34;&#34;
+    resource_path = &#39;relationships&#39;
+    params = {&#39;project&#39;: project_id}
+    relationship_data = self.__get_all(resource_path, params=params)
+    return relationship_data</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_tags"><code class="name flex">
@@ -2443,6 +2944,83 @@ include all statuses</dd>
     return response.status_code</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.put_item"><code class="name flex">
+<span>def <span class="ident">put_item</span></span>(<span>self, project, item_id, item_type_id, child_item_type_id, location, fields)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method wil
+PUT a new item to Jama Connect.
+:param project integer representing the project to which this item is to be posted
+:param item_id integer representing the item which is to be updated
+:param item_type_id integer ID of an Item Type.
+:param child_item_type_id integer ID of an Item Type.
+:param location dictionary with integer ID of the parent item or project EX.{"item":0,"project:0}
+:param fields dictionary item field data.
+:return integer ID of the successfully posted item or None if there was an error.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def put_item(self, project, item_id, item_type_id, child_item_type_id, location, fields):
+    &#34;&#34;&#34; This method wil
+     PUT a new item to Jama Connect.
+    :param project integer representing the project to which this item is to be posted
+    :param item_id integer representing the item which is to be updated
+    :param item_type_id integer ID of an Item Type.
+    :param child_item_type_id integer ID of an Item Type.
+    :param location dictionary with integer ID of the parent item or project EX.{&#34;item&#34;:0,&#34;project:0}
+    :param fields dictionary item field data.
+    :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
+
+    body = {
+        &#34;project&#34;: project,
+        &#34;itemType&#34;: item_type_id,
+        &#34;childItemType&#34;: child_item_type_id,
+        &#34;location&#34;: {
+            &#34;parent&#34;: location
+        },
+        &#34;fields&#34;: fields
+    }
+    resource_path = &#39;items/&#39; + str(item_id)
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+    return self.__handle_response_status(response)</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.put_item_lock"><code class="name flex">
+<span>def <span class="ident">put_item_lock</span></span>(<span>self, item_id, locked)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Update the locked state of the item with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item_id</code></strong></dt>
+<dd>the API id of the item to be updated</dd>
+<dt><strong><code>locked</code></strong></dt>
+<dd>boolean lock state to apply to this item</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>response status 200</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def put_item_lock(self, item_id, locked):
+    &#34;&#34;&#34;
+    Update the locked state of the item with the specified ID
+    Args:
+        item_id: the API id of the item to be updated
+        locked: boolean lock state to apply to this item
+
+    Returns:
+        response status 200
+
+    &#34;&#34;&#34;
+    body = {
+        &#34;locked&#34;: locked,
+    }
+    resource_path = &#39;items/&#39; + str(item_id) + &#39;/lock&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+    return self.__handle_response_status(response)</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.put_test_run"><code class="name flex">
 <span>def <span class="ident">put_test_run</span></span>(<span>self, test_run_id, data=None)</span>
 </code></dt>
@@ -2472,6 +3050,14 @@ include all statuses</dd>
     &#34;&#34;&#34;This exception is raised whenever the api returns a 404 not found response.&#34;&#34;&#34;
     pass</code></pre>
 </details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a></b></code>:
+<ul class="hlist">
+<li><code><a title="py_jama_rest_client.client.APIException.__init__" href="#py_jama_rest_client.client.APIException.__init__">__init__</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="py_jama_rest_client.client.TooManyRequestsException"><code class="flex name class">
 <span>class <span class="ident">TooManyRequestsException</span></span>
@@ -2485,6 +3071,14 @@ include all statuses</dd>
     &#34;&#34;&#34;This exception is thrown whenever the api returns a 429 too many requests response.&#34;&#34;&#34;
     pass</code></pre>
 </details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a></b></code>:
+<ul class="hlist">
+<li><code><a title="py_jama_rest_client.client.APIException.__init__" href="#py_jama_rest_client.client.APIException.__init__">__init__</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="py_jama_rest_client.client.UnauthorizedException"><code class="flex name class">
 <span>class <span class="ident">UnauthorizedException</span></span>
@@ -2498,6 +3092,14 @@ include all statuses</dd>
     &#34;&#34;&#34;This exception is thrown whenever the api returns a 401 unauthorized response.&#34;&#34;&#34;
     pass</code></pre>
 </details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a></b></code>:
+<ul class="hlist">
+<li><code><a title="py_jama_rest_client.client.APIException.__init__" href="#py_jama_rest_client.client.APIException.__init__">__init__</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -2520,6 +3122,9 @@ include all statuses</dd>
 </li>
 <li>
 <h4><code><a title="py_jama_rest_client.client.APIException" href="#py_jama_rest_client.client.APIException">APIException</a></code></h4>
+<ul class="">
+<li><code><a title="py_jama_rest_client.client.APIException.__init__" href="#py_jama_rest_client.client.APIException.__init__">__init__</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="py_jama_rest_client.client.APIServerException" href="#py_jama_rest_client.client.APIServerException">APIServerException</a></code></h4>
@@ -2532,24 +3137,30 @@ include all statuses</dd>
 <ul class="">
 <li><code><a title="py_jama_rest_client.client.JamaClient.__init__" href="#py_jama_rest_client.client.JamaClient.__init__">__init__</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.delete_item" href="#py_jama_rest_client.client.JamaClient.delete_item">delete_item</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.delete_relationships" href="#py_jama_rest_client.client.JamaClient.delete_relationships">delete_relationships</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items" href="#py_jama_rest_client.client.JamaClient.get_abstract_items">get_abstract_items</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key" href="#py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key">get_abstract_items_from_doc_key</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_attachment" href="#py_jama_rest_client.client.JamaClient.get_attachment">get_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_available_endpoints" href="#py_jama_rest_client.client.JamaClient.get_available_endpoints">get_available_endpoints</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item" href="#py_jama_rest_client.client.JamaClient.get_item">get_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_children" href="#py_jama_rest_client.client.JamaClient.get_item_children">get_item_children</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_item_lock" href="#py_jama_rest_client.client.JamaClient.get_item_lock">get_item_lock</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_type" href="#py_jama_rest_client.client.JamaClient.get_item_type">get_item_type</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_types" href="#py_jama_rest_client.client.JamaClient.get_item_types">get_item_types</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_items" href="#py_jama_rest_client.client.JamaClient.get_items">get_items</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_items_downstream_relationships" href="#py_jama_rest_client.client.JamaClient.get_items_downstream_relationships">get_items_downstream_relationships</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_items_synceditems" href="#py_jama_rest_client.client.JamaClient.get_items_synceditems">get_items_synceditems</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_items_synceditems_status" href="#py_jama_rest_client.client.JamaClient.get_items_synceditems_status">get_items_synceditems_status</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_items_upstream_relationships" href="#py_jama_rest_client.client.JamaClient.get_items_upstream_relationships">get_items_upstream_relationships</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_pick_list" href="#py_jama_rest_client.client.JamaClient.get_pick_list">get_pick_list</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_pick_list_option" href="#py_jama_rest_client.client.JamaClient.get_pick_list_option">get_pick_list_option</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_pick_list_options" href="#py_jama_rest_client.client.JamaClient.get_pick_list_options">get_pick_list_options</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_pick_lists" href="#py_jama_rest_client.client.JamaClient.get_pick_lists">get_pick_lists</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_projects" href="#py_jama_rest_client.client.JamaClient.get_projects">get_projects</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_relationship" href="#py_jama_rest_client.client.JamaClient.get_relationship">get_relationship</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_relationship_type" href="#py_jama_rest_client.client.JamaClient.get_relationship_type">get_relationship_type</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_relationship_types" href="#py_jama_rest_client.client.JamaClient.get_relationship_types">get_relationship_types</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_relationships" href="#py_jama_rest_client.client.JamaClient.get_relationships">get_relationships</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_tags" href="#py_jama_rest_client.client.JamaClient.get_tags">get_tags</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_test_cycle" href="#py_jama_rest_client.client.JamaClient.get_test_cycle">get_test_cycle</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_testruns" href="#py_jama_rest_client.client.JamaClient.get_testruns">get_testruns</a></code></li>
@@ -2562,6 +3173,8 @@ include all statuses</dd>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_tag" href="#py_jama_rest_client.client.JamaClient.post_tag">post_tag</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_testplans_testcycles" href="#py_jama_rest_client.client.JamaClient.post_testplans_testcycles">post_testplans_testcycles</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.put_attachments_file" href="#py_jama_rest_client.client.JamaClient.put_attachments_file">put_attachments_file</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.put_item" href="#py_jama_rest_client.client.JamaClient.put_item">put_item</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.put_item_lock" href="#py_jama_rest_client.client.JamaClient.put_item_lock">put_item_lock</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.put_test_run" href="#py_jama_rest_client.client.JamaClient.put_test_run">put_test_run</a></code></li>
 </ul>
 </li>
