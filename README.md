@@ -49,11 +49,16 @@ compatibility)
 - GET all downstream relationships for an item by item ID
 - GET all upstream relationships for an item by item ID
 - GET all children of an item
+- GET all synced items
+- GET synced item sync status
+- GET Locked state of an item
 - DELETE an Item by ID
 - PATCH an Item
 - POST an item to a project
 - POST item attachment
 - POST a tag to an item
+- PUT an item
+- PUT item lock
 
 ##### Relationship Types
 - GET all relationship types
@@ -91,6 +96,9 @@ compatibility)
 
 ##### Relationships
 - POST relationship
+- GET relationship by id
+- GET relationships by project id
+- DELETE relationship by id
 
 ## Usage Examples
 

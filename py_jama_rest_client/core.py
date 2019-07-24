@@ -12,7 +12,7 @@ class Core:
     on the Requests library visit: http://docs.python-requests.org/en/master/"""
 
     def __init__(self, host_name, user_credentials, api_version='/rest/v1/', oauth=False):
-        # Class variables
+        # Instance variables
         self.__api_version = api_version
         self.__host_name = host_name + self.__api_version
         self.__credentials = user_credentials

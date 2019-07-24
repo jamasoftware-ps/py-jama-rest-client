@@ -5,7 +5,11 @@ from .core import Core
 
 class APIException(Exception):
     """This is the base class for all exceptions raised by the JamaClient"""
-    pass
+
+    def __init__(self, message, status_code=None, reason=None):
+        super(APIException, self).__init__(message)
+        self.status_code = status_code
+        self.reason = reason
 
 
 class UnauthorizedException(APIException):
@@ -100,6 +104,40 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_item_lock(self, item_id):
+        """
+        Get the locked state, last locked date, and last locked by user for the item with the specified ID
+        Args:
+            item_id: The API ID of the item to get the lock info for.
+
+        Returns:
+            A JSON object with the lock information for the item with the specified ID.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/lock'
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def put_item_lock(self, item_id, locked):
+        """
+        Update the locked state of the item with the specified ID
+        Args:
+            item_id: the API id of the item to be updated
+            locked: boolean lock state to apply to this item
+
+        Returns:
+            response status 200
+
+        """
+        body = {
+            "locked": locked,
+        }
+        resource_path = 'items/' + str(item_id) + '/lock'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
+
     def get_attachment(self, attachment_id):
         """
         This method will return a singular attachment of a specified attachment id
@@ -171,6 +209,37 @@ class JamaClient:
 
         """
         resource_path = 'itemtypes/' + str(item_type_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_items_synceditems(self, item_id):
+        """
+        Get all synchronized items for the item with the specified ID
+
+        Args:
+            item_id: The API id of the item being
+
+        Returns: A list of JSON Objects representing the items that are in the same synchronization group as the
+        specified item.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/synceditems'
+        synced_items = self.__get_all(resource_path)
+        return synced_items
+
+    def get_items_synceditems_status(self, item_id, synced_item_id):
+        """
+        Get the sync status for the synced item with the specified ID
+
+        Args:
+            item_id: The id of the item to compare against
+            synced_item_id: the id of the item to check if it is in sync
+
+        Returns: The response JSON from the API which contains a single field 'inSync' with a boolean value.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/synceditems/' + str(synced_item_id) + '/syncstatus'
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
@@ -622,7 +691,7 @@ class JamaClient:
         :param item_id integer representing the item which is to be updated
         :param item_type_id integer ID of an Item Type.
         :param child_item_type_id integer ID of an Item Type.
-        :param location dictionary with integer ID of the parent item or project.
+        :param location dictionary with integer ID of the parent item or project EX.{"item":0,"project:0}
         :param fields dictionary item field data.
         :return integer ID of the successfully posted item or None if there was an error."""
 

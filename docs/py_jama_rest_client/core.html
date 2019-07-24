@@ -36,7 +36,7 @@ class Core:
     on the Requests library visit: http://docs.python-requests.org/en/master/&#34;&#34;&#34;
 
     def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False):
-        # Class variables
+        # Instance variables
         self.__api_version = api_version
         self.__host_name = host_name + self.__api_version
         self.__credentials = user_credentials
@@ -172,7 +172,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
     on the Requests library visit: http://docs.python-requests.org/en/master/&#34;&#34;&#34;
 
     def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False):
-        # Class variables
+        # Instance variables
         self.__api_version = api_version
         self.__host_name = host_name + self.__api_version
         self.__credentials = user_credentials
@@ -292,7 +292,7 @@ See help(type(self)) for accurate signature.</p></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False):
-    # Class variables
+    # Instance variables
     self.__api_version = api_version
     self.__host_name = host_name + self.__api_version
     self.__credentials = user_credentials
