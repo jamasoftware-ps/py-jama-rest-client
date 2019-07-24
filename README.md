@@ -44,6 +44,9 @@ compatibility)
 - GET a specific attachment by ID
 
 ##### Items
+- GET filter results, gets all results for the specified filter.
+
+##### Items
 - GET all items by project 
 - GET a specific item by ID
 - GET all downstream relationships for an item by item ID

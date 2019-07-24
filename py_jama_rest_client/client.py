@@ -76,6 +76,25 @@ class JamaClient:
         project_data = self.__get_all(resource_path)
         return project_data
 
+    def get_filter_results(self, filter_id, project_id=None):
+        """
+        Get all results items for the filter with the specified ID
+
+        Args:
+            filter_id: The ID of the filter to fetch the results for.
+            project_id: Use this only for filters that run on any project, where projectScope is CURRENT
+
+        Returns:
+            A List of items that match the filter.
+
+        """
+        resource_path = 'filters/' + str(filter_id) + '/results'
+        params = None
+        if project_id is not None:
+            params = {'project': str(project_id)}
+        filter_results = self.__get_all(resource_path, params=params)
+        return filter_results
+
     def get_items(self, project_id):
         """
         This method will return all items in the specified project.

@@ -22,6 +22,21 @@ class TestJamaClient(TestCase):
         self.assertIsNotNone(items)
         self.assertGreater(len(items), 0)
 
+    def test_get_filter_results(self):
+        filter_id = 151
+        filter_id_with_cur_proj = 162
+        project_id = 115
+
+        #test without project id
+        filter_results = self.jama_client.get_filter_results(filter_id)
+        self.assertIsNotNone(filter_results)
+        self.assertGreater(len(filter_results), 0)
+
+        #test with project id
+        filter_results = self.jama_client.get_filter_results(filter_id_with_cur_proj, project_id)
+        self.assertIsNotNone(filter_results)
+        self.assertGreater(len(filter_results), 0)
+
     def test_get_item(self):
         item_id = 66977
         item = self.jama_client.get_item(item_id)
