@@ -100,6 +100,25 @@ class JamaClient:
         project_data = self.__get_all(resource_path)
         return project_data
 
+    def get_filter_results(self, filter_id, project_id=None):
+        &#34;&#34;&#34;
+        Get all results items for the filter with the specified ID
+
+        Args:
+            filter_id: The ID of the filter to fetch the results for.
+            project_id: Use this only for filters that run on any project, where projectScope is CURRENT
+
+        Returns:
+            A List of items that match the filter.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;filters/&#39; + str(filter_id) + &#39;/results&#39;
+        params = None
+        if project_id is not None:
+            params = {&#39;project&#39;: str(project_id)}
+        filter_results = self.__get_all(resource_path, params=params)
+        return filter_results
+
     def get_items(self, project_id):
         &#34;&#34;&#34;
         This method will return all items in the specified project.
@@ -990,6 +1009,25 @@ See help(type(self)) for accurate signature.</p></section>
         resource_path = &#39;projects&#39;
         project_data = self.__get_all(resource_path)
         return project_data
+
+    def get_filter_results(self, filter_id, project_id=None):
+        &#34;&#34;&#34;
+        Get all results items for the filter with the specified ID
+
+        Args:
+            filter_id: The ID of the filter to fetch the results for.
+            project_id: Use this only for filters that run on any project, where projectScope is CURRENT
+
+        Returns:
+            A List of items that match the filter.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;filters/&#39; + str(filter_id) + &#39;/results&#39;
+        params = None
+        if project_id is not None:
+            params = {&#39;project&#39;: str(project_id)}
+        filter_results = self.__get_all(resource_path, params=params)
+        return filter_results
 
     def get_items(self, project_id):
         &#34;&#34;&#34;
@@ -1990,6 +2028,42 @@ document keys.</p></section>
     response = self.__core.get(&#39;&#39;)
     JamaClient.__handle_response_status(response)
     return response.json()[&#39;data&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_filter_results"><code class="name flex">
+<span>def <span class="ident">get_filter_results</span></span>(<span>self, filter_id, project_id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get all results items for the filter with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>filter_id</code></strong></dt>
+<dd>The ID of the filter to fetch the results for.</dd>
+<dt><strong><code>project_id</code></strong></dt>
+<dd>Use this only for filters that run on any project, where projectScope is CURRENT</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A List of items that match the filter.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_filter_results(self, filter_id, project_id=None):
+    &#34;&#34;&#34;
+    Get all results items for the filter with the specified ID
+
+    Args:
+        filter_id: The ID of the filter to fetch the results for.
+        project_id: Use this only for filters that run on any project, where projectScope is CURRENT
+
+    Returns:
+        A List of items that match the filter.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;filters/&#39; + str(filter_id) + &#39;/results&#39;
+    params = None
+    if project_id is not None:
+        params = {&#39;project&#39;: str(project_id)}
+    filter_results = self.__get_all(resource_path, params=params)
+    return filter_results</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_item"><code class="name flex">
@@ -3142,6 +3216,7 @@ PUT a new item to Jama Connect.
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key" href="#py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key">get_abstract_items_from_doc_key</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_attachment" href="#py_jama_rest_client.client.JamaClient.get_attachment">get_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_available_endpoints" href="#py_jama_rest_client.client.JamaClient.get_available_endpoints">get_available_endpoints</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_filter_results" href="#py_jama_rest_client.client.JamaClient.get_filter_results">get_filter_results</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item" href="#py_jama_rest_client.client.JamaClient.get_item">get_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_children" href="#py_jama_rest_client.client.JamaClient.get_item_children">get_item_children</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_lock" href="#py_jama_rest_client.client.JamaClient.get_item_lock">get_item_lock</a></code></li>
