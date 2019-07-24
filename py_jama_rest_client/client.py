@@ -104,6 +104,40 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_item_lock(self, item_id):
+        """
+        Get the locked state, last locked date, and last locked by user for the item with the specified ID
+        Args:
+            item_id: The API ID of the item to get the lock info for.
+
+        Returns:
+            A JSON object with the lock information for the item with the specified ID.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/lock'
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def put_item_lock(self, item_id, locked):
+        """
+        Update the locked state of the item with the specified ID
+        Args:
+            item_id: the API id of the item to be updated
+            locked: boolean lock state to apply to this item
+
+        Returns:
+            response status 200
+
+        """
+        body = {
+            "locked": locked,
+        }
+        resource_path = 'items/' + str(item_id) + '/lock'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
+
     def get_attachment(self, attachment_id):
         """
         This method will return a singular attachment of a specified attachment id

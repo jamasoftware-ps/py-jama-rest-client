@@ -296,6 +296,21 @@ class TestJamaClient(TestCase):
 
         self.assertFalse(sync_status.get('inSync'))
 
+    def test_get_item_lock(self):
+        item_id = 71038
+
+        #get lock status
+        lock_status = self.jama_client.get_item_lock(item_id)
+
+        self.assertIsNotNone(lock_status)
+        self.assertIsNotNone(lock_status.get('locked'))
+
+    def test_put_item_lock(self):
+        item_id = 71038
+
+        self.jama_client.put_item_lock(item_id, True)
+        self.jama_client.put_item_lock(item_id, False)
+
     @unittest.skip('Entity Already Exists')
     def test_post_item_attachment(self):
         # TODO Can only run this once... need to make anew item and post a new attachment to it each time
