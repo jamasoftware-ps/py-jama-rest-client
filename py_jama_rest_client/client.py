@@ -100,6 +100,20 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_attachment(self, attachment_id):
+        """
+        This method will return a singular attachment of a specified attachment id
+        Args:
+            attachment_id: the attachment id of the attachment to fetch
+
+        Returns: a dictonary object representing the attachment
+
+        """
+        resource_path = 'attachments/' + str(attachment_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_abstract_items_from_doc_key(self, doc_key_list):
         """ DEPRECATED INSTEAD USE get_abstract_items below.
         This method will take in a list of document keys and return an array of JSON Objects associated with the

@@ -124,6 +124,20 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
 
+    def get_attachment(self, attachment_id):
+        &#34;&#34;&#34;
+        This method will return a singular attachment of a specified attachment id
+        Args:
+            attachment_id: the attachment id of the attachment to fetch
+
+        Returns: a dictonary object representing the attachment
+
+        &#34;&#34;&#34;
+        resource_path = &#39;attachments/&#39; + str(attachment_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
     def get_abstract_items_from_doc_key(self, doc_key_list):
         &#34;&#34;&#34; DEPRECATED INSTEAD USE get_abstract_items below.
         This method will take in a list of document keys and return an array of JSON Objects associated with the
@@ -718,12 +732,12 @@ class JamaClient:
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="py_jama_rest_client.client.UnauthorizedException" href="#py_jama_rest_client.client.UnauthorizedException">UnauthorizedException</a></li>
 <li><a title="py_jama_rest_client.client.TooManyRequestsException" href="#py_jama_rest_client.client.TooManyRequestsException">TooManyRequestsException</a></li>
-<li><a title="py_jama_rest_client.client.ResourceNotFoundException" href="#py_jama_rest_client.client.ResourceNotFoundException">ResourceNotFoundException</a></li>
-<li><a title="py_jama_rest_client.client.AlreadyExistsException" href="#py_jama_rest_client.client.AlreadyExistsException">AlreadyExistsException</a></li>
+<li><a title="py_jama_rest_client.client.UnauthorizedException" href="#py_jama_rest_client.client.UnauthorizedException">UnauthorizedException</a></li>
 <li><a title="py_jama_rest_client.client.APIClientException" href="#py_jama_rest_client.client.APIClientException">APIClientException</a></li>
 <li><a title="py_jama_rest_client.client.APIServerException" href="#py_jama_rest_client.client.APIServerException">APIServerException</a></li>
+<li><a title="py_jama_rest_client.client.AlreadyExistsException" href="#py_jama_rest_client.client.AlreadyExistsException">AlreadyExistsException</a></li>
+<li><a title="py_jama_rest_client.client.ResourceNotFoundException" href="#py_jama_rest_client.client.ResourceNotFoundException">ResourceNotFoundException</a></li>
 </ul>
 </dd>
 <dt id="py_jama_rest_client.client.APIServerException"><code class="flex name class">
@@ -817,6 +831,20 @@ class JamaClient:
 
         &#34;&#34;&#34;
         resource_path = &#39;items/&#39; + str(item_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
+    def get_attachment(self, attachment_id):
+        &#34;&#34;&#34;
+        This method will return a singular attachment of a specified attachment id
+        Args:
+            attachment_id: the attachment id of the attachment to fetch
+
+        Returns: a dictonary object representing the attachment
+
+        &#34;&#34;&#34;
+        resource_path = &#39;attachments/&#39; + str(attachment_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
@@ -1562,6 +1590,35 @@ document keys.</p></section>
     params = {&#39;documentKey&#39;: doc_key_list}
     abstract_items = self.__get_all(resource_path, params=params)
     return abstract_items</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_attachment"><code class="name flex">
+<span>def <span class="ident">get_attachment</span></span>(<span>self, attachment_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will return a singular attachment of a specified attachment id</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>attachment_id</code></strong></dt>
+<dd>the attachment id of the attachment to fetch</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>a</code> <code>dictonary</code> <code>object</code> <code>representing</code> <code>the</code> <code>attachment</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_attachment(self, attachment_id):
+    &#34;&#34;&#34;
+    This method will return a singular attachment of a specified attachment id
+    Args:
+        attachment_id: the attachment id of the attachment to fetch
+
+    Returns: a dictonary object representing the attachment
+
+    &#34;&#34;&#34;
+    resource_path = &#39;attachments/&#39; + str(attachment_id)
+    response = self.__core.get(resource_path)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;data&#39;]</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_available_endpoints"><code class="name flex">
@@ -2477,6 +2534,7 @@ include all statuses</dd>
 <li><code><a title="py_jama_rest_client.client.JamaClient.delete_item" href="#py_jama_rest_client.client.JamaClient.delete_item">delete_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items" href="#py_jama_rest_client.client.JamaClient.get_abstract_items">get_abstract_items</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key" href="#py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key">get_abstract_items_from_doc_key</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_attachment" href="#py_jama_rest_client.client.JamaClient.get_attachment">get_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_available_endpoints" href="#py_jama_rest_client.client.JamaClient.get_available_endpoints">get_available_endpoints</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item" href="#py_jama_rest_client.client.JamaClient.get_item">get_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_children" href="#py_jama_rest_client.client.JamaClient.get_item_children">get_item_children</a></code></li>
