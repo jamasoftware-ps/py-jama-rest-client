@@ -49,6 +49,8 @@ compatibility)
 - GET all downstream relationships for an item by item ID
 - GET all upstream relationships for an item by item ID
 - GET all children of an item
+- GET all synced items
+- GET synced item sync status
 - DELETE an Item by ID
 - PATCH an Item
 - POST an item to a project

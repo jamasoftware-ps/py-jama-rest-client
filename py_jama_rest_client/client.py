@@ -179,6 +179,37 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_items_synceditems(self, item_id):
+        """
+        Get all synchronized items for the item with the specified ID
+
+        Args:
+            item_id: The API id of the item being
+
+        Returns: A list of JSON Objects representing the items that are in the same synchronization group as the
+        specified item.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/synceditems'
+        synced_items = self.__get_all(resource_path)
+        return synced_items
+
+    def get_items_synceditems_status(self, item_id, synced_item_id):
+        """
+        Get the sync status for the synced item with the specified ID
+
+        Args:
+            item_id: The id of the item to compare against
+            synced_item_id: the id of the item to check if it is in sync
+
+        Returns: The response JSON from the API which contains a single field 'inSync' with a boolean value.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/synceditems/' + str(synced_item_id) + '/syncstatus'
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_pick_lists(self):
         """
         Returns a list of all the pick lists
