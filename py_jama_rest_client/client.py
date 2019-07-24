@@ -5,7 +5,11 @@ from .core import Core
 
 class APIException(Exception):
     """This is the base class for all exceptions raised by the JamaClient"""
-    pass
+
+    def __init__(self, message, status_code=None, reason=None):
+        super(APIException, self).__init__(message)
+        self.status_code = status_code
+        self.reason = reason
 
 
 class UnauthorizedException(APIException):
