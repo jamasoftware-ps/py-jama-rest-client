@@ -214,6 +214,36 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_relationships(self, project_id):
+        """
+        Returns a list of all relationships of a specified project
+
+        Args:
+            project_id: the api project id of a project
+
+        Returns: a list of dictionary objects that represents a relationships
+
+        """
+        resource_path = 'relationships'
+        params = {'project': project_id}
+        relationship_data = self.__get_all(resource_path, params=params)
+        return relationship_data
+
+    def get_relationship(self, relationship_id):
+        """
+        Returns a specific relationship object of a specified relationship ID
+
+        Args:
+            relationship_id: the api project id of a relationship
+
+        Returns: a dictionary object that represents a relationship
+
+        """
+        resource_path = 'relationships/' + str(relationship_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_abstract_items(self,
                            project=None,
                            item_type=None,
@@ -360,6 +390,21 @@ class JamaClient:
         Returns: The success status code.
         """
         resource_path = 'items/' + str(item_id)
+        response = self.__core.delete(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+    def delete_relationships(self, relationship_id):
+        """
+        Deletes a relationship with the specified relationship ID
+
+        Args:
+            relationship_id: the api project id of a relationship
+
+        Returns: The success status code.
+
+        """
+        resource_path = 'relationships/' + str(relationship_id)
         response = self.__core.delete(resource_path)
         JamaClient.__handle_response_status(response)
         return response.status_code
@@ -555,6 +600,31 @@ class JamaClient:
         response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
+
+    def put_item(self, project, item_id, item_type_id, child_item_type_id, location, fields):
+        """ This method wil
+         PUT a new item to Jama Connect.
+        :param project integer representing the project to which this item is to be posted
+        :param item_id integer representing the item which is to be updated
+        :param item_type_id integer ID of an Item Type.
+        :param child_item_type_id integer ID of an Item Type.
+        :param location dictionary with integer ID of the parent item or project.
+        :param fields dictionary item field data.
+        :return integer ID of the successfully posted item or None if there was an error."""
+
+        body = {
+            "project": project,
+            "itemType": item_type_id,
+            "childItemType": child_item_type_id,
+            "location": {
+                "parent": location
+            },
+            "fields": fields
+        }
+        resource_path = 'items/' + str(item_id)
+        headers = {'content-type': 'application/json'}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
 
     def put_attachments_file(self, attachment_id, file_path):
         """
