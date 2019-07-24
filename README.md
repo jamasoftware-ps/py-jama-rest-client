@@ -56,6 +56,7 @@ compatibility)
 - POST an item to a project
 - POST item attachment
 - POST a tag to an item
+- PUT an item
 
 ##### Relationship Types
 - GET all relationship types
@@ -93,6 +94,9 @@ compatibility)
 
 ##### Relationships
 - POST relationship
+- GET relationship by id
+- GET relationships by project id
+- DELETE relationship by id
 
 ## Usage Examples
 
