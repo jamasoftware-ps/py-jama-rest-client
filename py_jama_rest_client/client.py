@@ -1,6 +1,10 @@
 import json
+import logging
 
 from .core import Core
+
+# This is the py_jama_rest_client logger.
+py_jama_rest_client_logger = logging.getLogger('py_jama_rest_client')
 
 
 class APIException(Exception):
@@ -56,6 +60,10 @@ class JamaClient:
         :param api_version: valid args are '/rest/[v1|latest|labs]/' """
         self.__credentials = credentials
         self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+
+        # Log client creation
+        py_jama_rest_client_logger.info('Created a new JamaClient instance. Domain: {} '
+                                        'Connecting via Oauth: {}'.format(host_domain, oauth))
 
     def get_available_endpoints(self):
         """
@@ -710,7 +718,7 @@ class JamaClient:
         :param item_id integer representing the item which is to be updated
         :param item_type_id integer ID of an Item Type.
         :param child_item_type_id integer ID of an Item Type.
-        :param location dictionary with integer ID of the parent item or project EX.{"item":0,"project:0}
+        :param location dictionary  with a key of 'item' or 'project' and an value with the ID of the parent
         :param fields dictionary item field data.
         :return integer ID of the successfully posted item or None if there was an error."""
 
@@ -803,28 +811,59 @@ class JamaClient:
 
         if status in range(400, 500):
             """These are client errors. It is likely that something is wrong with the request."""
-            if status == 401:
-                raise UnauthorizedException("Unauthorized: check credentials and permissions.")
 
-            if status == 404:
-                raise ResourceNotFoundException("Resource not found. check host url.")
-
-            if status == 429:
-                raise TooManyRequestsException("Too many requests.  API throttling limit reached, or system under "
-                                               "maintenance.")
+            response_message = 'None'
 
             try:
                 response_json = json.loads(response.text)
                 response_message = response_json.get('meta').get('message')
 
-                if "already exists" in response_message:
-                    raise AlreadyExistsException("Entity already Exists.")
-
             except json.JSONDecodeError:
                 pass
 
-            raise APIClientException("{} Client Error.  Bad Request.  ".format(status) + response.reason)
+            # Log the error
+            py_jama_rest_client_logger.error('API Client Error. Status: {} Message: {}'.format(status,
+                                                                                               response_message))
+
+            if "already exists" in response_message:
+                raise AlreadyExistsException("Entity already exists.",
+                                             status_code=status,
+                                             reason=response_message)
+
+            if status == 401:
+                raise UnauthorizedException("Unauthorized: check credentials and permissions.  "
+                                            "API response message {}".format(response_message),
+                                            status_code=status,
+                                            reason=response_message)
+
+            if status == 404:
+                raise ResourceNotFoundException("Resource not found. check host url.",
+                                                status_code=status,
+                                                reason=response_message)
+
+            if status == 429:
+                raise TooManyRequestsException("Too many requests.  API throttling limit reached, or system under "
+                                               "maintenance.",
+                                               status_code=status,
+                                               reason=response_message)
+
+            raise APIClientException("{} {} Client Error.  Bad Request.  "
+                                     "API response message: {}".format(status, response.reason, response_message),
+                                     status_code=status,
+                                     reason=response_message)
 
         if status in range(500, 600):
             """These are server errors and network errors."""
-            raise APIServerException("{} Server Error.".format(status))
+
+            # Log The Error
+            py_jama_rest_client_logger.error('{} Server error. {}'.format(status, response.reason))
+            raise APIServerException("{} Server Error.".format(status),
+                                     status_code=status,
+                                     reason=response.reason)
+
+        # Catch anything unexpected
+        py_jama_rest_client_logger.error('{} error. {}'.format(status, response.reason))
+        raise APIException("{} error".format(status),
+                           status_code=status,
+                           reason=response.reason)
+
