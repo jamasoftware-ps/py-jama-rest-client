@@ -23,8 +23,12 @@
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">import json
+import logging
 
 from .core import Core
+
+# This is the py_jama_rest_client logger.
+py_jama_rest_client_logger = logging.getLogger(&#39;py_jama_rest_client&#39;)
 
 
 class APIException(Exception):
@@ -80,6 +84,10 @@ class JamaClient:
         :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39; &#34;&#34;&#34;
         self.__credentials = credentials
         self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+
+        # Log client creation
+        py_jama_rest_client_logger.info(&#39;Created a new JamaClient instance. Domain: {} &#39;
+                                        &#39;Connecting via Oauth: {}&#39;.format(host_domain, oauth))
 
     def get_available_endpoints(self):
         &#34;&#34;&#34;
@@ -734,7 +742,7 @@ class JamaClient:
         :param item_id integer representing the item which is to be updated
         :param item_type_id integer ID of an Item Type.
         :param child_item_type_id integer ID of an Item Type.
-        :param location dictionary with integer ID of the parent item or project EX.{&#34;item&#34;:0,&#34;project:0}
+        :param location dictionary  with a key of &#39;item&#39; or &#39;project&#39; and an value with the ID of the parent
         :param fields dictionary item field data.
         :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
 
@@ -827,31 +835,61 @@ class JamaClient:
 
         if status in range(400, 500):
             &#34;&#34;&#34;These are client errors. It is likely that something is wrong with the request.&#34;&#34;&#34;
-            if status == 401:
-                raise UnauthorizedException(&#34;Unauthorized: check credentials and permissions.&#34;)
 
-            if status == 404:
-                raise ResourceNotFoundException(&#34;Resource not found. check host url.&#34;)
-
-            if status == 429:
-                raise TooManyRequestsException(&#34;Too many requests.  API throttling limit reached, or system under &#34;
-                                               &#34;maintenance.&#34;)
+            response_message = &#39;None&#39;
 
             try:
                 response_json = json.loads(response.text)
                 response_message = response_json.get(&#39;meta&#39;).get(&#39;message&#39;)
 
-                if &#34;already exists&#34; in response_message:
-                    raise AlreadyExistsException(&#34;Entity already Exists.&#34;)
-
             except json.JSONDecodeError:
                 pass
 
-            raise APIClientException(&#34;{} Client Error.  Bad Request.  &#34;.format(status) + response.reason)
+            # Log the error
+            py_jama_rest_client_logger.error(&#39;API Client Error. Status: {} Message: {}&#39;.format(status,
+                                                                                               response_message))
+
+            if &#34;already exists&#34; in response_message:
+                raise AlreadyExistsException(&#34;Entity already exists.&#34;,
+                                             status_code=status,
+                                             reason=response_message)
+
+            if status == 401:
+                raise UnauthorizedException(&#34;Unauthorized: check credentials and permissions.  &#34;
+                                            &#34;API response message {}&#34;.format(response_message),
+                                            status_code=status,
+                                            reason=response_message)
+
+            if status == 404:
+                raise ResourceNotFoundException(&#34;Resource not found. check host url.&#34;,
+                                                status_code=status,
+                                                reason=response_message)
+
+            if status == 429:
+                raise TooManyRequestsException(&#34;Too many requests.  API throttling limit reached, or system under &#34;
+                                               &#34;maintenance.&#34;,
+                                               status_code=status,
+                                               reason=response_message)
+
+            raise APIClientException(&#34;{} {} Client Error.  Bad Request.  &#34;
+                                     &#34;API response message: {}&#34;.format(status, response.reason, response_message),
+                                     status_code=status,
+                                     reason=response_message)
 
         if status in range(500, 600):
             &#34;&#34;&#34;These are server errors and network errors.&#34;&#34;&#34;
-            raise APIServerException(&#34;{} Server Error.&#34;.format(status))</code></pre>
+
+            # Log The Error
+            py_jama_rest_client_logger.error(&#39;{} Server error. {}&#39;.format(status, response.reason))
+            raise APIServerException(&#34;{} Server Error.&#34;.format(status),
+                                     status_code=status,
+                                     reason=response.reason)
+
+        # Catch anything unexpected
+        py_jama_rest_client_logger.error(&#39;{} error. {}&#39;.format(status, response.reason))
+        raise APIException(&#34;{} error&#34;.format(status),
+                           status_code=status,
+                           reason=response.reason)</code></pre>
 </details>
 </section>
 <section>
@@ -991,6 +1029,10 @@ See help(type(self)) for accurate signature.</p></section>
         self.__credentials = credentials
         self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
 
+        # Log client creation
+        py_jama_rest_client_logger.info(&#39;Created a new JamaClient instance. Domain: {} &#39;
+                                        &#39;Connecting via Oauth: {}&#39;.format(host_domain, oauth))
+
     def get_available_endpoints(self):
         &#34;&#34;&#34;
         Returns a list of all the available endpoints.
@@ -1644,7 +1686,7 @@ See help(type(self)) for accurate signature.</p></section>
         :param item_id integer representing the item which is to be updated
         :param item_type_id integer ID of an Item Type.
         :param child_item_type_id integer ID of an Item Type.
-        :param location dictionary with integer ID of the parent item or project EX.{&#34;item&#34;:0,&#34;project:0}
+        :param location dictionary  with a key of &#39;item&#39; or &#39;project&#39; and an value with the ID of the parent
         :param fields dictionary item field data.
         :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
 
@@ -1737,31 +1779,61 @@ See help(type(self)) for accurate signature.</p></section>
 
         if status in range(400, 500):
             &#34;&#34;&#34;These are client errors. It is likely that something is wrong with the request.&#34;&#34;&#34;
-            if status == 401:
-                raise UnauthorizedException(&#34;Unauthorized: check credentials and permissions.&#34;)
 
-            if status == 404:
-                raise ResourceNotFoundException(&#34;Resource not found. check host url.&#34;)
-
-            if status == 429:
-                raise TooManyRequestsException(&#34;Too many requests.  API throttling limit reached, or system under &#34;
-                                               &#34;maintenance.&#34;)
+            response_message = &#39;None&#39;
 
             try:
                 response_json = json.loads(response.text)
                 response_message = response_json.get(&#39;meta&#39;).get(&#39;message&#39;)
 
-                if &#34;already exists&#34; in response_message:
-                    raise AlreadyExistsException(&#34;Entity already Exists.&#34;)
-
             except json.JSONDecodeError:
                 pass
 
-            raise APIClientException(&#34;{} Client Error.  Bad Request.  &#34;.format(status) + response.reason)
+            # Log the error
+            py_jama_rest_client_logger.error(&#39;API Client Error. Status: {} Message: {}&#39;.format(status,
+                                                                                               response_message))
+
+            if &#34;already exists&#34; in response_message:
+                raise AlreadyExistsException(&#34;Entity already exists.&#34;,
+                                             status_code=status,
+                                             reason=response_message)
+
+            if status == 401:
+                raise UnauthorizedException(&#34;Unauthorized: check credentials and permissions.  &#34;
+                                            &#34;API response message {}&#34;.format(response_message),
+                                            status_code=status,
+                                            reason=response_message)
+
+            if status == 404:
+                raise ResourceNotFoundException(&#34;Resource not found. check host url.&#34;,
+                                                status_code=status,
+                                                reason=response_message)
+
+            if status == 429:
+                raise TooManyRequestsException(&#34;Too many requests.  API throttling limit reached, or system under &#34;
+                                               &#34;maintenance.&#34;,
+                                               status_code=status,
+                                               reason=response_message)
+
+            raise APIClientException(&#34;{} {} Client Error.  Bad Request.  &#34;
+                                     &#34;API response message: {}&#34;.format(status, response.reason, response_message),
+                                     status_code=status,
+                                     reason=response_message)
 
         if status in range(500, 600):
             &#34;&#34;&#34;These are server errors and network errors.&#34;&#34;&#34;
-            raise APIServerException(&#34;{} Server Error.&#34;.format(status))</code></pre>
+
+            # Log The Error
+            py_jama_rest_client_logger.error(&#39;{} Server error. {}&#39;.format(status, response.reason))
+            raise APIServerException(&#34;{} Server Error.&#34;.format(status),
+                                     status_code=status,
+                                     reason=response.reason)
+
+        # Catch anything unexpected
+        py_jama_rest_client_logger.error(&#39;{} error. {}&#39;.format(status, response.reason))
+        raise APIException(&#34;{} error&#34;.format(status),
+                           status_code=status,
+                           reason=response.reason)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -1784,7 +1856,11 @@ See help(type(self)) for accurate signature.</p></section>
     :param credentials: the user name and password as a tuple or client id and client secret if using Oauth.
     :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39; &#34;&#34;&#34;
     self.__credentials = credentials
-    self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)</code></pre>
+    self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+
+    # Log client creation
+    py_jama_rest_client_logger.info(&#39;Created a new JamaClient instance. Domain: {} &#39;
+                                    &#39;Connecting via Oauth: {}&#39;.format(host_domain, oauth))</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.delete_item"><code class="name flex">
@@ -3028,7 +3104,8 @@ PUT a new item to Jama Connect.
 :param item_id integer representing the item which is to be updated
 :param item_type_id integer ID of an Item Type.
 :param child_item_type_id integer ID of an Item Type.
-:param location dictionary with integer ID of the parent item or project EX.{"item":0,"project:0}
+:param location dictionary
+with a key of 'item' or 'project' and an value with the ID of the parent
 :param fields dictionary item field data.
 :return integer ID of the successfully posted item or None if there was an error.</p></section>
 <details class="source">
@@ -3040,7 +3117,7 @@ PUT a new item to Jama Connect.
     :param item_id integer representing the item which is to be updated
     :param item_type_id integer ID of an Item Type.
     :param child_item_type_id integer ID of an Item Type.
-    :param location dictionary with integer ID of the parent item or project EX.{&#34;item&#34;:0,&#34;project:0}
+    :param location dictionary  with a key of &#39;item&#39; or &#39;project&#39; and an value with the ID of the parent
     :param fields dictionary item field data.
     :return integer ID of the successfully posted item or None if there was an error.&#34;&#34;&#34;
 
