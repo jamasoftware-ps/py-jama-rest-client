@@ -118,6 +118,11 @@ oauth_client = JamaClient('https://yourdomain.jamacloud.com', credentials=('clie
 ```
 
 
+#### Logging
+The Py Jama Rest Client will log API messages to the logger 'py_jama_rest_client' you can get this logger for 
+setup / customization by calling `logging.getLogger('py_jama_rest_client')`
+
+
 #### Get all projects
 1) Download [get_all_projets.py](examples/get_all_projects.py) to your example_project directory
 2) Enter your Jama URL, username, and password into the corrisponding variables at the top of the file.
