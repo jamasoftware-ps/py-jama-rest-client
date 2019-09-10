@@ -812,7 +812,7 @@ class JamaClient:
         if status in range(400, 500):
             """These are client errors. It is likely that something is wrong with the request."""
 
-            response_message = 'None'
+            response_message = 'No Response'
 
             try:
                 response_json = json.loads(response.text)
@@ -825,7 +825,7 @@ class JamaClient:
             py_jama_rest_client_logger.error('API Client Error. Status: {} Message: {}'.format(status,
                                                                                                response_message))
 
-            if "already exists" in response_message:
+            if response_message is not None and "already exists" in response_message:
                 raise AlreadyExistsException("Entity already exists.",
                                              status_code=status,
                                              reason=response_message)
