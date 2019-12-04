@@ -59,6 +59,7 @@ compatibility)
 - PATCH an Item
 - POST an item to a project
 - POST item attachment
+- POST item sync
 - POST a tag to an item
 - PUT an item
 - PUT item lock
