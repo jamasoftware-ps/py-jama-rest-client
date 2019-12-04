@@ -657,11 +657,11 @@ class JamaClient:
         """
         add an item to an existing pool of global ids
         Args:
-            source_item: integer API id of the source item, this item will adopt the global id of the
+            source_item: integer API ID of the source item, this item will adopt the global id of the
                          pool_item.
-            pool_item: integer API id of the target item.
+            pool_item: integer API ID of the item in the target global ID pool.
 
-        Returns: The integer ID of the newly created sync.
+        Returns: the integer ID of the modified source item.
         """
         body = {
             'item': source_item
