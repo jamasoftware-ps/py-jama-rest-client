@@ -653,6 +653,26 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.status_code
 
+    def post_item_sync(self, source_item: int, pool_item: int):
+        """
+        add an item to an existing pool of global ids
+        Args:
+            source_item: integer API id of the source item, this item will adopt the global id of the
+                         pool_item.
+            pool_item: integer API id of the target item.
+
+        Returns: The integer ID of the newly created sync.
+        """
+        body = {
+            'item': source_item
+        }
+
+        resource_path = 'items/' + str(pool_item) + '/synceditems'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
+
     def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
         """
 
@@ -866,4 +886,3 @@ class JamaClient:
         raise APIException("{} error".format(status),
                            status_code=status,
                            reason=response.reason)
-

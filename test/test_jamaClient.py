@@ -1,8 +1,8 @@
 import json
-import time
 import os
 import unittest
 from unittest import TestCase
+
 from py_jama_rest_client.client import JamaClient
 
 
@@ -27,12 +27,12 @@ class TestJamaClient(TestCase):
         filter_id_with_cur_proj = 162
         project_id = 115
 
-        #test without project id
+        # test without project id
         filter_results = self.jama_client.get_filter_results(filter_id)
         self.assertIsNotNone(filter_results)
         self.assertGreater(len(filter_results), 0)
 
-        #test with project id
+        # test with project id
         filter_results = self.jama_client.get_filter_results(filter_id_with_cur_proj, project_id)
         self.assertIsNotNone(filter_results)
         self.assertGreater(len(filter_results), 0)
@@ -182,6 +182,13 @@ class TestJamaClient(TestCase):
         self.assertEqual("OK", res_status)
 
     @unittest.skip('Entity Already Exists')
+    def test_post_item_sync(self):
+        source_item = 104755
+        pool_item = 104752
+        sync = self.jama_client.post_item_sync(source_item, pool_item)
+        self.assertIsNotNone(sync)
+
+    @unittest.skip('Entity Already Exists')
     def test_post_relationship(self):
         from_item = 104755
         to_item = 104752
@@ -294,7 +301,6 @@ class TestJamaClient(TestCase):
         self.assertEqual(upload_status, 200)
 
     def test_get_items_synceditems(self):
-
         # get synced items
         synced_items = self.jama_client.get_items_synceditems(71038)
 
@@ -303,7 +309,6 @@ class TestJamaClient(TestCase):
         self.assertGreater(len(synced_items), 0)
 
     def test_get_items_synceditems_syncstatus(self):
-
         # get status
         sync_status = self.jama_client.get_items_synceditems_status(71038, 149715)
 
@@ -314,7 +319,7 @@ class TestJamaClient(TestCase):
     def test_get_item_lock(self):
         item_id = 71038
 
-        #get lock status
+        # get lock status
         lock_status = self.jama_client.get_item_lock(item_id)
 
         self.assertIsNotNone(lock_status)
