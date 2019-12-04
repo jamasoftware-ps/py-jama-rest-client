@@ -677,6 +677,26 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.status_code
 
+    def post_item_sync(self, source_item: int, pool_item: int):
+        &#34;&#34;&#34;
+        add an item to an existing pool of global ids
+        Args:
+            source_item: integer API ID of the source item, this item will adopt the global id of the
+                         pool_item.
+            pool_item: integer API ID of the item in the target global ID pool.
+
+        Returns: the integer ID of the modified source item.
+        &#34;&#34;&#34;
+        body = {
+            &#39;item&#39;: source_item
+        }
+
+        resource_path = &#39;items/&#39; + str(pool_item) + &#39;/synceditems&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
     def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
         &#34;&#34;&#34;
 
@@ -836,7 +856,7 @@ class JamaClient:
         if status in range(400, 500):
             &#34;&#34;&#34;These are client errors. It is likely that something is wrong with the request.&#34;&#34;&#34;
 
-            response_message = &#39;None&#39;
+            response_message = &#39;No Response&#39;
 
             try:
                 response_json = json.loads(response.text)
@@ -849,7 +869,7 @@ class JamaClient:
             py_jama_rest_client_logger.error(&#39;API Client Error. Status: {} Message: {}&#39;.format(status,
                                                                                                response_message))
 
-            if &#34;already exists&#34; in response_message:
+            if response_message is not None and &#34;already exists&#34; in response_message:
                 raise AlreadyExistsException(&#34;Entity already exists.&#34;,
                                              status_code=status,
                                              reason=response_message)
@@ -1621,6 +1641,26 @@ See help(type(self)) for accurate signature.</p></section>
         JamaClient.__handle_response_status(response)
         return response.status_code
 
+    def post_item_sync(self, source_item: int, pool_item: int):
+        &#34;&#34;&#34;
+        add an item to an existing pool of global ids
+        Args:
+            source_item: integer API ID of the source item, this item will adopt the global id of the
+                         pool_item.
+            pool_item: integer API ID of the item in the target global ID pool.
+
+        Returns: the integer ID of the modified source item.
+        &#34;&#34;&#34;
+        body = {
+            &#39;item&#39;: source_item
+        }
+
+        resource_path = &#39;items/&#39; + str(pool_item) + &#39;/synceditems&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
+
     def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
         &#34;&#34;&#34;
 
@@ -1780,7 +1820,7 @@ See help(type(self)) for accurate signature.</p></section>
         if status in range(400, 500):
             &#34;&#34;&#34;These are client errors. It is likely that something is wrong with the request.&#34;&#34;&#34;
 
-            response_message = &#39;None&#39;
+            response_message = &#39;No Response&#39;
 
             try:
                 response_json = json.loads(response.text)
@@ -1793,7 +1833,7 @@ See help(type(self)) for accurate signature.</p></section>
             py_jama_rest_client_logger.error(&#39;API Client Error. Status: {} Message: {}&#39;.format(status,
                                                                                                response_message))
 
-            if &#34;already exists&#34; in response_message:
+            if response_message is not None and &#34;already exists&#34; in response_message:
                 raise AlreadyExistsException(&#34;Entity already exists.&#34;,
                                              status_code=status,
                                              reason=response_message)
@@ -2854,6 +2894,43 @@ as a list of json objects.</p></section>
     return response.status_code</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_item_sync"><code class="name flex">
+<span>def <span class="ident">post_item_sync</span></span>(<span>self, source_item, pool_item)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>add an item to an existing pool of global ids</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>source_item</code></strong></dt>
+<dd>integer API ID of the source item, this item will adopt the global id of the
+pool_item.</dd>
+<dt><strong><code>pool_item</code></strong></dt>
+<dd>integer API ID of the item in the target global ID pool.</dd>
+</dl>
+<p>Returns: the integer ID of the modified source item.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_item_sync(self, source_item: int, pool_item: int):
+    &#34;&#34;&#34;
+    add an item to an existing pool of global ids
+    Args:
+        source_item: integer API ID of the source item, this item will adopt the global id of the
+                     pool_item.
+        pool_item: integer API ID of the item in the target global ID pool.
+
+    Returns: the integer ID of the modified source item.
+    &#34;&#34;&#34;
+    body = {
+        &#39;item&#39;: source_item
+    }
+
+    resource_path = &#39;items/&#39; + str(pool_item) + &#39;/synceditems&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.post_item_tag"><code class="name flex">
 <span>def <span class="ident">post_item_tag</span></span>(<span>self, item_id, tag_id)</span>
 </code></dt>
@@ -3319,6 +3396,7 @@ with a key of 'item' or 'project' and an value with the ID of the parent
 <li><code><a title="py_jama_rest_client.client.JamaClient.patch_item" href="#py_jama_rest_client.client.JamaClient.patch_item">patch_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_item" href="#py_jama_rest_client.client.JamaClient.post_item">post_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_item_attachment" href="#py_jama_rest_client.client.JamaClient.post_item_attachment">post_item_attachment</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_item_sync" href="#py_jama_rest_client.client.JamaClient.post_item_sync">post_item_sync</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_item_tag" href="#py_jama_rest_client.client.JamaClient.post_item_tag">post_item_tag</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_project_attachment" href="#py_jama_rest_client.client.JamaClient.post_project_attachment">post_project_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_relationship" href="#py_jama_rest_client.client.JamaClient.post_relationship">post_relationship</a></code></li>
