@@ -133,4 +133,5 @@ setup / customization by calling `logging.getLogger('py_jama_rest_client')`
     ```
 
 ## Additional Documentation
-https://jamasoftware.github.io/py-jama-rest-client/
+  * [Developer Documentation](https://jamasoftware.github.io/py-jama-rest-client/)
+  * [Pypi docs](https://pypi.org/project/py-jama-rest-client/)
