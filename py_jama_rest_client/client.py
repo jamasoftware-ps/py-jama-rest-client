@@ -630,13 +630,15 @@ class JamaClient:
             "fields": fields
         }
         resource_path = 'items/'
+        params = {}
+
         # we setting a global ID?
         if global_id is not None:
             body['globalId'] = global_id
-            resource_path += '?setGlobalIdManually=true'
+            params['setGlobalIdManually'] = True
 
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
