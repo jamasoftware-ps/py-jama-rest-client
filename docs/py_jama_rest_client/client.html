@@ -634,8 +634,9 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;id&#39;]
 
-    def post_item(self, project, item_type_id, child_item_type_id, location, fields):
+    def post_item(self, project, item_type_id, child_item_type_id, location, fields, global_id=None):
         &#34;&#34;&#34; This method will post a new item to Jama Connect.
+        :param global_id: optional param to post the item with a custom global id
         :param project integer representing the project to which this item is to be posted
         :param item_type_id integer ID of an Item Type.
         :param child_item_type_id integer ID of an Item Type.
@@ -653,8 +654,15 @@ class JamaClient:
             &#34;fields&#34;: fields
         }
         resource_path = &#39;items/&#39;
+        params = {}
+
+        # we setting a global ID?
+        if global_id is not None:
+            body[&#39;globalId&#39;] = global_id
+            params[&#39;setGlobalIdManually&#39;] = True
+
         headers = {&#39;content-type&#39;: &#39;application/json&#39;}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;id&#39;]
 
@@ -1598,8 +1606,9 @@ See help(type(self)) for accurate signature.</p></section>
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;id&#39;]
 
-    def post_item(self, project, item_type_id, child_item_type_id, location, fields):
+    def post_item(self, project, item_type_id, child_item_type_id, location, fields, global_id=None):
         &#34;&#34;&#34; This method will post a new item to Jama Connect.
+        :param global_id: optional param to post the item with a custom global id
         :param project integer representing the project to which this item is to be posted
         :param item_type_id integer ID of an Item Type.
         :param child_item_type_id integer ID of an Item Type.
@@ -1617,8 +1626,15 @@ See help(type(self)) for accurate signature.</p></section>
             &#34;fields&#34;: fields
         }
         resource_path = &#39;items/&#39;
+        params = {}
+
+        # we setting a global ID?
+        if global_id is not None:
+            body[&#39;globalId&#39;] = global_id
+            params[&#39;setGlobalIdManually&#39;] = True
+
         headers = {&#39;content-type&#39;: &#39;application/json&#39;}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;id&#39;]
 
@@ -2832,10 +2848,11 @@ as a list of json objects.</p></section>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.post_item"><code class="name flex">
-<span>def <span class="ident">post_item</span></span>(<span>self, project, item_type_id, child_item_type_id, location, fields)</span>
+<span>def <span class="ident">post_item</span></span>(<span>self, project, item_type_id, child_item_type_id, location, fields, global_id=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>This method will post a new item to Jama Connect.
+:param global_id: optional param to post the item with a custom global id
 :param project integer representing the project to which this item is to be posted
 :param item_type_id integer ID of an Item Type.
 :param child_item_type_id integer ID of an Item Type.
@@ -2844,8 +2861,9 @@ as a list of json objects.</p></section>
 :return integer ID of the successfully posted item or None if there was an error.</p></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def post_item(self, project, item_type_id, child_item_type_id, location, fields):
+<pre><code class="python">def post_item(self, project, item_type_id, child_item_type_id, location, fields, global_id=None):
     &#34;&#34;&#34; This method will post a new item to Jama Connect.
+    :param global_id: optional param to post the item with a custom global id
     :param project integer representing the project to which this item is to be posted
     :param item_type_id integer ID of an Item Type.
     :param child_item_type_id integer ID of an Item Type.
@@ -2863,8 +2881,15 @@ as a list of json objects.</p></section>
         &#34;fields&#34;: fields
     }
     resource_path = &#39;items/&#39;
+    params = {}
+
+    # we setting a global ID?
+    if global_id is not None:
+        body[&#39;globalId&#39;] = global_id
+        params[&#39;setGlobalIdManually&#39;] = True
+
     headers = {&#39;content-type&#39;: &#39;application/json&#39;}
-    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
     JamaClient.__handle_response_status(response)
     return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
 </details>
