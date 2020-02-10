@@ -475,6 +475,22 @@ class JamaClient:
         tag_data = self.__get_all(resource_path, params=params)
         return tag_data
 
+    def get_tagged_items(self, tag_id):
+        """
+        Get all items tagged with the specified ID
+
+        Args:
+            tag_id: The ID of the tag to fetch the results for.
+
+        Returns:
+            A List of items that match the tag.
+
+        """
+        resource_path = 'tags/' + str(tag_id) + '/items'
+        params = None
+        tag_results = self.__get_all(resource_path, params=params)
+        return tag_results
+
     def get_test_cycle(self, test_cycle_id):
         """
         This method will return JSON data about the test cycle specified by the test cycle id.
