@@ -76,6 +76,31 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_baselines(self, project_id):
+        """
+        Returns a list of Baseline objects
+        Args:
+            project_id:  the Id of the project to fetch baselines for
+
+        Returns: a list of Baseline objects
+        """
+        resource_path = 'baselines'
+        params = {'project': project_id}
+        baseline_data = self.__get_all(resource_path, params=params)
+        return baseline_data
+
+    def get_baselines_versioneditems(self, baseline_id):
+        """
+        Get all baseline items in a baseline with the specified ID
+        Args:
+            baseline_id:  The id of the baseline to fetch items for.
+
+        Returns: A list of versioned items belonging to the baseline
+        """
+        resource_path = 'baselines/' + str(baseline_id) + '/versioneditems'
+        baseline_items = self.__get_all(resource_path)
+        return baseline_items
+
     def get_projects(self):
         """This method will return all projects as JSON object
         :return: JSON Array of Item Objects.

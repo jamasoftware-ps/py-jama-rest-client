@@ -43,8 +43,12 @@ compatibility)
 - PUT attachment file, uploads content to an attachment object by attachmentID
 - GET a specific attachment by ID
 
-##### Items
-- GET filter results, gets all results for the specified filter.
+##### Baselines
+- GET Baselines, Gets all baselines for a specified project
+- GET Baselines versioneditems, Gets all of the versioned items associated with the specified baseline
+
+##### Filters
+- GET filter results, gets all results for the specified filter id.
 
 ##### Items
 - GET all items by project 
@@ -87,6 +91,7 @@ compatibility)
 ##### Tags
 - GET all tags for a specific project
 - POST a new tag to a specific project
+- GET all items with tag id
 
 ##### Test Cycles
 - GET test cycle by test cycle id
@@ -109,12 +114,15 @@ compatibility)
 #### Client instantiation
 To instantiate a Basic authentication client:
 ```python
+from py_jama_rest_client.client import JamaClient
 
 basic_auth_client = JamaClient('https://yourdomain.jamacloud.com', credentials=('username', 'password'))
 ```
 
 To instantiate a OAuth authenticated client: 
 ```python
+from py_jama_rest_client.client import JamaClient
+
 oauth_client = JamaClient('https://yourdomain.jamacloud.com', credentials=('clientID', 'ClientSecret'), oauth=True)
 ```
 
@@ -125,7 +133,8 @@ setup / customization by calling `logging.getLogger('py_jama_rest_client')`
 
 
 #### Get all projects
-1) Download [get_all_projets.py](examples/get_all_projects.py) to your example_project directory
+1) Download [get_all_projets.py](https://github.com/JamaSoftware/py-jama-rest-client/tree/master/examples) 
+to your example_project directory
 2) Enter your Jama URL, username, and password into the corrisponding variables at the top of the file.
 3) To execute the script execute the following form your example_project directory: 
     ```bash
