@@ -100,6 +100,31 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
 
+    def get_baselines(self, project_id):
+        &#34;&#34;&#34;
+        Returns a list of Baseline objects
+        Args:
+            project_id:  the Id of the project to fetch baselines for
+
+        Returns: a list of Baseline objects
+        &#34;&#34;&#34;
+        resource_path = &#39;baselines&#39;
+        params = {&#39;project&#39;: project_id}
+        baseline_data = self.__get_all(resource_path, params=params)
+        return baseline_data
+
+    def get_baselines_versioneditems(self, baseline_id):
+        &#34;&#34;&#34;
+        Get all baseline items in a baseline with the specified ID
+        Args:
+            baseline_id:  The id of the baseline to fetch items for.
+
+        Returns: A list of versioned items belonging to the baseline
+        &#34;&#34;&#34;
+        resource_path = &#39;baselines/&#39; + str(baseline_id) + &#39;/versioneditems&#39;
+        baseline_items = self.__get_all(resource_path)
+        return baseline_items
+
     def get_projects(self):
         &#34;&#34;&#34;This method will return all projects as JSON object
         :return: JSON Array of Item Objects.
@@ -498,6 +523,22 @@ class JamaClient:
         params = {&#39;project&#39;: project}
         tag_data = self.__get_all(resource_path, params=params)
         return tag_data
+
+    def get_tagged_items(self, tag_id):
+        &#34;&#34;&#34;
+        Get all items tagged with the specified ID
+
+        Args:
+            tag_id: The ID of the tag to fetch the results for.
+
+        Returns:
+            A List of items that match the tag.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;tags/&#39; + str(tag_id) + &#39;/items&#39;
+        params = None
+        tag_results = self.__get_all(resource_path, params=params)
+        return tag_results
 
     def get_test_cycle(self, test_cycle_id):
         &#34;&#34;&#34;
@@ -1072,6 +1113,31 @@ See help(type(self)) for accurate signature.</p></section>
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
 
+    def get_baselines(self, project_id):
+        &#34;&#34;&#34;
+        Returns a list of Baseline objects
+        Args:
+            project_id:  the Id of the project to fetch baselines for
+
+        Returns: a list of Baseline objects
+        &#34;&#34;&#34;
+        resource_path = &#39;baselines&#39;
+        params = {&#39;project&#39;: project_id}
+        baseline_data = self.__get_all(resource_path, params=params)
+        return baseline_data
+
+    def get_baselines_versioneditems(self, baseline_id):
+        &#34;&#34;&#34;
+        Get all baseline items in a baseline with the specified ID
+        Args:
+            baseline_id:  The id of the baseline to fetch items for.
+
+        Returns: A list of versioned items belonging to the baseline
+        &#34;&#34;&#34;
+        resource_path = &#39;baselines/&#39; + str(baseline_id) + &#39;/versioneditems&#39;
+        baseline_items = self.__get_all(resource_path)
+        return baseline_items
+
     def get_projects(self):
         &#34;&#34;&#34;This method will return all projects as JSON object
         :return: JSON Array of Item Objects.
@@ -1470,6 +1536,22 @@ See help(type(self)) for accurate signature.</p></section>
         params = {&#39;project&#39;: project}
         tag_data = self.__get_all(resource_path, params=params)
         return tag_data
+
+    def get_tagged_items(self, tag_id):
+        &#34;&#34;&#34;
+        Get all items tagged with the specified ID
+
+        Args:
+            tag_id: The ID of the tag to fetch the results for.
+
+        Returns:
+            A List of items that match the tag.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;tags/&#39; + str(tag_id) + &#39;/items&#39;
+        params = None
+        tag_results = self.__get_all(resource_path, params=params)
+        return tag_results
 
     def get_test_cycle(self, test_cycle_id):
         &#34;&#34;&#34;
@@ -2162,6 +2244,61 @@ document keys.</p></section>
     return response.json()[&#39;data&#39;]</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_baselines"><code class="name flex">
+<span>def <span class="ident">get_baselines</span></span>(<span>self, project_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns a list of Baseline objects</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>project_id</code></strong></dt>
+<dd>the Id of the project to fetch baselines for</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>a</code> <code>list</code> of <code>Baseline</code> <code>objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_baselines(self, project_id):
+    &#34;&#34;&#34;
+    Returns a list of Baseline objects
+    Args:
+        project_id:  the Id of the project to fetch baselines for
+
+    Returns: a list of Baseline objects
+    &#34;&#34;&#34;
+    resource_path = &#39;baselines&#39;
+    params = {&#39;project&#39;: project_id}
+    baseline_data = self.__get_all(resource_path, params=params)
+    return baseline_data</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_baselines_versioneditems"><code class="name flex">
+<span>def <span class="ident">get_baselines_versioneditems</span></span>(<span>self, baseline_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get all baseline items in a baseline with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>baseline_id</code></strong></dt>
+<dd>The id of the baseline to fetch items for.</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>A</code> <code>list</code> of <code>versioned</code> <code>items</code> <code>belonging</code> <code>to</code> <code>the</code> <code>baseline</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_baselines_versioneditems(self, baseline_id):
+    &#34;&#34;&#34;
+    Get all baseline items in a baseline with the specified ID
+    Args:
+        baseline_id:  The id of the baseline to fetch items for.
+
+    Returns: A list of versioned items belonging to the baseline
+    &#34;&#34;&#34;
+    resource_path = &#39;baselines/&#39; + str(baseline_id) + &#39;/versioneditems&#39;
+    baseline_items = self.__get_all(resource_path)
+    return baseline_items</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_filter_results"><code class="name flex">
 <span>def <span class="ident">get_filter_results</span></span>(<span>self, filter_id, project_id=None)</span>
 </code></dt>
@@ -2716,6 +2853,37 @@ document keys.</p></section>
     params = {&#39;project&#39;: project_id}
     relationship_data = self.__get_all(resource_path, params=params)
     return relationship_data</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_tagged_items"><code class="name flex">
+<span>def <span class="ident">get_tagged_items</span></span>(<span>self, tag_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get all items tagged with the specified ID</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>tag_id</code></strong></dt>
+<dd>The ID of the tag to fetch the results for.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A List of items that match the tag.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_tagged_items(self, tag_id):
+    &#34;&#34;&#34;
+    Get all items tagged with the specified ID
+
+    Args:
+        tag_id: The ID of the tag to fetch the results for.
+
+    Returns:
+        A List of items that match the tag.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;tags/&#39; + str(tag_id) + &#39;/items&#39;
+    params = None
+    tag_results = self.__get_all(resource_path, params=params)
+    return tag_results</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_tags"><code class="name flex">
@@ -3395,6 +3563,8 @@ with a key of 'item' or 'project' and an value with the ID of the parent
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key" href="#py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key">get_abstract_items_from_doc_key</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_attachment" href="#py_jama_rest_client.client.JamaClient.get_attachment">get_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_available_endpoints" href="#py_jama_rest_client.client.JamaClient.get_available_endpoints">get_available_endpoints</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_baselines" href="#py_jama_rest_client.client.JamaClient.get_baselines">get_baselines</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_baselines_versioneditems" href="#py_jama_rest_client.client.JamaClient.get_baselines_versioneditems">get_baselines_versioneditems</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_filter_results" href="#py_jama_rest_client.client.JamaClient.get_filter_results">get_filter_results</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item" href="#py_jama_rest_client.client.JamaClient.get_item">get_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_children" href="#py_jama_rest_client.client.JamaClient.get_item_children">get_item_children</a></code></li>
@@ -3415,6 +3585,7 @@ with a key of 'item' or 'project' and an value with the ID of the parent
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_relationship_type" href="#py_jama_rest_client.client.JamaClient.get_relationship_type">get_relationship_type</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_relationship_types" href="#py_jama_rest_client.client.JamaClient.get_relationship_types">get_relationship_types</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_relationships" href="#py_jama_rest_client.client.JamaClient.get_relationships">get_relationships</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_tagged_items" href="#py_jama_rest_client.client.JamaClient.get_tagged_items">get_tagged_items</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_tags" href="#py_jama_rest_client.client.JamaClient.get_tags">get_tags</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_test_cycle" href="#py_jama_rest_client.client.JamaClient.get_test_cycle">get_test_cycle</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_testruns" href="#py_jama_rest_client.client.JamaClient.get_testruns">get_testruns</a></code></li>
