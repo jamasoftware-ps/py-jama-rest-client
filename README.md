@@ -54,6 +54,7 @@ compatibility)
 - GET all items by project 
 - GET a specific item by ID
 - GET all downstream relationships for an item by item ID
+- GET all downstream related items for an item by item ID
 - GET all upstream relationships for an item by item ID
 - GET all children of an item
 - GET all synced items

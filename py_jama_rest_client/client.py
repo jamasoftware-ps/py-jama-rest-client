@@ -473,6 +473,19 @@ class JamaClient:
         resource_path = 'items/' + str(item_id) + '/upstreamrelationships'
         return self.__get_all(resource_path)
 
+    def get_items_downstream_related(self, item_id):
+        """
+        Returns a list of all the downstream related items for the item with the specified ID.
+
+        Args:
+            item_id: the api id of the item to fetch downstream items for
+
+        Returns: an array of dictionary objects that represent the downstream related items for the specified item.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/downstreamrelated'
+        return self.__get_all(resource_path)
+
     def get_items_downstream_relationships(self, item_id):
         """
         Returns a list of all the downstream relationships for the item with the specified ID.

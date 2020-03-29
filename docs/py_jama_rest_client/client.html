@@ -497,6 +497,19 @@ class JamaClient:
         resource_path = &#39;items/&#39; + str(item_id) + &#39;/upstreamrelationships&#39;
         return self.__get_all(resource_path)
 
+    def get_items_downstream_related(self, item_id):
+        &#34;&#34;&#34;
+        Returns a list of all the downstream related items for the item with the specified ID.
+
+        Args:
+            item_id: the api id of the item to fetch downstream items for
+
+        Returns: an array of dictionary objects that represent the downstream related items for the specified item.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/downstreamrelated&#39;
+        return self.__get_all(resource_path)
+
     def get_items_downstream_relationships(self, item_id):
         &#34;&#34;&#34;
         Returns a list of all the downstream relationships for the item with the specified ID.
@@ -1510,6 +1523,19 @@ See help(type(self)) for accurate signature.</p></section>
         resource_path = &#39;items/&#39; + str(item_id) + &#39;/upstreamrelationships&#39;
         return self.__get_all(resource_path)
 
+    def get_items_downstream_related(self, item_id):
+        &#34;&#34;&#34;
+        Returns a list of all the downstream related items for the item with the specified ID.
+
+        Args:
+            item_id: the api id of the item to fetch downstream items for
+
+        Returns: an array of dictionary objects that represent the downstream related items for the specified item.
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(item_id) + &#39;/downstreamrelated&#39;
+        return self.__get_all(resource_path)
+
     def get_items_downstream_relationships(self, item_id):
         &#34;&#34;&#34;
         Returns a list of all the downstream relationships for the item with the specified ID.
@@ -2500,6 +2526,33 @@ document keys.</p></section>
     params = {&#39;project&#39;: project_id}
     item_data = self.__get_all(resource_path, params=params)
     return item_data</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_items_downstream_related"><code class="name flex">
+<span>def <span class="ident">get_items_downstream_related</span></span>(<span>self, item_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns a list of all the downstream related items for the item with the specified ID.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item_id</code></strong></dt>
+<dd>the api id of the item to fetch downstream items for</dd>
+</dl>
+<p>Returns: an array of dictionary objects that represent the downstream related items for the specified item.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_items_downstream_related(self, item_id):
+    &#34;&#34;&#34;
+    Returns a list of all the downstream related items for the item with the specified ID.
+
+    Args:
+        item_id: the api id of the item to fetch downstream items for
+
+    Returns: an array of dictionary objects that represent the downstream related items for the specified item.
+
+    &#34;&#34;&#34;
+    resource_path = &#39;items/&#39; + str(item_id) + &#39;/downstreamrelated&#39;
+    return self.__get_all(resource_path)</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_items_downstream_relationships"><code class="name flex">
@@ -3572,6 +3625,7 @@ with a key of 'item' or 'project' and an value with the ID of the parent
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_type" href="#py_jama_rest_client.client.JamaClient.get_item_type">get_item_type</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_types" href="#py_jama_rest_client.client.JamaClient.get_item_types">get_item_types</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_items" href="#py_jama_rest_client.client.JamaClient.get_items">get_items</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_items_downstream_related" href="#py_jama_rest_client.client.JamaClient.get_items_downstream_related">get_items_downstream_related</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_items_downstream_relationships" href="#py_jama_rest_client.client.JamaClient.get_items_downstream_relationships">get_items_downstream_relationships</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_items_synceditems" href="#py_jama_rest_client.client.JamaClient.get_items_synceditems">get_items_synceditems</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_items_synceditems_status" href="#py_jama_rest_client.client.JamaClient.get_items_synceditems_status">get_items_synceditems_status</a></code></li>
