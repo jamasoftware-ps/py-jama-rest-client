@@ -98,7 +98,7 @@ class JamaClient:
         Returns: a dictionary object representing the baseline
 
         """
-        resource_path = 'items/' + str(baseline_id)
+        resource_path = 'baselines/' + str(baseline_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
