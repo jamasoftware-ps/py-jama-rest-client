@@ -89,6 +89,20 @@ class JamaClient:
         baseline_data = self.__get_all(resource_path, params=params)
         return baseline_data
 
+    def get_baseline(self, baseline_id):
+        """
+        This method will return a baseline
+        Args:
+            baseline_id: the id of the baseline to fetch
+
+        Returns: a dictionary object representing the baseline
+
+        """
+        resource_path = 'items/' + str(baseline_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_baselines_versioneditems(self, baseline_id):
         """
         Get all baseline items in a baseline with the specified ID

@@ -44,7 +44,8 @@ compatibility)
 - GET a specific attachment by ID
 
 ##### Baselines
-- GET Baselines, Gets all baselines for a specified project
+- GET Baseline  Gets the baseline with the specified ID
+- GET Baselines Gets all baselines for a specified project
 - GET Baselines versioneditems, Gets all of the versioned items associated with the specified baseline
 
 ##### Filters

@@ -113,6 +113,20 @@ class JamaClient:
         baseline_data = self.__get_all(resource_path, params=params)
         return baseline_data
 
+    def get_baseline(self, baseline_id):
+        &#34;&#34;&#34;
+        This method will return a baseline
+        Args:
+            baseline_id: the id of the baseline to fetch
+
+        Returns: a dictionary object representing the baseline
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(baseline_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
+
     def get_baselines_versioneditems(self, baseline_id):
         &#34;&#34;&#34;
         Get all baseline items in a baseline with the specified ID
@@ -1138,6 +1152,20 @@ See help(type(self)) for accurate signature.</p></section>
         params = {&#39;project&#39;: project_id}
         baseline_data = self.__get_all(resource_path, params=params)
         return baseline_data
+
+    def get_baseline(self, baseline_id):
+        &#34;&#34;&#34;
+        This method will return a baseline
+        Args:
+            baseline_id: the id of the baseline to fetch
+
+        Returns: a dictionary object representing the baseline
+
+        &#34;&#34;&#34;
+        resource_path = &#39;items/&#39; + str(baseline_id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;data&#39;]
 
     def get_baselines_versioneditems(self, baseline_id):
         &#34;&#34;&#34;
@@ -2266,6 +2294,35 @@ document keys.</p></section>
 
     &#34;&#34;&#34;
     response = self.__core.get(&#39;&#39;)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;data&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_baseline"><code class="name flex">
+<span>def <span class="ident">get_baseline</span></span>(<span>self, baseline_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will return a baseline</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>baseline_id</code></strong></dt>
+<dd>the id of the baseline to fetch</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>a</code> <code>dictionary</code> <code>object</code> <code>representing</code> <code>the</code> <code>baseline</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_baseline(self, baseline_id):
+    &#34;&#34;&#34;
+    This method will return a baseline
+    Args:
+        baseline_id: the id of the baseline to fetch
+
+    Returns: a dictionary object representing the baseline
+
+    &#34;&#34;&#34;
+    resource_path = &#39;items/&#39; + str(baseline_id)
+    response = self.__core.get(resource_path)
     JamaClient.__handle_response_status(response)
     return response.json()[&#39;data&#39;]</code></pre>
 </details>
@@ -3616,6 +3673,7 @@ with a key of 'item' or 'project' and an value with the ID of the parent
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key" href="#py_jama_rest_client.client.JamaClient.get_abstract_items_from_doc_key">get_abstract_items_from_doc_key</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_attachment" href="#py_jama_rest_client.client.JamaClient.get_attachment">get_attachment</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_available_endpoints" href="#py_jama_rest_client.client.JamaClient.get_available_endpoints">get_available_endpoints</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_baseline" href="#py_jama_rest_client.client.JamaClient.get_baseline">get_baseline</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_baselines" href="#py_jama_rest_client.client.JamaClient.get_baselines">get_baselines</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_baselines_versioneditems" href="#py_jama_rest_client.client.JamaClient.get_baselines_versioneditems">get_baselines_versioneditems</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_filter_results" href="#py_jama_rest_client.client.JamaClient.get_filter_results">get_filter_results</a></code></li>
