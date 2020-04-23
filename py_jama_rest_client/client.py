@@ -115,6 +115,30 @@ class JamaClient:
         baseline_items = self.__get_all(resource_path)
         return baseline_items
 
+    def get_comments(self):
+        """
+        Get all comments that are viewable to the user.
+
+        Args: None
+
+        Returns: A list of all the viewbale comments.
+        """
+        resource_path = 'comments/'
+        comments = self.__get_all(resource_path)
+        return comments
+
+    def get_comment(self, comment_id: int):
+        """
+        Gets a single comment
+
+        Args: comment id
+
+        Returns: A single comment
+        """
+        resource_path = 'comments/' + str(comment_id)
+        comments = self.__get_all(resource_path)
+        return comments
+
     def get_projects(self):
         """This method will return all projects as JSON object
         :return: JSON Array of Item Objects.
@@ -704,6 +728,37 @@ class JamaClient:
         if global_id is not None:
             body['globalId'] = global_id
             params['setGlobalIdManually'] = True
+
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
+
+    def post_comment(self, item_id: int, message: str, in_reply_to: int = None):
+        """
+        Add a comment to an existing itme.
+        Args:
+            item_id: The API ID of the item to add the comment to
+            message: the message to be displayed
+            in_reply_to: optionally can reply to a specific comment
+
+        Returns: 201 if successful
+        """
+        body = {
+            "body": {
+                "text": message
+            },
+            "commentType": "GENERAL",
+            "location": {
+                "item": item_id,
+            }
+        }
+
+        if in_reply_to is not None:
+            body['inReplyTo'] = in_reply_to
+
+        resource_path = 'comments/'
+        params = {}
 
         headers = {'content-type': 'application/json'}
         response = self.__core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
