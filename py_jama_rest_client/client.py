@@ -52,14 +52,15 @@ class JamaClient:
     __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
 
     def __init__(self, host_domain, credentials=('username|clientID', 'password|clientSecret'), api_version='/rest/v1/',
-                 oauth=False):
+                 oauth=False, verify=True):
         """Jama Client initializer
         :rtype: JamaClient
         :param host_domain: String The domain associated with the Jama Connect host
         :param credentials: the user name and password as a tuple or client id and client secret if using Oauth.
-        :param api_version: valid args are '/rest/[v1|latest|labs]/' """
+        :param api_version: valid args are '/rest/[v1|latest|labs]/'
+        :param verify: Defaults to True, Setting this to False will skip SSL Certificate verification"""
         self.__credentials = credentials
-        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth, verify=verify)
 
         # Log client creation
         py_jama_rest_client_logger.info('Created a new JamaClient instance. Domain: {} '

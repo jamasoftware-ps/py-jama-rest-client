@@ -2,8 +2,11 @@ import math
 
 import requests
 import time
+import logging
 
 __DEBUG__ = False
+
+py_jama_rest_client_logger = logging.getLogger('py_jama_rest_client-core')
 
 
 class Core:
@@ -11,12 +14,13 @@ class Core:
     Response Object.  This class will give the user more fine grained access to the JAMA API.  For more information
     on the Requests library visit: http://docs.python-requests.org/en/master/"""
 
-    def __init__(self, host_name, user_credentials, api_version='/rest/v1/', oauth=False):
+    def __init__(self, host_name, user_credentials, api_version='/rest/v1/', oauth=False, verify=True):
         # Instance variables
         self.__api_version = api_version
         self.__host_name = host_name + self.__api_version
         self.__credentials = user_credentials
         self.__oauth = oauth
+        self.__verify = verify
         self.__session = requests.Session()
 
         # Setup OAuth if needed.
@@ -28,6 +32,7 @@ class Core:
     def delete(self, resource, **kwargs):
         """ This method will perform a delete operation on the specified resource"""
         url = self.__host_name + resource
+        kwargs['verify'] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -39,6 +44,7 @@ class Core:
     def get(self, resource, params=None, **kwargs):
         """ This method will perform a get operation on the specified resource"""
         url = self.__host_name + resource
+        kwargs['verify'] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -50,6 +56,7 @@ class Core:
     def patch(self, resource, params=None, data=None, json=None, **kwargs):
         """ This method will perform a patch operation to the specified resource"""
         url = self.__host_name + resource
+        kwargs['verify'] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -61,6 +68,7 @@ class Core:
     def post(self, resource, params=None, data=None, json=None, **kwargs):
         """ This method will perform a post operation to the specified resource."""
         url = self.__host_name + resource
+        kwargs['verify'] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -72,6 +80,7 @@ class Core:
     def put(self, resource, params=None, data=None, json=None, **kwargs):
         """ This method will perform a put operation to the specified resource"""
         url = self.__host_name + resource
+        kwargs['verify'] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -102,7 +111,7 @@ class Core:
         time_before_request = time.time()
 
         # Post to the token server
-        response = requests.post(self.__token_host, auth=self.__credentials, data=data)
+        response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
 
         # If success get relevant data
         if response.status_code in [200, 201]:
@@ -112,7 +121,7 @@ class Core:
             self.__token_acquired_at = math.floor(time_before_request)
 
         else:
-            print('Failed to retrieve OAuth Token')
+            py_jama_rest_client_logger.error('Failed to retrieve OAuth Token')
 
     def __add_auth_header(self, **kwargs):
         headers = kwargs.get('headers')
