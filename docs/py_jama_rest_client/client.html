@@ -76,14 +76,15 @@ class JamaClient:
     __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
 
     def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;,
-                 oauth=False):
+                 oauth=False, verify=True):
         &#34;&#34;&#34;Jama Client initializer
         :rtype: JamaClient
         :param host_domain: String The domain associated with the Jama Connect host
         :param credentials: the user name and password as a tuple or client id and client secret if using Oauth.
-        :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39; &#34;&#34;&#34;
+        :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39;
+        :param verify: Defaults to True, Setting this to False will skip SSL Certificate verification&#34;&#34;&#34;
         self.__credentials = credentials
-        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth, verify=verify)
 
         # Log client creation
         py_jama_rest_client_logger.info(&#39;Created a new JamaClient instance. Domain: {} &#39;
@@ -122,7 +123,7 @@ class JamaClient:
         Returns: a dictionary object representing the baseline
 
         &#34;&#34;&#34;
-        resource_path = &#39;items/&#39; + str(baseline_id)
+        resource_path = &#39;baselines/&#39; + str(baseline_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
@@ -1116,14 +1117,15 @@ See help(type(self)) for accurate signature.</p></section>
     __allowed_results_per_page = 20  # Default is 20, Max is 50. if set to greater than 50, only 50 will items return.
 
     def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;,
-                 oauth=False):
+                 oauth=False, verify=True):
         &#34;&#34;&#34;Jama Client initializer
         :rtype: JamaClient
         :param host_domain: String The domain associated with the Jama Connect host
         :param credentials: the user name and password as a tuple or client id and client secret if using Oauth.
-        :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39; &#34;&#34;&#34;
+        :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39;
+        :param verify: Defaults to True, Setting this to False will skip SSL Certificate verification&#34;&#34;&#34;
         self.__credentials = credentials
-        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth, verify=verify)
 
         # Log client creation
         py_jama_rest_client_logger.info(&#39;Created a new JamaClient instance. Domain: {} &#39;
@@ -1162,7 +1164,7 @@ See help(type(self)) for accurate signature.</p></section>
         Returns: a dictionary object representing the baseline
 
         &#34;&#34;&#34;
-        resource_path = &#39;items/&#39; + str(baseline_id)
+        resource_path = &#39;baselines/&#39; + str(baseline_id)
         response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;data&#39;]
@@ -2030,25 +2032,27 @@ See help(type(self)) for accurate signature.</p></section>
 <h3>Methods</h3>
 <dl>
 <dt id="py_jama_rest_client.client.JamaClient.__init__"><code class="name flex">
-<span>def <span class="ident">__init__</span></span>(<span>self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False)</span>
+<span>def <span class="ident">__init__</span></span>(<span>self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;, oauth=False, verify=True)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Jama Client initializer
 :rtype: JamaClient
 :param host_domain: String The domain associated with the Jama Connect host
 :param credentials: the user name and password as a tuple or client id and client secret if using Oauth.
-:param api_version: valid args are '/rest/[v1|latest|labs]/'</p></section>
+:param api_version: valid args are '/rest/[v1|latest|labs]/'
+:param verify: Defaults to True, Setting this to False will skip SSL Certificate verification</p></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def __init__(self, host_domain, credentials=(&#39;username|clientID&#39;, &#39;password|clientSecret&#39;), api_version=&#39;/rest/v1/&#39;,
-             oauth=False):
+             oauth=False, verify=True):
     &#34;&#34;&#34;Jama Client initializer
     :rtype: JamaClient
     :param host_domain: String The domain associated with the Jama Connect host
     :param credentials: the user name and password as a tuple or client id and client secret if using Oauth.
-    :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39; &#34;&#34;&#34;
+    :param api_version: valid args are &#39;/rest/[v1|latest|labs]/&#39;
+    :param verify: Defaults to True, Setting this to False will skip SSL Certificate verification&#34;&#34;&#34;
     self.__credentials = credentials
-    self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth)
+    self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth, verify=verify)
 
     # Log client creation
     py_jama_rest_client_logger.info(&#39;Created a new JamaClient instance. Domain: {} &#39;
@@ -2321,7 +2325,7 @@ document keys.</p></section>
     Returns: a dictionary object representing the baseline
 
     &#34;&#34;&#34;
-    resource_path = &#39;items/&#39; + str(baseline_id)
+    resource_path = &#39;baselines/&#39; + str(baseline_id)
     response = self.__core.get(resource_path)
     JamaClient.__handle_response_status(response)
     return response.json()[&#39;data&#39;]</code></pre>

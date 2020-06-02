@@ -26,8 +26,11 @@
 
 import requests
 import time
+import logging
 
 __DEBUG__ = False
+
+py_jama_rest_client_logger = logging.getLogger(&#39;py_jama_rest_client-core&#39;)
 
 
 class Core:
@@ -35,12 +38,13 @@ class Core:
     Response Object.  This class will give the user more fine grained access to the JAMA API.  For more information
     on the Requests library visit: http://docs.python-requests.org/en/master/&#34;&#34;&#34;
 
-    def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False):
+    def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False, verify=True):
         # Instance variables
         self.__api_version = api_version
         self.__host_name = host_name + self.__api_version
         self.__credentials = user_credentials
         self.__oauth = oauth
+        self.__verify = verify
         self.__session = requests.Session()
 
         # Setup OAuth if needed.
@@ -52,6 +56,7 @@ class Core:
     def delete(self, resource, **kwargs):
         &#34;&#34;&#34; This method will perform a delete operation on the specified resource&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -63,6 +68,7 @@ class Core:
     def get(self, resource, params=None, **kwargs):
         &#34;&#34;&#34; This method will perform a get operation on the specified resource&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -74,6 +80,7 @@ class Core:
     def patch(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a patch operation to the specified resource&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -85,6 +92,7 @@ class Core:
     def post(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a post operation to the specified resource.&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -96,6 +104,7 @@ class Core:
     def put(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a put operation to the specified resource&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -126,7 +135,7 @@ class Core:
         time_before_request = time.time()
 
         # Post to the token server
-        response = requests.post(self.__token_host, auth=self.__credentials, data=data)
+        response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
 
         # If success get relevant data
         if response.status_code in [200, 201]:
@@ -136,7 +145,7 @@ class Core:
             self.__token_acquired_at = math.floor(time_before_request)
 
         else:
-            print(&#39;Failed to retrieve OAuth Token&#39;)
+            py_jama_rest_client_logger.error(&#39;Failed to retrieve OAuth Token&#39;)
 
     def __add_auth_header(self, **kwargs):
         headers = kwargs.get(&#39;headers&#39;)
@@ -171,12 +180,13 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
     Response Object.  This class will give the user more fine grained access to the JAMA API.  For more information
     on the Requests library visit: http://docs.python-requests.org/en/master/&#34;&#34;&#34;
 
-    def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False):
+    def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False, verify=True):
         # Instance variables
         self.__api_version = api_version
         self.__host_name = host_name + self.__api_version
         self.__credentials = user_credentials
         self.__oauth = oauth
+        self.__verify = verify
         self.__session = requests.Session()
 
         # Setup OAuth if needed.
@@ -188,6 +198,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
     def delete(self, resource, **kwargs):
         &#34;&#34;&#34; This method will perform a delete operation on the specified resource&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -199,6 +210,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
     def get(self, resource, params=None, **kwargs):
         &#34;&#34;&#34; This method will perform a get operation on the specified resource&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -210,6 +222,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
     def patch(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a patch operation to the specified resource&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -221,6 +234,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
     def post(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a post operation to the specified resource.&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -232,6 +246,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
     def put(self, resource, params=None, data=None, json=None, **kwargs):
         &#34;&#34;&#34; This method will perform a put operation to the specified resource&#34;&#34;&#34;
         url = self.__host_name + resource
+        kwargs[&#39;verify&#39;] = self.__verify
 
         if self.__oauth:
             self.__check_oauth_token()
@@ -262,7 +277,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
         time_before_request = time.time()
 
         # Post to the token server
-        response = requests.post(self.__token_host, auth=self.__credentials, data=data)
+        response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
 
         # If success get relevant data
         if response.status_code in [200, 201]:
@@ -272,7 +287,7 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
             self.__token_acquired_at = math.floor(time_before_request)
 
         else:
-            print(&#39;Failed to retrieve OAuth Token&#39;)
+            py_jama_rest_client_logger.error(&#39;Failed to retrieve OAuth Token&#39;)
 
     def __add_auth_header(self, **kwargs):
         headers = kwargs.get(&#39;headers&#39;)
@@ -284,19 +299,20 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
 <h3>Methods</h3>
 <dl>
 <dt id="py_jama_rest_client.core.Core.__init__"><code class="name flex">
-<span>def <span class="ident">__init__</span></span>(<span>self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False)</span>
+<span>def <span class="ident">__init__</span></span>(<span>self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False, verify=True)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Initialize self.
 See help(type(self)) for accurate signature.</p></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False):
+<pre><code class="python">def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False, verify=True):
     # Instance variables
     self.__api_version = api_version
     self.__host_name = host_name + self.__api_version
     self.__credentials = user_credentials
     self.__oauth = oauth
+    self.__verify = verify
     self.__session = requests.Session()
 
     # Setup OAuth if needed.
@@ -316,6 +332,7 @@ See help(type(self)) for accurate signature.</p></section>
 <pre><code class="python">def delete(self, resource, **kwargs):
     &#34;&#34;&#34; This method will perform a delete operation on the specified resource&#34;&#34;&#34;
     url = self.__host_name + resource
+    kwargs[&#39;verify&#39;] = self.__verify
 
     if self.__oauth:
         self.__check_oauth_token()
@@ -335,6 +352,7 @@ See help(type(self)) for accurate signature.</p></section>
 <pre><code class="python">def get(self, resource, params=None, **kwargs):
     &#34;&#34;&#34; This method will perform a get operation on the specified resource&#34;&#34;&#34;
     url = self.__host_name + resource
+    kwargs[&#39;verify&#39;] = self.__verify
 
     if self.__oauth:
         self.__check_oauth_token()
@@ -354,6 +372,7 @@ See help(type(self)) for accurate signature.</p></section>
 <pre><code class="python">def patch(self, resource, params=None, data=None, json=None, **kwargs):
     &#34;&#34;&#34; This method will perform a patch operation to the specified resource&#34;&#34;&#34;
     url = self.__host_name + resource
+    kwargs[&#39;verify&#39;] = self.__verify
 
     if self.__oauth:
         self.__check_oauth_token()
@@ -373,6 +392,7 @@ See help(type(self)) for accurate signature.</p></section>
 <pre><code class="python">def post(self, resource, params=None, data=None, json=None, **kwargs):
     &#34;&#34;&#34; This method will perform a post operation to the specified resource.&#34;&#34;&#34;
     url = self.__host_name + resource
+    kwargs[&#39;verify&#39;] = self.__verify
 
     if self.__oauth:
         self.__check_oauth_token()
@@ -392,6 +412,7 @@ See help(type(self)) for accurate signature.</p></section>
 <pre><code class="python">def put(self, resource, params=None, data=None, json=None, **kwargs):
     &#34;&#34;&#34; This method will perform a put operation to the specified resource&#34;&#34;&#34;
     url = self.__host_name + resource
+    kwargs[&#39;verify&#39;] = self.__verify
 
     if self.__oauth:
         self.__check_oauth_token()
