@@ -144,5 +144,5 @@ to your example_project directory
     ```
 
 ## Additional Documentation
-  * [Developer Documentation](https://jamasoftware.github.io/py-jama-rest-client/)
+  * [Developer Documentation](https://jamasoftware-ps.github.io/py-jama-rest-client/)
   * [Pypi docs](https://pypi.org/project/py-jama-rest-client/)
