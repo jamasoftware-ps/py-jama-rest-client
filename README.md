@@ -32,7 +32,7 @@ Create a new directory and install py-jama-rest-client using pipenv.
 ### REST Calls Supported in the Client
 
 ##### API information
-- GET available endpoints
+- `GET` available endpoints
 
 ##### Abstract Items
 - ~~GET abstract items by document key~~(Deprecated)
