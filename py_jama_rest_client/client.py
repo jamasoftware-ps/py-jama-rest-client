@@ -544,6 +544,42 @@ class JamaClient:
         tag_results = self.__get_all(resource_path, params=params)
         return tag_results
 
+    def get_users(self):
+        """
+        Gets a list of all active users visible to the current user
+
+        Returns: JSON array
+
+        """
+        resource_path = 'users/'
+        users = self.__get_all(resource_path)
+        return users
+
+    def get_user(self, user_id):
+        """
+        Gets a single speificed user
+
+        Args:
+            user_id: user api ID
+
+        Returns: JSON obect
+
+        """
+        resource_path = 'users/' + str(user_id)
+        response = self.__core.get(resource_path)
+        return response.json()['data']
+
+    def get_current_user(self):
+        """
+        Gets a current user
+
+        Returns: JSON obect
+
+        """
+        resource_path = 'users/current'
+        response = self.__core.get(resource_path)
+        return response.json()['data']
+
     def get_test_cycle(self, test_cycle_id):
         """
         This method will return JSON data about the test cycle specified by the test cycle id.
@@ -617,6 +653,43 @@ class JamaClient:
         # validate response
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['status']
+
+    def post_user(self, username, password, first_name, last_name, email, license_type, phone=None, title=None,
+                  location=None):
+        """
+        Creates a new user
+
+        Args:
+            username: str
+            password: str
+            first_name: str
+            last_name: str
+            email: str
+            phone: str - optional
+            title: str - optional
+            location: str - optional
+            licenseType: enum [ NAMED, FLOATING, STAKEHOLDER, FLOATING_COLLABORATOR, RESERVED_COLLABORATOR, FLOATING_REVIEWER, RESERVED_REVIEWER, NAMED_REVIEWER, TEST_RUNNER, EXPIRING_TRIAL, INACTIVE ]
+
+        Returns: int of newly created user api ID
+
+        """
+
+        body = {
+            'username': username,
+            'password': password,
+            'firstName': first_name,
+            'lastName': last_name,
+            'email': email,
+            'phone': phone,
+            'title': title,
+            'location': location,
+            'licenseType': license_type
+        }
+        resource_path = 'users/'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
 
     def post_tag(self, name: str, project: int):
         """
@@ -847,6 +920,58 @@ class JamaClient:
 
         self.__handle_response_status(response)
         return response.status_code
+
+    def put_user(self, user_id, username, password, first_name, last_name, email, phone=None, title=None,
+                 location=None):
+        """
+        updates an existing user
+
+        Args:
+            username: str
+            password: str
+            first_name: str
+            last_name: str
+            email: str
+            phone: str - optional
+            title: str - optional
+            location: str - optional
+
+        Returns: api status code
+
+        """
+
+        body = {
+            'username': username,
+            'password': password,
+            'firstName': first_name,
+            'lastName': last_name,
+            'email': email,
+            'phone': phone,
+            'title': title,
+            'location': location
+        }
+        resource_path = 'users/' + str(user_id)
+        headers = {'content-type': 'application/json'}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
+
+    def put_user_active(self, user_id, is_active):
+        """
+        updates an existing users active status
+
+        Args:
+            is_active: boolean
+
+        Returns: api status code
+
+        """
+        body = {
+            'active': is_active
+        }
+        resource_path = 'users/' + str(user_id) + '/active'
+        headers = {'content-type': 'application/json'}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
 
     def put_test_run(self, test_run_id, data=None):
         """ This method will post a test run to Jama through the API"""
