@@ -36,80 +36,89 @@ Create a new directory and install py-jama-rest-client using pipenv.
 
 ##### Abstract Items
 - ~~GET abstract items by document key~~(Deprecated)
-- GET abstract items(second method added to support all parameter options.  Previous method left to preserve backwards 
+- `GET` abstract items(second method added to support all parameter options.  Previous method left to preserve backwards 
 compatibility)
 
 ##### Attachments
-- PUT attachment file, uploads content to an attachment object by attachmentID
-- GET a specific attachment by ID
+- `PUT` attachment file, uploads content to an attachment object by attachmentID
+- `GET` a specific attachment by ID
 
 ##### Baselines
-- GET Baseline  Gets the baseline with the specified ID
-- GET Baselines Gets all baselines for a specified project
-- GET Baselines versioneditems, Gets all of the versioned items associated with the specified baseline
+- `GET` Baseline  Gets the baseline with the specified ID
+- `GET` Baselines Gets all baselines for a specified project
+- `GET` Baselines versioneditems, Gets all of the versioned items associated with the specified baseline
 
 ##### Filters
-- GET filter results, gets all results for the specified filter id.
+- `GET` filter results, gets all results for the specified filter id.
 
 ##### Items
-- GET all items by project 
-- GET a specific item by ID
-- GET all downstream relationships for an item by item ID
-- GET all downstream related items for an item by item ID
-- GET all upstream relationships for an item by item ID
-- GET all children of an item
-- GET all synced items
-- GET synced item sync status
-- GET Locked state of an item
-- DELETE an Item by ID
-- PATCH an Item
-- POST an item to a project
-- POST item attachment
-- POST item sync
-- POST a tag to an item
-- PUT an item
-- PUT item lock
+- `GET` all items by project 
+- `GET` a specific item by ID
+- `GET` all downstream relationships for an item by item ID
+- `GET` all downstream related items for an item by item ID
+- `GET` all upstream relationships for an item by item ID
+- `GET` all children of an item
+- `GET` all synced items
+- `GET` synced item sync status
+- `GET` Locked state of an item
+- `DELETE` an Item by ID
+- `PATCH` an Item
+- `POST` an item to a project
+- `POST` item attachment
+- `POST` item sync
+- `POST` a tag to an item
+- `PUT` an item
+- `PUT` item lock
 
 ##### Relationship Types
-- GET all relationship types
-- GET a specific relationship type by ID
+- `GET` all relationship types
+- `GET` a specific relationship type by ID
 
 ##### Item Types
-- GET all item types
-- GET a specific item type by ID
+- `GET` all item types
+- `GET` a specific item type by ID
 
 ##### Pick lists
-- GET all pick lists
-- GET a specific pick list by ID
-- GET all pick list options for a specific pick list by pick list ID
+- `GET` all pick lists
+- `GET` a specific pick list by ID
+- `GET` all pick list options for a specific pick list by pick list ID
 
 ##### Pick list options
-- GET a specific pick list option by pick list option ID
+- `GET` a specific pick list option by pick list option ID
 
 ##### Projects: 
-- GET all projects
-- POST new attachment item
+- `GET` all projects
+- `POST` new attachment item
 
 ##### Tags
-- GET all tags for a specific project
-- POST a new tag to a specific project
-- GET all items with tag id
+- `GET` all tags for a specific project
+- `POST` a new tag to a specific project
+- `GET` all items with tag id
 
 ##### Test Cycles
-- GET test cycle by test cycle id
+- `GET` test cycle by test cycle id
 
 ##### Test Plans
-- POST a new test cycle to a test plan by test plan id
+- `POST` a new test cycle to a test plan by test plan id
 
 ##### Test Runs
-- GET all test runs associated with a particular test cycle id
-- PUT test runs by id. Allows updating of test run fields.
+- `GET` all test runs associated with a particular test cycle id
+- `PUT` test runs by id. Allows updating of test run fields.
+
+
+##### Users
+- `GET` all active users visable to the current user
+- `GET` a single user by id
+- `GET` the current user
+- `POST` a new user
+- `PUT` update an existing user with user id
+- `PUT` update an existing user's active status with user id
 
 ##### Relationships
-- POST relationship
-- GET relationship by id
-- GET relationships by project id
-- DELETE relationship by id
+- `POST` relationship
+- `GET` relationship by id
+- `GET` relationships by project id
+- `DELETE` relationship by id
 
 ## Usage Examples
 
