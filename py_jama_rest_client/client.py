@@ -60,7 +60,7 @@ class JamaClient:
         :param api_version: valid args are '/rest/[v1|latest|labs]/'
         :param verify: Defaults to True, Setting this to False will skip SSL Certificate verification"""
         self.__credentials = credentials
-        self.__core = Core(host_domain, credentials, api_version=api_version, oauth=oauth, verify=verify)
+        self._core = Core(host_domain, credentials, api_version=api_version, oauth=oauth, verify=verify)
 
         # Log client creation
         py_jama_rest_client_logger.info('Created a new JamaClient instance. Domain: {} '
@@ -73,7 +73,7 @@ class JamaClient:
         Returns: an array of available endpoints for this API
 
         """
-        response = self.__core.get('')
+        response = self._core.get('')
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -87,7 +87,7 @@ class JamaClient:
         """
         resource_path = 'baselines'
         params = {'project': project_id}
-        baseline_data = self.__get_all(resource_path, params=params)
+        baseline_data = self._get_all(resource_path, params=params)
         return baseline_data
 
     def get_baseline(self, baseline_id):
@@ -100,7 +100,7 @@ class JamaClient:
 
         """
         resource_path = 'baselines/' + str(baseline_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -113,7 +113,7 @@ class JamaClient:
         Returns: A list of versioned items belonging to the baseline
         """
         resource_path = 'baselines/' + str(baseline_id) + '/versioneditems'
-        baseline_items = self.__get_all(resource_path)
+        baseline_items = self._get_all(resource_path)
         return baseline_items
 
     def get_projects(self):
@@ -121,7 +121,7 @@ class JamaClient:
         :return: JSON Array of Item Objects.
         """
         resource_path = 'projects'
-        project_data = self.__get_all(resource_path)
+        project_data = self._get_all(resource_path)
         return project_data
 
     def get_filter_results(self, filter_id, project_id=None):
@@ -140,7 +140,7 @@ class JamaClient:
         params = None
         if project_id is not None:
             params = {'project': str(project_id)}
-        filter_results = self.__get_all(resource_path, params=params)
+        filter_results = self._get_all(resource_path, params=params)
         return filter_results
 
     def get_items(self, project_id):
@@ -154,7 +154,7 @@ class JamaClient:
         """
         resource_path = 'items'
         params = {'project': project_id}
-        item_data = self.__get_all(resource_path, params=params)
+        item_data = self._get_all(resource_path, params=params)
         return item_data
 
     def get_item(self, item_id):
@@ -167,7 +167,7 @@ class JamaClient:
 
         """
         resource_path = 'items/' + str(item_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -182,7 +182,7 @@ class JamaClient:
 
         """
         resource_path = 'items/' + str(item_id) + '/lock'
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -202,7 +202,7 @@ class JamaClient:
         }
         resource_path = 'items/' + str(item_id) + '/lock'
         headers = {'content-type': 'application/json'}
-        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.put(resource_path, data=json.dumps(body), headers=headers)
         return self.__handle_response_status(response)
 
     def get_attachment(self, attachment_id):
@@ -215,7 +215,7 @@ class JamaClient:
 
         """
         resource_path = 'attachments/' + str(attachment_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -225,7 +225,7 @@ class JamaClient:
         document keys."""
         resource_path = 'abstractitems'
         params = {'documentKey': doc_key_list}
-        abstract_items = self.__get_all(resource_path, params=params)
+        abstract_items = self._get_all(resource_path, params=params)
         return abstract_items
 
     def get_relationship_types(self):
@@ -236,7 +236,7 @@ class JamaClient:
 
         """
         resource_path = 'relationshiptypes/'
-        item_types = self.__get_all(resource_path)
+        item_types = self._get_all(resource_path)
         return item_types
 
     def get_relationship_type(self, relationship_type_id):
@@ -250,7 +250,7 @@ class JamaClient:
 
         """
         resource_path = 'relationshiptypes/' + str(relationship_type_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -262,7 +262,7 @@ class JamaClient:
 
         """
         resource_path = 'itemtypes/'
-        item_types = self.__get_all(resource_path)
+        item_types = self._get_all(resource_path)
         return item_types
 
     def get_item_type(self, item_type_id):
@@ -276,7 +276,7 @@ class JamaClient:
 
         """
         resource_path = 'itemtypes/' + str(item_type_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -292,7 +292,7 @@ class JamaClient:
 
         """
         resource_path = 'items/' + str(item_id) + '/synceditems'
-        synced_items = self.__get_all(resource_path)
+        synced_items = self._get_all(resource_path)
         return synced_items
 
     def get_items_synceditems_status(self, item_id, synced_item_id):
@@ -307,7 +307,7 @@ class JamaClient:
 
         """
         resource_path = 'items/' + str(item_id) + '/synceditems/' + str(synced_item_id) + '/syncstatus'
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -319,7 +319,7 @@ class JamaClient:
 
         """
         resource_path = 'picklists/'
-        pick_lists = self.__get_all(resource_path)
+        pick_lists = self._get_all(resource_path)
         return pick_lists
 
     def get_pick_list(self, pick_list_id):
@@ -333,7 +333,7 @@ class JamaClient:
 
         """
         resource_path = 'picklists/' + str(pick_list_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -347,7 +347,7 @@ class JamaClient:
 
         """
         resource_path = 'picklists/' + str(pick_list_id) + '/options'
-        pick_list_options = self.__get_all(resource_path)
+        pick_list_options = self._get_all(resource_path)
         return pick_list_options
 
     def get_pick_list_option(self, pick_list_option_id):
@@ -360,7 +360,7 @@ class JamaClient:
 
         """
         resource_path = 'picklistoptions/' + str(pick_list_option_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -376,7 +376,7 @@ class JamaClient:
         """
         resource_path = 'relationships'
         params = {'project': project_id}
-        relationship_data = self.__get_all(resource_path, params=params)
+        relationship_data = self._get_all(resource_path, params=params)
         return relationship_data
 
     def get_relationship(self, relationship_id):
@@ -390,7 +390,7 @@ class JamaClient:
 
         """
         resource_path = 'relationships/' + str(relationship_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -454,7 +454,7 @@ class JamaClient:
         if sort_by is not None:
             params['sortBy'] = sort_by
 
-        abstract_items = self.__get_all(resource_path, params=params)
+        abstract_items = self._get_all(resource_path, params=params)
         return abstract_items
 
     def get_item_children(self, item_id):
@@ -466,14 +466,14 @@ class JamaClient:
         Returns: a List of Objects that represent the children of the item passed in.
         """
         resource_path = 'items/' + str(item_id) + '/children'
-        child_items = self.__get_all(resource_path)
+        child_items = self._get_all(resource_path)
         return child_items
 
     def get_testruns(self, test_cycle_id):
         """This method will return all test runs associated with the specified test cycle.  Test runs will be returned
         as a list of json objects."""
         resource_path = 'testcycles/' + str(test_cycle_id) + '/testruns'
-        testrun_data = self.__get_all(resource_path)
+        testrun_data = self._get_all(resource_path)
         return testrun_data
 
     def get_items_upstream_relationships(self, item_id):
@@ -486,7 +486,7 @@ class JamaClient:
 
         """
         resource_path = 'items/' + str(item_id) + '/upstreamrelationships'
-        return self.__get_all(resource_path)
+        return self._get_all(resource_path)
 
     def get_items_downstream_related(self, item_id):
         """
@@ -499,7 +499,7 @@ class JamaClient:
 
         """
         resource_path = 'items/' + str(item_id) + '/downstreamrelated'
-        return self.__get_all(resource_path)
+        return self._get_all(resource_path)
 
     def get_items_downstream_relationships(self, item_id):
         """
@@ -512,7 +512,7 @@ class JamaClient:
 
         """
         resource_path = 'items/' + str(item_id) + '/downstreamrelationships'
-        return self.__get_all(resource_path)
+        return self._get_all(resource_path)
 
     def get_tags(self, project):
         """
@@ -525,7 +525,7 @@ class JamaClient:
         """
         resource_path = 'tags'
         params = {'project': project}
-        tag_data = self.__get_all(resource_path, params=params)
+        tag_data = self._get_all(resource_path, params=params)
         return tag_data
 
     def get_tagged_items(self, tag_id):
@@ -541,7 +541,7 @@ class JamaClient:
         """
         resource_path = 'tags/' + str(tag_id) + '/items'
         params = None
-        tag_results = self.__get_all(resource_path, params=params)
+        tag_results = self._get_all(resource_path, params=params)
         return tag_results
 
     def get_users(self):
@@ -552,7 +552,7 @@ class JamaClient:
 
         """
         resource_path = 'users/'
-        users = self.__get_all(resource_path)
+        users = self._get_all(resource_path)
         return users
 
     def get_user(self, user_id):
@@ -566,7 +566,7 @@ class JamaClient:
 
         """
         resource_path = 'users/' + str(user_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         return response.json()['data']
 
     def get_current_user(self):
@@ -577,7 +577,7 @@ class JamaClient:
 
         """
         resource_path = 'users/current'
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         return response.json()['data']
 
     def get_test_cycle(self, test_cycle_id):
@@ -591,7 +591,7 @@ class JamaClient:
 
         """
         resource_path = 'testcycles/' + str(test_cycle_id)
-        response = self.__core.get(resource_path)
+        response = self._core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
@@ -605,7 +605,7 @@ class JamaClient:
         Returns: The success status code.
         """
         resource_path = 'items/' + str(item_id)
-        response = self.__core.delete(resource_path)
+        response = self._core.delete(resource_path)
         JamaClient.__handle_response_status(response)
         return response.status_code
 
@@ -620,7 +620,7 @@ class JamaClient:
 
         """
         resource_path = 'relationships/' + str(relationship_id)
-        response = self.__core.delete(resource_path)
+        response = self._core.delete(resource_path)
         JamaClient.__handle_response_status(response)
         return response.status_code
 
@@ -648,7 +648,7 @@ class JamaClient:
         data = json.dumps(patches)
 
         # Make the API Call
-        response = self.__core.patch(resource_path, data=data, headers=headers)
+        response = self._core.patch(resource_path, data=data, headers=headers)
 
         # validate response
         JamaClient.__handle_response_status(response)
@@ -687,7 +687,7 @@ class JamaClient:
         }
         resource_path = 'users/'
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
@@ -706,7 +706,7 @@ class JamaClient:
             'project': project
         }
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
@@ -746,7 +746,7 @@ class JamaClient:
         }
 
         # Make the API Call
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers)
 
         # Validate response
         JamaClient.__handle_response_status(response)
@@ -780,7 +780,7 @@ class JamaClient:
             params['setGlobalIdManually'] = True
 
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
@@ -799,7 +799,7 @@ class JamaClient:
         }
         resource_path = 'items/' + str(item_id) + '/tags'
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.status_code
 
@@ -819,7 +819,7 @@ class JamaClient:
 
         resource_path = 'items/' + str(pool_item) + '/synceditems'
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
@@ -842,7 +842,7 @@ class JamaClient:
             body['relationshipType'] = relationship_type
         resource_path = 'relationships/'
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
@@ -856,7 +856,7 @@ class JamaClient:
         body = {"attachment": attachment_id}
         resource_path = 'items/' + str(item_id) + '/attachments'
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.status_code
 
@@ -877,7 +877,7 @@ class JamaClient:
 
         resource_path = 'projects/' + str(project_id) + '/attachments'
         headers = {'content-type': 'application/json'}
-        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.post(resource_path, data=json.dumps(body), headers=headers)
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
@@ -903,7 +903,7 @@ class JamaClient:
         }
         resource_path = 'items/' + str(item_id)
         headers = {'content-type': 'application/json'}
-        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.put(resource_path, data=json.dumps(body), headers=headers)
         return self.__handle_response_status(response)
 
     def put_attachments_file(self, attachment_id, file_path):
@@ -916,7 +916,7 @@ class JamaClient:
         resource_path = 'attachments/' + str(attachment_id) + '/file'
         with open(file_path, 'rb') as f:
             files = {'file': f}
-            response = self.__core.put(resource_path, files=files)
+            response = self._core.put(resource_path, files=files)
 
         self.__handle_response_status(response)
         return response.status_code
@@ -952,7 +952,7 @@ class JamaClient:
         }
         resource_path = 'users/' + str(user_id)
         headers = {'content-type': 'application/json'}
-        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.put(resource_path, data=json.dumps(body), headers=headers)
         return self.__handle_response_status(response)
 
     def put_user_active(self, user_id, is_active):
@@ -970,17 +970,17 @@ class JamaClient:
         }
         resource_path = 'users/' + str(user_id) + '/active'
         headers = {'content-type': 'application/json'}
-        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        response = self._core.put(resource_path, data=json.dumps(body), headers=headers)
         return self.__handle_response_status(response)
 
     def put_test_run(self, test_run_id, data=None):
         """ This method will post a test run to Jama through the API"""
         resource_path = 'testruns/' + str(test_run_id)
         headers = {'content-type': 'application/json'}
-        response = self.__core.put(resource_path, data=data, headers=headers)
+        response = self._core.put(resource_path, data=data, headers=headers)
         return self.__handle_response_status(response)
 
-    def __get_all(self, resource, params=None, **kwargs):
+    def _get_all(self, resource, params=None, **kwargs):
         """This method will get all of the resources specified by the resource parameter, if an id or some other
         parameter is required for the resource, include it in the params parameter.
         Returns a single JSON array with all of the retrieved items."""
@@ -1017,7 +1017,7 @@ class JamaClient:
             for k, v in params.items():
                 parameters[k] = v
 
-        response = self.__core.get(resource, params=parameters, **kwargs)
+        response = self._core.get(resource, params=parameters, **kwargs)
         JamaClient.__handle_response_status(response)
         return response
 
