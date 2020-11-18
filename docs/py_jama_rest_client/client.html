@@ -568,6 +568,42 @@ class JamaClient:
         tag_results = self.__get_all(resource_path, params=params)
         return tag_results
 
+    def get_users(self):
+        &#34;&#34;&#34;
+        Gets a list of all active users visible to the current user
+
+        Returns: JSON array
+
+        &#34;&#34;&#34;
+        resource_path = &#39;users/&#39;
+        users = self.__get_all(resource_path)
+        return users
+
+    def get_user(self, user_id):
+        &#34;&#34;&#34;
+        Gets a single speificed user
+
+        Args:
+            user_id: user api ID
+
+        Returns: JSON obect
+
+        &#34;&#34;&#34;
+        resource_path = &#39;users/&#39; + str(user_id)
+        response = self.__core.get(resource_path)
+        return response.json()[&#39;data&#39;]
+
+    def get_current_user(self):
+        &#34;&#34;&#34;
+        Gets a current user
+
+        Returns: JSON obect
+
+        &#34;&#34;&#34;
+        resource_path = &#39;users/current&#39;
+        response = self.__core.get(resource_path)
+        return response.json()[&#39;data&#39;]
+
     def get_test_cycle(self, test_cycle_id):
         &#34;&#34;&#34;
         This method will return JSON data about the test cycle specified by the test cycle id.
@@ -641,6 +677,43 @@ class JamaClient:
         # validate response
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;status&#39;]
+
+    def post_user(self, username, password, first_name, last_name, email, license_type, phone=None, title=None,
+                  location=None):
+        &#34;&#34;&#34;
+        Creates a new user
+
+        Args:
+            username: str
+            password: str
+            first_name: str
+            last_name: str
+            email: str
+            phone: str - optional
+            title: str - optional
+            location: str - optional
+            licenseType: enum [ NAMED, FLOATING, STAKEHOLDER, FLOATING_COLLABORATOR, RESERVED_COLLABORATOR, FLOATING_REVIEWER, RESERVED_REVIEWER, NAMED_REVIEWER, TEST_RUNNER, EXPIRING_TRIAL, INACTIVE ]
+
+        Returns: int of newly created user api ID
+
+        &#34;&#34;&#34;
+
+        body = {
+            &#39;username&#39;: username,
+            &#39;password&#39;: password,
+            &#39;firstName&#39;: first_name,
+            &#39;lastName&#39;: last_name,
+            &#39;email&#39;: email,
+            &#39;phone&#39;: phone,
+            &#39;title&#39;: title,
+            &#39;location&#39;: location,
+            &#39;licenseType&#39;: license_type
+        }
+        resource_path = &#39;users/&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
 
     def post_tag(self, name: str, project: int):
         &#34;&#34;&#34;
@@ -871,6 +944,58 @@ class JamaClient:
 
         self.__handle_response_status(response)
         return response.status_code
+
+    def put_user(self, user_id, username, password, first_name, last_name, email, phone=None, title=None,
+                 location=None):
+        &#34;&#34;&#34;
+        updates an existing user
+
+        Args:
+            username: str
+            password: str
+            first_name: str
+            last_name: str
+            email: str
+            phone: str - optional
+            title: str - optional
+            location: str - optional
+
+        Returns: api status code
+
+        &#34;&#34;&#34;
+
+        body = {
+            &#39;username&#39;: username,
+            &#39;password&#39;: password,
+            &#39;firstName&#39;: first_name,
+            &#39;lastName&#39;: last_name,
+            &#39;email&#39;: email,
+            &#39;phone&#39;: phone,
+            &#39;title&#39;: title,
+            &#39;location&#39;: location
+        }
+        resource_path = &#39;users/&#39; + str(user_id)
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
+
+    def put_user_active(self, user_id, is_active):
+        &#34;&#34;&#34;
+        updates an existing users active status
+
+        Args:
+            is_active: boolean
+
+        Returns: api status code
+
+        &#34;&#34;&#34;
+        body = {
+            &#39;active&#39;: is_active
+        }
+        resource_path = &#39;users/&#39; + str(user_id) + &#39;/active&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
 
     def put_test_run(self, test_run_id, data=None):
         &#34;&#34;&#34; This method will post a test run to Jama through the API&#34;&#34;&#34;
@@ -1609,6 +1734,42 @@ See help(type(self)) for accurate signature.</p></section>
         tag_results = self.__get_all(resource_path, params=params)
         return tag_results
 
+    def get_users(self):
+        &#34;&#34;&#34;
+        Gets a list of all active users visible to the current user
+
+        Returns: JSON array
+
+        &#34;&#34;&#34;
+        resource_path = &#39;users/&#39;
+        users = self.__get_all(resource_path)
+        return users
+
+    def get_user(self, user_id):
+        &#34;&#34;&#34;
+        Gets a single speificed user
+
+        Args:
+            user_id: user api ID
+
+        Returns: JSON obect
+
+        &#34;&#34;&#34;
+        resource_path = &#39;users/&#39; + str(user_id)
+        response = self.__core.get(resource_path)
+        return response.json()[&#39;data&#39;]
+
+    def get_current_user(self):
+        &#34;&#34;&#34;
+        Gets a current user
+
+        Returns: JSON obect
+
+        &#34;&#34;&#34;
+        resource_path = &#39;users/current&#39;
+        response = self.__core.get(resource_path)
+        return response.json()[&#39;data&#39;]
+
     def get_test_cycle(self, test_cycle_id):
         &#34;&#34;&#34;
         This method will return JSON data about the test cycle specified by the test cycle id.
@@ -1682,6 +1843,43 @@ See help(type(self)) for accurate signature.</p></section>
         # validate response
         JamaClient.__handle_response_status(response)
         return response.json()[&#39;meta&#39;][&#39;status&#39;]
+
+    def post_user(self, username, password, first_name, last_name, email, license_type, phone=None, title=None,
+                  location=None):
+        &#34;&#34;&#34;
+        Creates a new user
+
+        Args:
+            username: str
+            password: str
+            first_name: str
+            last_name: str
+            email: str
+            phone: str - optional
+            title: str - optional
+            location: str - optional
+            licenseType: enum [ NAMED, FLOATING, STAKEHOLDER, FLOATING_COLLABORATOR, RESERVED_COLLABORATOR, FLOATING_REVIEWER, RESERVED_REVIEWER, NAMED_REVIEWER, TEST_RUNNER, EXPIRING_TRIAL, INACTIVE ]
+
+        Returns: int of newly created user api ID
+
+        &#34;&#34;&#34;
+
+        body = {
+            &#39;username&#39;: username,
+            &#39;password&#39;: password,
+            &#39;firstName&#39;: first_name,
+            &#39;lastName&#39;: last_name,
+            &#39;email&#39;: email,
+            &#39;phone&#39;: phone,
+            &#39;title&#39;: title,
+            &#39;location&#39;: location,
+            &#39;licenseType&#39;: license_type
+        }
+        resource_path = &#39;users/&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        JamaClient.__handle_response_status(response)
+        return response.json()[&#39;meta&#39;][&#39;id&#39;]
 
     def post_tag(self, name: str, project: int):
         &#34;&#34;&#34;
@@ -1912,6 +2110,58 @@ See help(type(self)) for accurate signature.</p></section>
 
         self.__handle_response_status(response)
         return response.status_code
+
+    def put_user(self, user_id, username, password, first_name, last_name, email, phone=None, title=None,
+                 location=None):
+        &#34;&#34;&#34;
+        updates an existing user
+
+        Args:
+            username: str
+            password: str
+            first_name: str
+            last_name: str
+            email: str
+            phone: str - optional
+            title: str - optional
+            location: str - optional
+
+        Returns: api status code
+
+        &#34;&#34;&#34;
+
+        body = {
+            &#39;username&#39;: username,
+            &#39;password&#39;: password,
+            &#39;firstName&#39;: first_name,
+            &#39;lastName&#39;: last_name,
+            &#39;email&#39;: email,
+            &#39;phone&#39;: phone,
+            &#39;title&#39;: title,
+            &#39;location&#39;: location
+        }
+        resource_path = &#39;users/&#39; + str(user_id)
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
+
+    def put_user_active(self, user_id, is_active):
+        &#34;&#34;&#34;
+        updates an existing users active status
+
+        Args:
+            is_active: boolean
+
+        Returns: api status code
+
+        &#34;&#34;&#34;
+        body = {
+            &#39;active&#39;: is_active
+        }
+        resource_path = &#39;users/&#39; + str(user_id) + &#39;/active&#39;
+        headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+        response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        return self.__handle_response_status(response)
 
     def put_test_run(self, test_run_id, data=None):
         &#34;&#34;&#34; This method will post a test run to Jama through the API&#34;&#34;&#34;
@@ -2384,6 +2634,29 @@ document keys.</p></section>
     resource_path = &#39;baselines/&#39; + str(baseline_id) + &#39;/versioneditems&#39;
     baseline_items = self.__get_all(resource_path)
     return baseline_items</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_current_user"><code class="name flex">
+<span>def <span class="ident">get_current_user</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets a current user</p>
+<dl>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>JSON</code> <code>obect</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_current_user(self):
+    &#34;&#34;&#34;
+    Gets a current user
+
+    Returns: JSON obect
+
+    &#34;&#34;&#34;
+    resource_path = &#39;users/current&#39;
+    response = self.__core.get(resource_path)
+    return response.json()[&#39;data&#39;]</code></pre>
 </details>
 </dd>
 <dt id="py_jama_rest_client.client.JamaClient.get_filter_results"><code class="name flex">
@@ -3075,6 +3348,58 @@ as a list of json objects.</p></section>
     return testrun_data</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_user"><code class="name flex">
+<span>def <span class="ident">get_user</span></span>(<span>self, user_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets a single speificed user</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>user_id</code></strong></dt>
+<dd>user api ID</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>JSON</code> <code>obect</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_user(self, user_id):
+    &#34;&#34;&#34;
+    Gets a single speificed user
+
+    Args:
+        user_id: user api ID
+
+    Returns: JSON obect
+
+    &#34;&#34;&#34;
+    resource_path = &#39;users/&#39; + str(user_id)
+    response = self.__core.get(resource_path)
+    return response.json()[&#39;data&#39;]</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.get_users"><code class="name flex">
+<span>def <span class="ident">get_users</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets a list of all active users visible to the current user</p>
+<dl>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>JSON</code> <code>array</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_users(self):
+    &#34;&#34;&#34;
+    Gets a list of all active users visible to the current user
+
+    Returns: JSON array
+
+    &#34;&#34;&#34;
+    resource_path = &#39;users/&#39;
+    users = self.__get_all(resource_path)
+    return users</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.patch_item"><code class="name flex">
 <span>def <span class="ident">patch_item</span></span>(<span>self, item_id, patches)</span>
 </code></dt>
@@ -3452,6 +3777,74 @@ include all statuses</dd>
     return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.post_user"><code class="name flex">
+<span>def <span class="ident">post_user</span></span>(<span>self, username, password, first_name, last_name, email, license_type, phone=None, title=None, location=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates a new user</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>username</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>password</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>first_name</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>last_name</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>email</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>phone</code></strong></dt>
+<dd>str - optional</dd>
+<dt><strong><code>title</code></strong></dt>
+<dd>str - optional</dd>
+<dt><strong><code>location</code></strong></dt>
+<dd>str - optional</dd>
+<dt><strong><code>licenseType</code></strong></dt>
+<dd>enum [ NAMED, FLOATING, STAKEHOLDER, FLOATING_COLLABORATOR, RESERVED_COLLABORATOR, FLOATING_REVIEWER, RESERVED_REVIEWER, NAMED_REVIEWER, TEST_RUNNER, EXPIRING_TRIAL, INACTIVE ]</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>int</code> of <code>newly</code> <code>created</code> <code>user</code> <code>api</code> <code>ID</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def post_user(self, username, password, first_name, last_name, email, license_type, phone=None, title=None,
+              location=None):
+    &#34;&#34;&#34;
+    Creates a new user
+
+    Args:
+        username: str
+        password: str
+        first_name: str
+        last_name: str
+        email: str
+        phone: str - optional
+        title: str - optional
+        location: str - optional
+        licenseType: enum [ NAMED, FLOATING, STAKEHOLDER, FLOATING_COLLABORATOR, RESERVED_COLLABORATOR, FLOATING_REVIEWER, RESERVED_REVIEWER, NAMED_REVIEWER, TEST_RUNNER, EXPIRING_TRIAL, INACTIVE ]
+
+    Returns: int of newly created user api ID
+
+    &#34;&#34;&#34;
+
+    body = {
+        &#39;username&#39;: username,
+        &#39;password&#39;: password,
+        &#39;firstName&#39;: first_name,
+        &#39;lastName&#39;: last_name,
+        &#39;email&#39;: email,
+        &#39;phone&#39;: phone,
+        &#39;title&#39;: title,
+        &#39;location&#39;: location,
+        &#39;licenseType&#39;: license_type
+    }
+    resource_path = &#39;users/&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+    JamaClient.__handle_response_status(response)
+    return response.json()[&#39;meta&#39;][&#39;id&#39;]</code></pre>
+</details>
+</dd>
 <dt id="py_jama_rest_client.client.JamaClient.put_attachments_file"><code class="name flex">
 <span>def <span class="ident">put_attachments_file</span></span>(<span>self, attachment_id, file_path)</span>
 </code></dt>
@@ -3571,6 +3964,102 @@ with a key of 'item' or 'project' and an value with the ID of the parent
     return self.__handle_response_status(response)</code></pre>
 </details>
 </dd>
+<dt id="py_jama_rest_client.client.JamaClient.put_user"><code class="name flex">
+<span>def <span class="ident">put_user</span></span>(<span>self, user_id, username, password, first_name, last_name, email, phone=None, title=None, location=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>updates an existing user</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>username</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>password</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>first_name</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>last_name</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>email</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>phone</code></strong></dt>
+<dd>str - optional</dd>
+<dt><strong><code>title</code></strong></dt>
+<dd>str - optional</dd>
+<dt><strong><code>location</code></strong></dt>
+<dd>str - optional</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>api</code> <code>status</code> <code>code</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def put_user(self, user_id, username, password, first_name, last_name, email, phone=None, title=None,
+             location=None):
+    &#34;&#34;&#34;
+    updates an existing user
+
+    Args:
+        username: str
+        password: str
+        first_name: str
+        last_name: str
+        email: str
+        phone: str - optional
+        title: str - optional
+        location: str - optional
+
+    Returns: api status code
+
+    &#34;&#34;&#34;
+
+    body = {
+        &#39;username&#39;: username,
+        &#39;password&#39;: password,
+        &#39;firstName&#39;: first_name,
+        &#39;lastName&#39;: last_name,
+        &#39;email&#39;: email,
+        &#39;phone&#39;: phone,
+        &#39;title&#39;: title,
+        &#39;location&#39;: location
+    }
+    resource_path = &#39;users/&#39; + str(user_id)
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+    return self.__handle_response_status(response)</code></pre>
+</details>
+</dd>
+<dt id="py_jama_rest_client.client.JamaClient.put_user_active"><code class="name flex">
+<span>def <span class="ident">put_user_active</span></span>(<span>self, user_id, is_active)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>updates an existing users active status</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>is_active</code></strong></dt>
+<dd>boolean</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>api</code> <code>status</code> <code>code</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def put_user_active(self, user_id, is_active):
+    &#34;&#34;&#34;
+    updates an existing users active status
+
+    Args:
+        is_active: boolean
+
+    Returns: api status code
+
+    &#34;&#34;&#34;
+    body = {
+        &#39;active&#39;: is_active
+    }
+    resource_path = &#39;users/&#39; + str(user_id) + &#39;/active&#39;
+    headers = {&#39;content-type&#39;: &#39;application/json&#39;}
+    response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+    return self.__handle_response_status(response)</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 <dt id="py_jama_rest_client.client.ResourceNotFoundException"><code class="flex name class">
@@ -3680,6 +4169,7 @@ with a key of 'item' or 'project' and an value with the ID of the parent
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_baseline" href="#py_jama_rest_client.client.JamaClient.get_baseline">get_baseline</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_baselines" href="#py_jama_rest_client.client.JamaClient.get_baselines">get_baselines</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_baselines_versioneditems" href="#py_jama_rest_client.client.JamaClient.get_baselines_versioneditems">get_baselines_versioneditems</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_current_user" href="#py_jama_rest_client.client.JamaClient.get_current_user">get_current_user</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_filter_results" href="#py_jama_rest_client.client.JamaClient.get_filter_results">get_filter_results</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item" href="#py_jama_rest_client.client.JamaClient.get_item">get_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_item_children" href="#py_jama_rest_client.client.JamaClient.get_item_children">get_item_children</a></code></li>
@@ -3705,6 +4195,8 @@ with a key of 'item' or 'project' and an value with the ID of the parent
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_tags" href="#py_jama_rest_client.client.JamaClient.get_tags">get_tags</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_test_cycle" href="#py_jama_rest_client.client.JamaClient.get_test_cycle">get_test_cycle</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.get_testruns" href="#py_jama_rest_client.client.JamaClient.get_testruns">get_testruns</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_user" href="#py_jama_rest_client.client.JamaClient.get_user">get_user</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.get_users" href="#py_jama_rest_client.client.JamaClient.get_users">get_users</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.patch_item" href="#py_jama_rest_client.client.JamaClient.patch_item">patch_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_item" href="#py_jama_rest_client.client.JamaClient.post_item">post_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_item_attachment" href="#py_jama_rest_client.client.JamaClient.post_item_attachment">post_item_attachment</a></code></li>
@@ -3714,10 +4206,13 @@ with a key of 'item' or 'project' and an value with the ID of the parent
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_relationship" href="#py_jama_rest_client.client.JamaClient.post_relationship">post_relationship</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_tag" href="#py_jama_rest_client.client.JamaClient.post_tag">post_tag</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.post_testplans_testcycles" href="#py_jama_rest_client.client.JamaClient.post_testplans_testcycles">post_testplans_testcycles</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.post_user" href="#py_jama_rest_client.client.JamaClient.post_user">post_user</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.put_attachments_file" href="#py_jama_rest_client.client.JamaClient.put_attachments_file">put_attachments_file</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.put_item" href="#py_jama_rest_client.client.JamaClient.put_item">put_item</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.put_item_lock" href="#py_jama_rest_client.client.JamaClient.put_item_lock">put_item_lock</a></code></li>
 <li><code><a title="py_jama_rest_client.client.JamaClient.put_test_run" href="#py_jama_rest_client.client.JamaClient.put_test_run">put_test_run</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.put_user" href="#py_jama_rest_client.client.JamaClient.put_user">put_user</a></code></li>
+<li><code><a title="py_jama_rest_client.client.JamaClient.put_user_active" href="#py_jama_rest_client.client.JamaClient.put_user_active">put_user_active</a></code></li>
 </ul>
 </li>
 <li>
