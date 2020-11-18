@@ -77,6 +77,18 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_current_user(self):
+        """
+        Return the current user
+
+        Returns: a user data object
+
+        """
+        response = self.__core.get('users/current')
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+
     def get_baselines(self, project_id):
         """
         Returns a list of Baseline objects
