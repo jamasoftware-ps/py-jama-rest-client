@@ -61,6 +61,9 @@ compatibility)
 - `GET` all synced items
 - `GET` synced item sync status
 - `GET` Locked state of an item
+- `GET` all versions of an item
+- `GET` the numbered version of an item
+- `GET` an item at a specified version
 - `DELETE` an Item by ID
 - `PATCH` an Item
 - `POST` an item to a project

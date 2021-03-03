@@ -357,3 +357,27 @@ class TestJamaClient(TestCase):
                                                                   '2018-10-19',
                                                                   '2020-01-01')
         self.assertIsNotNone(testcycle_id)
+
+    def test_get_item_versions(self):
+        item_id = 11817
+        versions = self.jama_client.get_item_versions(item_id)
+        self.assertEqual(len(versions), 3)
+
+    def test_get_item_version(self):
+        item_id = 11817
+        version_num = 3
+        version = self.jama_client.get_item_version(item_id, version_num)
+        self.assertIsNotNone(version)
+        self.assertEqual(version.get("item"), item_id)
+        self.assertEqual(version.get("versionNumber"), version_num)
+
+    def test_get_versioned_item(self):
+        item_id = 11817
+        version_num = 3
+        item_name = "Rich Text Test 00"
+        item = self.jama_client.get_versioned_item(item_id, version_num)
+        self.assertIsNotNone(item)
+        self.assertEqual(len(item), 15)
+        self.assertEqual(item.get("id"), item_id)
+        self.assertEqual(item.get("version"), version_num)
+        self.assertEqual(item["fields"]["name"], item_name)
