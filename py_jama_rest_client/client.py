@@ -216,9 +216,8 @@ class JamaClient:
 
         """
         resource_path = 'items/' + str(item_id) + '/tags'
-        response = self.__core.get(resource_path)
-        JamaClient.__handle_response_status(response)
-        return response.json()['data']
+        item_tags = self.__get_all(resource_path)
+        return item_tags
 
     def get_attachment(self, attachment_id):
         """
