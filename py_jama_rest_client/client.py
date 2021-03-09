@@ -205,6 +205,20 @@ class JamaClient:
         response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
         return self.__handle_response_status(response)
 
+    def get_item_tags(self, item_id):
+        """
+        Return all tags for the item with the specified ID
+
+        Args:
+            item_id: the item id of the item to fetch
+
+        Returns: a dictionary object representing the item's tags
+
+        """
+        resource_path = 'items/' + str(item_id) + '/tags'
+        item_tags = self.__get_all(resource_path)
+        return item_tags
+
     def get_attachment(self, attachment_id):
         """
         This method will return a singular attachment of a specified attachment id
