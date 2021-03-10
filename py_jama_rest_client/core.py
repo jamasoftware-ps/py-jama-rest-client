@@ -10,7 +10,7 @@ py_jama_rest_client_logger = logging.getLogger('py_jama_rest_client-core')
 
 
 class CoreException(Exception):
-    """This is the base class for all exceptions raised by the JamaClient"""
+    """This is the base class for all exceptions raised by the Core"""
 
     def __init__(self, message, status_code=None, reason=None):
         super(CoreException, self).__init__(message)
