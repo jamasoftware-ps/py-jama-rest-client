@@ -560,6 +560,24 @@ class JamaClient:
         abstract_items = self.__get_all(resource_path, params=params)
         return abstract_items
 
+    def get_abstract_item(self, item_id):
+        """
+        This method will return an item, test plan, test cycle, test run, or attachment with the specified ID
+        Args:
+            item_id: the item id of the item to fetch
+
+        Returns: a dictonary object representing the abstract item
+
+        """
+        resource_path = 'abstractitems/' + str(item_id)
+        try:
+            response = self.__core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_item_children(self, item_id):
         """
         This method will return list of the child items of the item passed to the function.
@@ -591,6 +609,19 @@ class JamaClient:
         resource_path = 'items/' + str(item_id) + '/upstreamrelationships'
         return self.__get_all(resource_path)
 
+    def get_items_downstream_relationships(self, item_id):
+        """
+        Returns a list of all the downstream relationships for the item with the specified ID.
+
+        Args:
+            item_id: the api id of the item
+
+        Returns: an array of dictionary objects that represent the downstream relationships for the item.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/downstreamrelationships'
+        return self.__get_all(resource_path)
+
     def get_items_downstream_related(self, item_id):
         """
         Returns a list of all the downstream related items for the item with the specified ID.
@@ -604,17 +635,30 @@ class JamaClient:
         resource_path = 'items/' + str(item_id) + '/downstreamrelated'
         return self.__get_all(resource_path)
 
-    def get_items_downstream_relationships(self, item_id):
+    def get_items_upstream_related(self, item_id):
         """
-        Returns a list of all the downstream relationships for the item with the specified ID.
+        Returns a list of all the upstream related items for the item with the specified ID.
+
+        Args:
+            item_id: the api id of the item to fetch upstream items for
+
+        Returns: an array of dictionary objects that represent the upstream related items for the specified item.
+
+        """
+        resource_path = 'items/' + str(item_id) + '/upstreamrelated'
+        return self.__get_all(resource_path)
+
+    def get_item_workflow_transitions(self, item_id):
+        """
+        Get all valid workflow transitions that can be made with the specified id
 
         Args:
             item_id: the api id of the item
 
-        Returns: an array of dictionary objects that represent the downstream relationships for the item.
+        Returns: an array of dictionary objects that represent the workflow transitions for the item.
 
         """
-        resource_path = 'items/' + str(item_id) + '/downstreamrelationships'
+        resource_path = 'items/' + str(item_id) + '/workflowtransitionoptions'
         return self.__get_all(resource_path)
 
     def get_tags(self, project):
