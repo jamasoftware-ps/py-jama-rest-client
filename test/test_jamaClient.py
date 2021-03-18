@@ -411,3 +411,27 @@ class TestJamaClient(TestCase):
         self.assertEqual(attachment["fields"]["name"], name)
         self.assertEqual(attachment["fields"]["documentKey"], doc_key)
 
+    def test_get_abstract_item_versions(self):
+        item_id = 11823
+        versions = self.jama_client.get_item_versions(item_id)
+        self.assertEqual(len(versions), 3)
+
+    def test_get_abstract_item_version(self):
+        item_id = 11823
+        version_num = 3
+        version = self.jama_client.get_item_version(item_id, version_num)
+        self.assertIsNotNone(version)
+        self.assertEqual(version.get("item"), item_id)
+        self.assertEqual(version.get("versionNumber"), version_num)
+
+    def test_get_abstract_versioned_item(self):
+        item_id = 11823
+        version_num = 3
+        item_name = "Attachment 01"
+        item = self.jama_client.get_versioned_item(item_id, version_num)
+        self.assertIsNotNone(item)
+        self.assertEqual(len(item), 15)
+        self.assertEqual(item.get("id"), item_id)
+        self.assertEqual(item.get("version"), version_num)
+        self.assertEqual(item["fields"]["name"], item_name)
+

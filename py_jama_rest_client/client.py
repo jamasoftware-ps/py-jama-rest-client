@@ -578,6 +578,57 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+    def get_abstract_item_versions(self, item_id):
+        """
+        Get all versions for the item with the specified ID
+
+        Args:
+            item_id: the item id of the item to fetch
+
+        Returns: JSON array with all versions for the item
+        """
+        resource_path = 'abstractitems/' + str(item_id) + '/versions'
+        versions = self.__get_all(resource_path)
+        return versions
+
+    def get_abtract_item_version(self, item_id, version_num):
+        """
+        Get the numbered version for the item with the specified ID
+
+        Args:
+            item_id: the item id of the item to fetch
+            version_num: the version number for the item
+
+        Returns: a dictionary object representing the numbered version
+        """
+        resource_path = 'abstractitems/' + str(item_id) + '/versions/' + str(version_num)
+        try:
+            response = self.__core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_abstract_versioned_item(self, item_id, version_num):
+        """
+        Get the snapshot of the item at the specified version
+
+        Args:
+            item_id: the item id of the item to fetch
+            version_num: the version number for the item
+
+        Returns: a dictionary object representing the versioned item
+        """
+        resource_path = 'abstractitems/' + str(item_id) + '/versions/' + str(version_num) + '/versioneditem'
+        try:
+            response = self.__core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_item_children(self, item_id):
         """
         This method will return list of the child items of the item passed to the function.
