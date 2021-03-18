@@ -38,6 +38,10 @@ Create a new directory and install py-jama-rest-client using pipenv.
 - ~~GET abstract items by document key~~(Deprecated)
 - `GET` abstract items(second method added to support all parameter options.  Previous method left to preserve backwards 
 compatibility)
+- `GET` a specific abstract item by ID
+- `GET` all versions of an abtract item
+- `GET` the numbered version of an abstract item
+- `GET` an abstract item at a specified version
 
 ##### Attachments
 - `PUT` attachment file, uploads content to an attachment object by attachmentID
@@ -57,12 +61,14 @@ compatibility)
 - `GET` all downstream relationships for an item by item ID
 - `GET` all downstream related items for an item by item ID
 - `GET` all upstream relationships for an item by item ID
+- `GET` all upstream related items for an item by item ID
 - `GET` all children of an item
 - `GET` all synced items
 - `GET` synced item sync status
 - `GET` Locked state of an item
 - `GET` all versions of an item
 - `GET` the numbered version of an item
+- `GET` all valid workflow transitions that can be made on the item by item ID
 - `GET` an item at a specified version
 - `DELETE` an Item by ID
 - `PATCH` an Item
