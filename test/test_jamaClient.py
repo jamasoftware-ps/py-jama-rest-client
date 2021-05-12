@@ -74,6 +74,15 @@ class TestJamaClient(TestCase):
         self.assertIsNotNone(relationships)
         self.assertGreater(len(relationships), 1)
 
+    def test_get_comment(self):
+        item_id = 66972
+        comments = self.jama_client.get_comment(item_id)
+        self.assertIsNotNone(comments)
+
+    def test_get_comments(self):
+        comments = self.jama_client.get_comments()
+        self.assertIsNotNone(comments)
+
     def test_get_tags(self):
         project_id = 116
         tags = self.jama_client.get_tags(project_id)
@@ -338,6 +347,12 @@ class TestJamaClient(TestCase):
         attachment_id = 67548
 
         res_status = self.jama_client.post_item_attachment(item_id, attachment_id)
+        self.assertEqual(res_status, 201)
+
+    @unittest.skip('Entity Already Exists')
+    def test_post_comment(self):
+        item_id = 66972
+        res_status = self.jama_client.post_comment(item_id, "this is a comment")
         self.assertEqual(res_status, 201)
 
     @unittest.skip('Entity Already Exists')
