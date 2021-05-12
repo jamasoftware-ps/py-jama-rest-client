@@ -279,6 +279,40 @@ class JamaClient:
         abstract_items = self.__get_all(resource_path, params=params, allowed_results_per_page=allowed_results_per_page)
         return abstract_items
 
+    def get_relationship_rule_sets(self):
+        """
+        This method will return all relationship rule sets across all projects of the Jama Connect instance.
+
+        Returns: An array of dictionary objects representing a rule set and its associated rules
+
+        """
+        resource_path = 'relationshiprulesets/'
+        rule_sets = self.__get_all(resource_path)
+        return rule_sets
+
+    def get_relationship_rule_set(self, id):
+        """
+        This method will return the relationship rule sets by id.
+
+        Returns: A dictionary object representing a rule set and its associated rules
+
+        """
+        resource_path = 'relationshiprulesets/' + str(id)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_relationship_rule_set_projects(self, id):
+        """
+        This method will return the projects that have a given relationship rule set defined.
+
+        Returns: An array of the dictionary objects representing the projects with a given rule set assigned
+
+        """
+        resource_path = 'relationshiprulesets/' + str(id) + '/projects'
+        projects = self.__get_all(resource_path)
+        return projects
+
     def get_relationship_types(self, allowed_results_per_page=__allowed_results_per_page):
         """
         This method will return all relationship types of the across all projects of the Jama Connect instance.
@@ -1357,19 +1391,18 @@ class JamaClient:
             raise ValueError("Allowed results per page must be between 1 and 50")
 
         start_index = 0
-        result_count = -1
+        allowed_results_per_page = 20
+        total_results = float("inf")
 
         data = []
 
-        while result_count != 0:
-            page_response = self.__get_page(resource, start_index, params=params,
-                                            allowed_results_per_page=allowed_results_per_page, **kwargs)
+        while len(data) < total_results:
+            page_response = self.__get_page(resource, start_index, params=params, **kwargs)
             page_json = page_response.json()
 
             page_info = page_json['meta']['pageInfo']
             start_index = page_info['startIndex'] + allowed_results_per_page
-            result_count = page_info['resultCount']
-
+            total_results = page_info.get('totalResults')
             page_data = page_json.get('data')
             data.extend(page_data)
 

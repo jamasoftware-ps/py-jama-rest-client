@@ -435,3 +435,24 @@ class TestJamaClient(TestCase):
         self.assertEqual(item.get("version"), version_num)
         self.assertEqual(item["fields"]["name"], item_name)
 
+    def test_get_relationship_rule_sets(self):
+        rule_set_name = "IIBA BABOK v3"
+        rule_sets = self.jama_client.get_relationship_rule_sets()
+        self.assertEqual(rule_sets[0].get('name'), rule_set_name)
+        self.assertEqual(len(rule_sets), 10)
+
+    def test_get_relationship_rule_set(self):
+        rule_set_id = 1
+        rule_set_name = "IIBA BABOK v3"
+        rule_set = self.jama_client.get_relationship_rule_set(rule_set_id)
+        self.assertEqual(rule_set.get('name'), rule_set_name)
+        self.assertEqual(len(rule_set), 5)
+
+    def test_get_relationship_rule_set_projects(self):
+        rule_set_id = 1
+        project1 = "IIBA BABOK Sample Set"
+        project2 = "IIBA BABOK Framework"
+        projects = self.jama_client.get_relationship_rule_set_projects(rule_set_id)
+        self.assertEqual(projects[0].get('name'), project1)
+        self.assertEqual(projects[1].get('name'), project2)
+        self.assertEqual(len(projects), 2)

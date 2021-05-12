@@ -80,6 +80,11 @@ compatibility)
 - `PUT` an item
 - `PUT` item lock
 
+##### Relationship Rule Sets
+- `GET` all relationship rule sets
+- `GET` a specific relationship rule set by ID
+- `GET` all projects for a specific relationship rule set by ID
+
 ##### Relationship Types
 - `GET` all relationship types
 - `GET` a specific relationship type by ID
