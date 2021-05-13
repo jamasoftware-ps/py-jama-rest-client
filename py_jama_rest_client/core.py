@@ -9,6 +9,20 @@ __DEBUG__ = False
 py_jama_rest_client_logger = logging.getLogger('py_jama_rest_client-core')
 
 
+class CoreException(Exception):
+    """This is the base class for all exceptions raised by the Core"""
+
+    def __init__(self, message, status_code=None, reason=None):
+        super(CoreException, self).__init__(message)
+        self.status_code = status_code
+        self.reason = reason
+
+
+class UnauthorizedTokenException(CoreException):
+    """This exception is thrown whenever fetching the oauth token returns a 401 unauthorized response."""
+    pass
+
+
 class Core:
     """ This Class will contain a collection of methods that interact directly with the Jama API and return A Requests
     Response Object.  This class will give the user more fine grained access to the JAMA API.  For more information
@@ -110,8 +124,13 @@ class Core:
         # By getting the system time before we get the token we avoid a potential bug where the token may be expired.
         time_before_request = time.time()
 
-        # Post to the token server
-        response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
+        # Post to the token server, check if authorized
+        try:
+            response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            message = "Unable to fetch token: "
+            raise UnauthorizedTokenException(message + str(err), response.status_code)
 
         # If success get relevant data
         if response.status_code in [200, 201]:

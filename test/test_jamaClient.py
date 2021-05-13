@@ -381,3 +381,57 @@ class TestJamaClient(TestCase):
         self.assertEqual(item.get("id"), item_id)
         self.assertEqual(item.get("version"), version_num)
         self.assertEqual(item["fields"]["name"], item_name)
+
+    def test_get_upstream_related(self):
+        item_id = 11818
+        upstream_id = 11817
+        upstream_name = "Rich Text Test 00"
+        upstream = self.jama_client.get_items_upstream_related(item_id)
+        self.assertEqual(len(upstream), 1)
+        self.assertEqual(upstream[0].get("id"), upstream_id)
+        self.assertEqual(upstream[0]["fields"]["name"], upstream_name)
+
+    def test_workflow_transitions(self):
+        item_id = 11975
+        low_priority = self.jama_client.get_item_workflow_transitions(item_id)
+        low_transition = "Medium"
+        self.assertEqual(len(low_priority), 1)
+        self.assertEqual(low_priority[0].get("action"), low_transition)
+        item_id = 11977
+        med_priority = self.jama_client.get_item_workflow_transitions(item_id)
+        med_transition = "High"
+        self.assertEqual(len(med_priority), 1)
+        self.assertEqual(med_priority[0].get("action"), med_transition)
+
+    def test_get_abstract_item(self):
+        item_id = 11823
+        name = "Attachment 01"
+        doc_key = "TEST-CODE-34"
+        attachment = self.jama_client.get_abstract_item(item_id)
+        self.assertEqual(attachment["fields"]["name"], name)
+        self.assertEqual(attachment["fields"]["documentKey"], doc_key)
+
+    def test_get_abstract_item_versions(self):
+        item_id = 11823
+        versions = self.jama_client.get_item_versions(item_id)
+        self.assertEqual(len(versions), 3)
+
+    def test_get_abstract_item_version(self):
+        item_id = 11823
+        version_num = 3
+        version = self.jama_client.get_item_version(item_id, version_num)
+        self.assertIsNotNone(version)
+        self.assertEqual(version.get("item"), item_id)
+        self.assertEqual(version.get("versionNumber"), version_num)
+
+    def test_get_abstract_versioned_item(self):
+        item_id = 11823
+        version_num = 3
+        item_name = "Attachment 01"
+        item = self.jama_client.get_versioned_item(item_id, version_num)
+        self.assertIsNotNone(item)
+        self.assertEqual(len(item), 15)
+        self.assertEqual(item.get("id"), item_id)
+        self.assertEqual(item.get("version"), version_num)
+        self.assertEqual(item["fields"]["name"], item_name)
+
