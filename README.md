@@ -64,6 +64,7 @@ compatibility)
 - `GET` all upstream related items for an item by item ID
 - `GET` all children of an item
 - `GET` all synced items
+- `GET` all tags of an item
 - `GET` synced item sync status
 - `GET` Locked state of an item
 - `GET` all versions of an item

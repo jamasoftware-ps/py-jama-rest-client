@@ -229,6 +229,20 @@ class JamaClient:
             raise APIException(str(err))
         return self.__handle_response_status(response)
 
+    def get_item_tags(self, item_id):
+        """
+        Return all tags for the item with the specified ID
+
+        Args:
+            item_id: the item id of the item to fetch
+
+        Returns: a dictionary object representing the item's tags
+
+        """
+        resource_path = 'items/' + str(item_id) + '/tags'
+        item_tags = self.__get_all(resource_path)
+        return item_tags
+
     def get_attachment(self, attachment_id):
         """
         This method will return a singular attachment of a specified attachment id
@@ -399,6 +413,49 @@ class JamaClient:
         except CoreException as err:
             py_jama_rest_client_logger.error(err)
             raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_item_versions(self, item_id):
+        """
+        Get all versions for the item with the specified ID
+
+        Args:
+            item_id: the item id of the item to fetch
+
+        Returns: JSON array with all versions for the item
+        """
+        resource_path = 'items/' + str(item_id) + '/versions'
+        versions = self.__get_all(resource_path)
+        return versions
+
+    def get_item_version(self, item_id, version_num):
+        """
+        Get the numbered version for the item with the specified ID
+
+        Args:
+            item_id: the item id of the item to fetch
+            version_num: the version number for the item
+
+        Returns: a dictionary object representing the numbered version
+        """
+        resource_path = 'items/' + str(item_id) + '/versions/' + str(version_num)
+        response = self.__core.get(resource_path)
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_versioned_item(self, item_id, version_num):
+        """
+        Get the snapshot of the item at the specified version
+
+        Args:
+            item_id: the item id of the item to fetch
+            version_num: the version number for the item
+
+        Returns: a dictionary object representing the versioned item
+        """
+        resource_path = 'items/' + str(item_id) + '/versions/' + str(version_num) + '/versioneditem'
+        response = self.__core.get(resource_path)
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
