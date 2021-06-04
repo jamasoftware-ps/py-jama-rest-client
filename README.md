@@ -112,6 +112,7 @@ compatibility)
 
 ##### Test Cycles
 - `GET` test cycle by test cycle id
+- `DELETE` test cycle by test cycle id
 
 ##### Test Plans
 - `POST` a new test cycle to a test plan by test plan id
