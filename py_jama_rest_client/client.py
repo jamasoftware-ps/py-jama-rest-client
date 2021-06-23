@@ -270,6 +270,24 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['data']
 
+def get_attachment_image(self, attachment_id):
+        """
+        This method will return a binry representation of an image
+        Args:
+            attachment_id: the attachment id of the attachment to fetch
+
+        Returns: binary represnetation of image (use Pil Image to turn into image)
+
+        """
+        resource_path = 'attachments/' + str(attachment_id) + '/file'
+        try:
+            response = self.__core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.content
+
     def get_abstract_items_from_doc_key(self, doc_key_list, allowed_results_per_page=__allowed_results_per_page):
         """ DEPRECATED INSTEAD USE get_abstract_items below.
         This method will take in a list of document keys and return an array of JSON Objects associated with the
@@ -1168,6 +1186,45 @@ class JamaClient:
             raise APIException(str(err))
         JamaClient.__handle_response_status(response)
         return response.status_code
+
+def post_project(self, project_key, name,description='',is_folder=False, stat_id=298,proj_group=296):
+        """
+        This method will create a new Project.
+
+        Args:
+            project_key: Unique project key for new project
+	    name: what name will sow up in Jama for porject
+	    description(optional): description of projrct
+	    id_folder(optional): soecify true or false
+	    stat_id: jama represnetation for active project
+	    proj_group: Number matched withother projects i ha on Jama, May have to change
+
+        Returns:
+            id of new project
+        """
+        resource_path = 'projects'
+        
+        body = {
+                "projectKey": project_key,
+                "isFolder": is_folder,
+                "fields": {
+                    "statusID": stat_id,
+                    "name": name,
+                    "description": description,
+                    "projectGroup": proj_group
+                    }
+                }
+        params = {}
+
+        headers = {'content-type': 'application/json'}
+
+        try:
+            response = self.__core.post(resource_path, data=json.dumps(body), headers=headers, params=params)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
 
     def post_item_sync(self, source_item: int, pool_item: int):
         """
