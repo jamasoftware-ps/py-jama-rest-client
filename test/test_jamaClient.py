@@ -12,6 +12,22 @@ class TestJamaClient(TestCase):
     jama_api_password = os.environ['JAMA_API_PASSWORD']
     jama_client = JamaClient(jama_url, (jama_api_username, jama_api_password))
 
+    def test_get_testplans_and_groups(self):
+        projects = self.jama_client.get_projects()
+        self.assertIsNotNone(projects)
+        project_id = projects[0]['id']
+        testplans = self.jama_client.get_testplans(project_id)
+        self.assertIsNotNone(testplans)
+        testplan_id = testplans[0]['id']
+        testgroups = self.jama_client.get_testgroups(testplan_id)
+        self.assertIsNotNone(testgroups)
+        testgroup_id = testgroups[0]['id']
+        testcases = self.jama_client.get_testgroup_testcases(testplan_id, testgroup_id)
+        self.assertIsNotNone(testcases)
+        self.assertGreater(len(testcases), 0)
+
+
+
     def test_get_projects(self):
         projects = self.jama_client.get_projects()
         self.assertIsNotNone(projects)
