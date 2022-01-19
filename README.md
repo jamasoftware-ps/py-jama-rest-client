@@ -76,6 +76,7 @@ compatibility)
 - `POST` an item to a project
 - `POST` item attachment
 - `POST` item sync
+- `POST` Executes a workflow transition for the item with the specified item ID
 - `POST` a tag to an item
 - `PUT` an item
 - `PUT` item lock

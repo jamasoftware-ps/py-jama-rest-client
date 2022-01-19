@@ -1193,6 +1193,31 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
+    def post_item_workflow_transitions(self, item_id, transition_id, comment=''):
+        """
+        Executes a workflow transition for the item with the specified ID
+
+        Args:
+            item_id: the api id of the item
+            transition_id: the api id of the tranistion status
+            comment: short description about the item transition
+
+        Returns: 201 if successful
+        """
+        resource_path = 'items/'+ str(item_id) + '/workflowtransitions'
+        body = {
+            'transitionId': transition_id,
+            'comment': comment
+        }
+        headers = {'content-type': 'application/json'}
+        try:
+            response = self.__core.post(resource_path, data=json.dumps(body), headers=headers)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
     def post_relationship(self, from_item: int, to_item: int, relationship_type=None):
         """
 
