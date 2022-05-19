@@ -764,6 +764,20 @@ class JamaClient:
         testrun_data = self.__get_all(resource_path,  allowed_results_per_page=allowed_results_per_page)
         return testrun_data
 
+    def get_test_run(self, test_run_id):
+        """This method will get a test run details from Jama through the API
+            Args:
+                test_run_id: the api id of the test run
+        """
+        resource_path = 'testruns/' + str(test_run_id)
+        try:
+            response = self.__core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_items_upstream_relationships(self, item_id, allowed_results_per_page=__allowed_results_per_page):
         """
         Returns a list of all the upstream relationships for the item with the specified ID.
