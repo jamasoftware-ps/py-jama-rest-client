@@ -863,6 +863,42 @@ class JamaClient:
         tag_results = self.__get_all(resource_path, params=params, allowed_results_per_page=allowed_results_per_page)
         return tag_results
 
+    def get_item_links(self, item_id):
+        """
+        This method will return all links in the specified item.
+        Args:
+            item_id: the item ID
+
+        Returns: a Json object with the links present in the item specified
+
+        """
+        resource_path = 'items/' + str(item_id) + '/links'
+        try:
+            response = self.__core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
+    def get_filter_results_count(self, filter_id):
+        """
+        This method will return count of items found through the specified filter.
+        Args:
+            filter_id: the filter ID
+
+        Returns: a count of the items matched with the filter
+
+        """
+        resource_path = 'filters/' + str(filter_id) + '/count'
+        try:
+            response = self.__core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['data']
+
     def get_users(self, allowed_results_per_page=__allowed_results_per_page):
         """
         Gets a list of all active users visible to the current user
@@ -1502,3 +1538,4 @@ class JamaClient:
 
     def get_allowed_results_per_page(self):
         return self.__allowed_results_per_page
+    

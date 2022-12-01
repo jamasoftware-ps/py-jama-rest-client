@@ -3,25 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.5.3" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>py_jama_rest_client.core API documentation</title>
 <meta name="description" content="" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.name small{font-weight:normal}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 </head>
 <body>
 <main>
 <article id="content">
 <header>
-<h1 class="title"><code>py_jama_rest_client.core</code> module</h1>
+<h1 class="title">Module <code>py_jama_rest_client.core</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">import math
 
 import requests
@@ -31,6 +35,20 @@ import logging
 __DEBUG__ = False
 
 py_jama_rest_client_logger = logging.getLogger(&#39;py_jama_rest_client-core&#39;)
+
+
+class CoreException(Exception):
+    &#34;&#34;&#34;This is the base class for all exceptions raised by the Core&#34;&#34;&#34;
+
+    def __init__(self, message, status_code=None, reason=None):
+        super(CoreException, self).__init__(message)
+        self.status_code = status_code
+        self.reason = reason
+
+
+class UnauthorizedTokenException(CoreException):
+    &#34;&#34;&#34;This exception is thrown whenever fetching the oauth token returns a 401 unauthorized response.&#34;&#34;&#34;
+    pass
 
 
 class Core:
@@ -134,8 +152,13 @@ class Core:
         # By getting the system time before we get the token we avoid a potential bug where the token may be expired.
         time_before_request = time.time()
 
-        # Post to the token server
-        response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
+        # Post to the token server, check if authorized
+        try:
+            response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            message = &#34;Unable to fetch token: &#34;
+            raise UnauthorizedTokenException(message + str(err), response.status_code)
 
         # If success get relevant data
         if response.status_code in [200, 201]:
@@ -166,15 +189,18 @@ class Core:
 <dl>
 <dt id="py_jama_rest_client.core.Core"><code class="flex name class">
 <span>class <span class="ident">Core</span></span>
+<span>(</span><span>host_name, user_credentials, api_version='/rest/v1/', oauth=False, verify=True)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This Class will contain a collection of methods that interact directly with the Jama API and return A Requests
+<div class="desc"><p>This Class will contain a collection of methods that interact directly with the Jama API and return A Requests
 Response Object.
 This class will give the user more fine grained access to the JAMA API.
 For more information
-on the Requests library visit: <a href="http://docs.python-requests.org/en/master/">http://docs.python-requests.org/en/master/</a></p></section>
+on the Requests library visit: <a href="http://docs.python-requests.org/en/master/">http://docs.python-requests.org/en/master/</a></p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">class Core:
     &#34;&#34;&#34; This Class will contain a collection of methods that interact directly with the Jama API and return A Requests
     Response Object.  This class will give the user more fine grained access to the JAMA API.  For more information
@@ -276,8 +302,13 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
         # By getting the system time before we get the token we avoid a potential bug where the token may be expired.
         time_before_request = time.time()
 
-        # Post to the token server
-        response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
+        # Post to the token server, check if authorized
+        try:
+            response = requests.post(self.__token_host, auth=self.__credentials, data=data, verify=self.__verify)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            message = &#34;Unable to fetch token: &#34;
+            raise UnauthorizedTokenException(message + str(err), response.status_code)
 
         # If success get relevant data
         if response.status_code in [200, 201]:
@@ -298,37 +329,15 @@ on the Requests library visit: <a href="http://docs.python-requests.org/en/maste
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="py_jama_rest_client.core.Core.__init__"><code class="name flex">
-<span>def <span class="ident">__init__</span></span>(<span>self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False, verify=True)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Initialize self.
-See help(type(self)) for accurate signature.</p></section>
-<details class="source">
-<summary>Source code</summary>
-<pre><code class="python">def __init__(self, host_name, user_credentials, api_version=&#39;/rest/v1/&#39;, oauth=False, verify=True):
-    # Instance variables
-    self.__api_version = api_version
-    self.__host_name = host_name + self.__api_version
-    self.__credentials = user_credentials
-    self.__oauth = oauth
-    self.__verify = verify
-    self.__session = requests.Session()
-
-    # Setup OAuth if needed.
-    if self.__oauth:
-        self.__token_host = host_name + &#39;/rest/oauth/token&#39;
-        self.__token = None
-        self.__get_fresh_token()</code></pre>
-</details>
-</dd>
 <dt id="py_jama_rest_client.core.Core.delete"><code class="name flex">
 <span>def <span class="ident">delete</span></span>(<span>self, resource, **kwargs)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This method will perform a delete operation on the specified resource</p></section>
+<div class="desc"><p>This method will perform a delete operation on the specified resource</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def delete(self, resource, **kwargs):
     &#34;&#34;&#34; This method will perform a delete operation on the specified resource&#34;&#34;&#34;
     url = self.__host_name + resource
@@ -346,9 +355,11 @@ See help(type(self)) for accurate signature.</p></section>
 <span>def <span class="ident">get</span></span>(<span>self, resource, params=None, **kwargs)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This method will perform a get operation on the specified resource</p></section>
+<div class="desc"><p>This method will perform a get operation on the specified resource</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get(self, resource, params=None, **kwargs):
     &#34;&#34;&#34; This method will perform a get operation on the specified resource&#34;&#34;&#34;
     url = self.__host_name + resource
@@ -366,9 +377,11 @@ See help(type(self)) for accurate signature.</p></section>
 <span>def <span class="ident">patch</span></span>(<span>self, resource, params=None, data=None, json=None, **kwargs)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This method will perform a patch operation to the specified resource</p></section>
+<div class="desc"><p>This method will perform a patch operation to the specified resource</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def patch(self, resource, params=None, data=None, json=None, **kwargs):
     &#34;&#34;&#34; This method will perform a patch operation to the specified resource&#34;&#34;&#34;
     url = self.__host_name + resource
@@ -386,9 +399,11 @@ See help(type(self)) for accurate signature.</p></section>
 <span>def <span class="ident">post</span></span>(<span>self, resource, params=None, data=None, json=None, **kwargs)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This method will perform a post operation to the specified resource.</p></section>
+<div class="desc"><p>This method will perform a post operation to the specified resource.</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def post(self, resource, params=None, data=None, json=None, **kwargs):
     &#34;&#34;&#34; This method will perform a post operation to the specified resource.&#34;&#34;&#34;
     url = self.__host_name + resource
@@ -406,9 +421,11 @@ See help(type(self)) for accurate signature.</p></section>
 <span>def <span class="ident">put</span></span>(<span>self, resource, params=None, data=None, json=None, **kwargs)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This method will perform a put operation to the specified resource</p></section>
+<div class="desc"><p>This method will perform a put operation to the specified resource</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def put(self, resource, params=None, data=None, json=None, **kwargs):
     &#34;&#34;&#34; This method will perform a put operation to the specified resource&#34;&#34;&#34;
     url = self.__host_name + resource
@@ -423,6 +440,55 @@ See help(type(self)) for accurate signature.</p></section>
 </details>
 </dd>
 </dl>
+</dd>
+<dt id="py_jama_rest_client.core.CoreException"><code class="flex name class">
+<span>class <span class="ident">CoreException</span></span>
+<span>(</span><span>message, status_code=None, reason=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This is the base class for all exceptions raised by the Core</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CoreException(Exception):
+    &#34;&#34;&#34;This is the base class for all exceptions raised by the Core&#34;&#34;&#34;
+
+    def __init__(self, message, status_code=None, reason=None):
+        super(CoreException, self).__init__(message)
+        self.status_code = status_code
+        self.reason = reason</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="py_jama_rest_client.core.UnauthorizedTokenException" href="#py_jama_rest_client.core.UnauthorizedTokenException">UnauthorizedTokenException</a></li>
+</ul>
+</dd>
+<dt id="py_jama_rest_client.core.UnauthorizedTokenException"><code class="flex name class">
+<span>class <span class="ident">UnauthorizedTokenException</span></span>
+<span>(</span><span>message, status_code=None, reason=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This exception is thrown whenever fetching the oauth token returns a 401 unauthorized response.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UnauthorizedTokenException(CoreException):
+    &#34;&#34;&#34;This exception is thrown whenever fetching the oauth token returns a 401 unauthorized response.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="py_jama_rest_client.core.CoreException" href="#py_jama_rest_client.core.CoreException">CoreException</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -442,8 +508,7 @@ See help(type(self)) for accurate signature.</p></section>
 <ul>
 <li>
 <h4><code><a title="py_jama_rest_client.core.Core" href="#py_jama_rest_client.core.Core">Core</a></code></h4>
-<ul class="two-column">
-<li><code><a title="py_jama_rest_client.core.Core.__init__" href="#py_jama_rest_client.core.Core.__init__">__init__</a></code></li>
+<ul class="">
 <li><code><a title="py_jama_rest_client.core.Core.delete" href="#py_jama_rest_client.core.Core.delete">delete</a></code></li>
 <li><code><a title="py_jama_rest_client.core.Core.get" href="#py_jama_rest_client.core.Core.get">get</a></code></li>
 <li><code><a title="py_jama_rest_client.core.Core.patch" href="#py_jama_rest_client.core.Core.patch">patch</a></code></li>
@@ -451,15 +516,19 @@ See help(type(self)) for accurate signature.</p></section>
 <li><code><a title="py_jama_rest_client.core.Core.put" href="#py_jama_rest_client.core.Core.put">put</a></code></li>
 </ul>
 </li>
+<li>
+<h4><code><a title="py_jama_rest_client.core.CoreException" href="#py_jama_rest_client.core.CoreException">CoreException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="py_jama_rest_client.core.UnauthorizedTokenException" href="#py_jama_rest_client.core.UnauthorizedTokenException">UnauthorizedTokenException</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>
