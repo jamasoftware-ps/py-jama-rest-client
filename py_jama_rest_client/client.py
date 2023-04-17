@@ -1220,6 +1220,34 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
+    def put_relationship(self, from_item: int, to_item: int, relationship_id: int, relationship_type=None):
+        """
+
+            Args:
+                from_item: integer API id of the source item
+                to_item: integer API id of the target item
+                relationship_type: Optional integer API id of the relationship type to create
+
+            Returns: The integer ID of the updated relationship.
+
+        """
+        body = {
+            "fromItem": from_item,
+            "toItem": to_item,
+            "relationshipId": relationship_id
+        }
+        if relationship_type is not None:
+            body['relationshipType'] = relationship_type
+        resource_path = 'relationships/{relationship_id}'
+        headers = {'content-type': 'application/json'}
+        try:
+            response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()['meta']['id']
+
     def post_item_attachment(self, item_id, attachment_id):
         """
         Add an existing attachment to the item with the specified ID
