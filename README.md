@@ -133,6 +133,7 @@ compatibility)
 - `POST` relationship
 - `GET` relationship by id
 - `GET` relationships by project id
+- `PUT` relationship by id, from item, and to item
 - `DELETE` relationship by id
 
 ## Usage Examples

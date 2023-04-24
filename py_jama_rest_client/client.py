@@ -1229,8 +1229,6 @@ class JamaClient:
                 to_item: integer API id of the target item
                 relationship_type: Optional integer API id of the relationship type to create
 
-            Returns: The integer ID of the updated relationship.
-
         """
         body = {
             "relationshipId": relationship_id,
@@ -1247,7 +1245,6 @@ class JamaClient:
             py_jama_rest_client_logger.error(err)
             raise APIException(str(err))
         JamaClient.__handle_response_status(response)
-        return response.json()['meta']['id']
 
     def post_item_attachment(self, item_id, attachment_id):
         """
