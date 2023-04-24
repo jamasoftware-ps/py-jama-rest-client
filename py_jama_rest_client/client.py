@@ -1220,10 +1220,11 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
-    def put_relationship(self, from_item: int, to_item: int, relationship_id: int, relationship_type=None):
+    def put_relationship(self, relationship_id: int, from_item: int, to_item: int, relationship_type: int = None):
         """
 
             Args:
+                relationship_id: integer API id of the relationship
                 from_item: integer API id of the source item
                 to_item: integer API id of the target item
                 relationship_type: Optional integer API id of the relationship type to create
@@ -1232,9 +1233,9 @@ class JamaClient:
 
         """
         body = {
+            "relationshipId": relationship_id,
             "fromItem": from_item,
-            "toItem": to_item,
-            "relationshipId": relationship_id
+            "toItem": to_item
         }
         if relationship_type is not None:
             body['relationshipType'] = relationship_type
