@@ -1231,13 +1231,12 @@ class JamaClient:
 
         """
         body = {
-            "relationshipId": relationship_id,
             "fromItem": from_item,
             "toItem": to_item
         }
         if relationship_type is not None:
             body['relationshipType'] = relationship_type
-        resource_path = 'relationships/{relationship_id}'
+        resource_path = 'relationships/{}'.format(relationship_id)
         headers = {'content-type': 'application/json'}
         try:
             response = self.__core.put(resource_path, data=json.dumps(body), headers=headers)
