@@ -16,6 +16,10 @@ class TestJamaClient(TestCase):
         projects = self.jama_client.get_projects()
         self.assertIsNotNone(projects)
 
+    def test_get_releases(self):
+        projects = self.jama_client.get_releases(project_id=116)
+        self.assertIsNotNone(projects)
+
     def test_get_items(self):
         project_id = 116
         items = self.jama_client.get_items(project_id)
