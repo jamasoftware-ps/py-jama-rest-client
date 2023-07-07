@@ -162,6 +162,21 @@ class JamaClient:
         filter_results = self.__get_all(resource_path, params=params, allowed_results_per_page=allowed_results_per_page)
         return filter_results
 
+    def get_releases(self, project_id, allowed_results_per_page=__allowed_results_per_page):
+        """
+        This method will return all the releases in a specified project.
+        Args:
+            project_id: the project ID
+            allowed_results_per_page: number of results per page
+
+        Returns: a Json array of item objects
+
+        """
+        resource_path = 'releases'
+        params = {'project': project_id}
+        item_data = self.__get_all(resource_path, params=params, allowed_results_per_page=allowed_results_per_page)
+        return item_data
+
     def get_items(self, project_id, allowed_results_per_page=__allowed_results_per_page):
         """
         This method will return all items in the specified project.
