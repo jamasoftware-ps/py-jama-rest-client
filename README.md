@@ -105,6 +105,9 @@ compatibility)
 - `GET` all projects
 - `POST` new attachment item
 
+##### Releases
+- `GET` releases for a specific project
+
 ##### Tags
 - `GET` all tags for a specific project
 - `POST` a new tag to a specific project
