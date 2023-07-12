@@ -189,6 +189,14 @@ class TestJamaClient(TestCase):
         self.assertIsNotNone(sync)
 
     @unittest.skip('Entity Already Exists')
+    def test_post_item_workflow_transitions(self):
+        item_id = 10410
+        transition_id = "566_700"
+        comment = "Draft to Ready for Review"
+        res_status = self.jama_client.post_item_workflow_transitions(item_id,transition_id,comment)
+        self.assertEqual(res_status, 201)
+
+    @unittest.skip('Entity Already Exists')
     def test_post_relationship(self):
         from_item = 104755
         to_item = 104752
