@@ -966,6 +966,24 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.status_code
 
+    def delete_test_cycle(self, test_cycle_id):
+        """
+        This method will delete a test cycle specified by the test cycle id.
+
+        Args:
+            test_cycle_id: the api id of the test cycle to delete
+
+        Returns: The success status code.
+        """
+        resource_path = 'testcycles/' + str(test_cycle_id)
+        try:
+            response = self.__core.delete(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
     def patch_item(self, item_id, patches):
         """
         This method will patch an item.
