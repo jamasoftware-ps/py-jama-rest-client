@@ -104,6 +104,7 @@ compatibility)
 ##### Projects: 
 - `GET` all projects
 - `POST` new attachment item
+- `PUT` add item type to project
 
 ##### Tags
 - `GET` all tags for a specific project
