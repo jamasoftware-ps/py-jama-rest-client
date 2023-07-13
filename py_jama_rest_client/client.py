@@ -1287,6 +1287,26 @@ class JamaClient:
             raise APIException(str(err))
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
+    
+    def put_project_item_type(self, project_id, item_type_id):
+        """
+        Add item type to project
+        Args:
+            :param project_id: The integer project ID to add item type to.
+            :param item_type_id integer ID of an Item Type.
+
+        Returns:
+            response status 200
+
+        """
+        resource_path = 'projects/' + str(project_id) + '/itemtypes/' + str(item_type_id)
+        headers = {'content-type': 'application/json'}
+        try:
+            response = self.__core.put(resource_path, headers=headers)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        return self.__handle_response_status(response)
 
     def put_item(self, project, item_id, item_type_id, child_item_type_id, location, fields):
         """ This method wil
