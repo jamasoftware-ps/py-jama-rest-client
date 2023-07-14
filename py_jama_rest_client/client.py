@@ -1064,6 +1064,37 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.json()['meta']['id']
 
+    def get_testplans(self,project_id, allowed_results_per_page=__allowed_results_per_page):
+        """ This method will return all testplans in the give project.
+        :param project_id (int) The integer project ID.
+        :return a json list of testplans
+        """
+        resource_path = 'testplans'
+        params = {'project': project_id}
+        testplans = self.__get_all(resource_path, params=params, allowed_results_per_page=allowed_results_per_page)
+        return testplans
+
+    def get_testgroups(self,testplan_id, allowed_results_per_page=__allowed_results_per_page):
+        """ This method will return all testgroups in the give testplan.
+        :param testplan_id (int) The integer testplan ID.
+        :return a json list of testgroups
+        """
+        resource_path = f'testplans/{testplan_id}/testgroups'
+        params = {}
+        testgroups = self.__get_all(resource_path, params=params, allowed_results_per_page=allowed_results_per_page)
+        return testgroups
+
+    def get_testgroup_testcases(self,testplan_id, testgroup_id, allowed_results_per_page=__allowed_results_per_page):
+        """ This method will return all testcases in the give testgroup.
+        :param testplan_id (int) The integer testplan ID.
+        :param testgroup_id (int) The integer testgroup ID.
+        :return a json list of testcases in the give testgroup
+        """
+        resource_path = f"testplans/{testplan_id}/testgroups/{testgroup_id}/testcases"
+        params = {}
+        testcases = self.__get_all(resource_path, params=params, allowed_results_per_page=allowed_results_per_page)
+        return testcases
+
     def post_testplans_testcycles(self, testplan_id, testcycle_name, start_date, end_date, testgroups_to_include=None,
                                   testrun_status_to_include=None):
         """
