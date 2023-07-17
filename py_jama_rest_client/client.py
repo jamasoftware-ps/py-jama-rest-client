@@ -164,7 +164,7 @@ class JamaClient:
 
     def get_projects(
         self,
-        project_id: int = None,
+        project_id=None,
         allowed_results_per_page=__allowed_results_per_page,
     ):
         """This method will return all projects as JSON object
