@@ -167,8 +167,13 @@ class JamaClient:
         project_id=None,
         allowed_results_per_page=__allowed_results_per_page,
     ):
-        """This method will return all projects as JSON object
-        :return: JSON Array of Item Objects.
+        """
+        This method will return all projects as JSON object
+        optional: if project_id is specified, it will return a single project
+        Args:
+            project_id: the id of the project to fetch
+            allowed_results_per_page: number of results per page
+        :Returns: JSON Array of Item Objects.
         """
         resource_path = "projects"
 
