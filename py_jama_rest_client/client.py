@@ -164,25 +164,39 @@ class JamaClient:
 
     def get_projects(
         self,
-        project_id=None,
         allowed_results_per_page=__allowed_results_per_page,
     ):
         """
         This method will return all projects as JSON object
         optional: if project_id is specified, it will return a single project
         Args:
-            project_id: the id of the project to fetch
             allowed_results_per_page: number of results per page
         :Returns: JSON Array of Item Objects.
         """
         resource_path = "projects"
 
-        if project_id is not None:
-            resource_path += f"/{project_id}"
         project_data = self.__get_all(
             resource_path, allowed_results_per_page=allowed_results_per_page
         )
         return project_data
+
+    def get_project_by_id(self, project_id):
+        """
+        This method will return a single project as JSON object
+        Args:
+            project_id: the id of the project to fetch
+
+        Returns: a dictionary object representing the project
+
+        """
+        resource_path = f"projects/{project_id}"
+        try:
+            response = self.__core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise ResourceNotFoundException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.json()["data"]
 
     def get_filter_results(
         self,
