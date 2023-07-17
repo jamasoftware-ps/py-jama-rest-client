@@ -170,9 +170,10 @@ class JamaClient:
         """This method will return all projects as JSON object
         :return: JSON Array of Item Objects.
         """
-        resource_path = (
-            "projects" if project_id is None else "projects/" + str(project_id)
-        )
+        resource_path = "projects"
+
+        if project_id is not None:
+            resource_path += f"/{project_id}"
         project_data = self.__get_all(
             resource_path, allowed_results_per_page=allowed_results_per_page
         )
@@ -1614,7 +1615,7 @@ class JamaClient:
         resource,
         params=None,
         allowed_results_per_page=__allowed_results_per_page,
-        **kwargs
+        **kwargs,
     ):
         """This method will get all of the resources specified by the resource parameter, if an id or some other
         parameter is required for the resource, include it in the params parameter.
@@ -1649,7 +1650,7 @@ class JamaClient:
         start_at,
         params=None,
         allowed_results_per_page=__allowed_results_per_page,
-        **kwargs
+        **kwargs,
     ):
         """This method will return one page of results from the specified resource type.
         Pass any needed parameters along
