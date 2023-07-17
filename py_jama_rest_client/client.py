@@ -162,11 +162,17 @@ class JamaClient:
         )
         return baseline_items
 
-    def get_projects(self, allowed_results_per_page=__allowed_results_per_page):
+    def get_projects(
+        self,
+        project_id: int = None,
+        allowed_results_per_page=__allowed_results_per_page,
+    ):
         """This method will return all projects as JSON object
         :return: JSON Array of Item Objects.
         """
-        resource_path = "projects"
+        resource_path = (
+            "projects" if project_id is None else "projects/" + str(project_id)
+        )
         project_data = self.__get_all(
             resource_path, allowed_results_per_page=allowed_results_per_page
         )
