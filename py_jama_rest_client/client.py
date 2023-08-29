@@ -966,6 +966,26 @@ class JamaClient:
         JamaClient.__handle_response_status(response)
         return response.status_code
 
+    def delete_suspect(self, relationship_id):
+        """
+        Deletes a suspect link from a relationship ID
+
+        Args:
+            relationship_id: the api project id of a relationship
+
+        Returns: The success status code.
+
+        """
+        resource_path = 'relationships/' + str(relationship_id) + '/suspect'
+        try:
+            response = self.__core.delete(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        JamaClient.__handle_response_status(response)
+        return response.status_code
+
+
     def patch_item(self, item_id, patches):
         """
         This method will patch an item.
