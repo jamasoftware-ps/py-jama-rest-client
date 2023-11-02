@@ -1527,6 +1527,22 @@ class JamaClient:
             raise APIException(str(err))
         return self.__handle_response_status(response)
 
+    def get_attachment_file(self, attachment_id: int):
+        """
+        This method will return a singular attachment of a specified attachment id
+        :param id of the attachment to fetch
+        :return a dictonary object representing the attachment
+
+        """
+        resource_path = f"files?url={attachment_id}"
+        try:
+            response = self.core.get(resource_path)
+        except CoreException as err:
+            py_jama_rest_client_logger.error(err)
+            raise APIException(str(err))
+        self.__handle_response_status(response)
+        return response.content
+
     def put_attachments_file(self, attachment_id, file_path):
         """
         Upload a file to a jama attachment
