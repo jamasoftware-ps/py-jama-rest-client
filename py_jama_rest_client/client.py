@@ -93,6 +93,12 @@ class JamaClient:
             "Connecting via Oauth: {}".format(host_domain, oauth)
         )
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        self.__core.close()
+
     def get_available_endpoints(self):
         """
         Returns a list of all the available endpoints.
