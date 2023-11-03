@@ -53,6 +53,10 @@ class Core:
             self.__token = None
             self.__get_fresh_token()
 
+    def close(self) -> None:
+        """Method to close underlying session"""
+        self.__session.close()
+
     def delete(self, resource, **kwargs):
         """This method will perform a delete operation on the specified resource"""
         url = self.__host_name + resource
