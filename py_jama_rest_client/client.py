@@ -1542,7 +1542,7 @@ class JamaClient:
         """
         resource_path = f"files?url={attachment_id}"
         try:
-            response = self.core.get(resource_path)
+            response = self.__core.get(resource_path)
         except CoreException as err:
             py_jama_rest_client_logger.error(err)
             raise APIException(str(err))
