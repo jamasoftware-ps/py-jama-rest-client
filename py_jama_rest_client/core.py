@@ -45,7 +45,7 @@ class Core:
         self.__credentials = user_credentials
         self.__oauth = oauth
         self.__verify = verify
-        self.__session = requests.Session()
+        self._session = requests.Session()
 
         # Setup OAuth if needed.
         if self.__oauth:
@@ -55,7 +55,7 @@ class Core:
 
     def close(self) -> None:
         """Method to close underlying session"""
-        self.__session.close()
+        self._session.close()
 
     def delete(self, resource, **kwargs):
         """This method will perform a delete operation on the specified resource"""
@@ -65,9 +65,9 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs["headers"] = self.__add_auth_header(**kwargs)
-            return self.__session.delete(url, **kwargs)
+            return self._session.delete(url, **kwargs)
 
-        return self.__session.delete(url, auth=self.__credentials, **kwargs)
+        return self._session.delete(url, auth=self.__credentials, **kwargs)
 
     def get(self, resource, params=None, **kwargs):
         """This method will perform a get operation on the specified resource"""
@@ -77,9 +77,9 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs["headers"] = self.__add_auth_header(**kwargs)
-            return self.__session.get(url, params=params, **kwargs)
+            return self._session.get(url, params=params, **kwargs)
 
-        return self.__session.get(url, auth=self.__credentials, params=params, **kwargs)
+        return self._session.get(url, auth=self.__credentials, params=params, **kwargs)
 
     def patch(self, resource, params=None, data=None, json=None, **kwargs):
         """This method will perform a patch operation to the specified resource"""
@@ -89,11 +89,11 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs["headers"] = self.__add_auth_header(**kwargs)
-            return self.__session.patch(
+            return self._session.patch(
                 url, params=params, data=data, json=json, **kwargs
             )
 
-        return self.__session.patch(
+        return self._session.patch(
             url, auth=self.__credentials, params=params, data=data, json=json, **kwargs
         )
 
@@ -105,11 +105,11 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs["headers"] = self.__add_auth_header(**kwargs)
-            return self.__session.post(
+            return self._session.post(
                 url, params=params, data=data, json=json, **kwargs
             )
 
-        return self.__session.post(
+        return self._session.post(
             url, auth=self.__credentials, params=params, data=data, json=json, **kwargs
         )
 
@@ -121,11 +121,9 @@ class Core:
         if self.__oauth:
             self.__check_oauth_token()
             kwargs["headers"] = self.__add_auth_header(**kwargs)
-            return self.__session.put(
-                url, data=data, params=params, json=json, **kwargs
-            )
+            return self._session.put(url, data=data, params=params, json=json, **kwargs)
 
-        return self.__session.put(
+        return self._session.put(
             url, auth=self.__credentials, data=data, params=params, json=json, **kwargs
         )
 
