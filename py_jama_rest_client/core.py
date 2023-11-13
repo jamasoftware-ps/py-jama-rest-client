@@ -1,27 +1,53 @@
 import math
-
+import urllib3
+import ssl
 import requests
 import time
 import logging
+from py_jama_rest_client.exceptions import UnauthorizedTokenException
 
 __DEBUG__ = False
 
 py_jama_rest_client_logger = logging.getLogger("py_jama_rest_client-core")
 
-
-class CoreException(Exception):
-    """This is the base class for all exceptions raised by the Core"""
-
-    def __init__(self, message, status_code=None, reason=None):
-        super(CoreException, self).__init__(message)
-        self.status_code = status_code
-        self.reason = reason
+# disable warnings for ssl verification
+urllib3.disable_warnings()
 
 
-class UnauthorizedTokenException(CoreException):
-    """This exception is thrown whenever fetching the oauth token returns a 401 unauthorized response."""
+class CustomHttpAdapter(requests.adapters.HTTPAdapter):
+    """
+    Custom HTTP transport adapter class which allows us to use custom
+    ssl_context to bypass 'SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED' error
+    """
 
-    pass
+    def __init__(self, ssl_context=None, **kwargs):
+        self.ssl_context = ssl_context
+        super().__init__(**kwargs)
+
+    def init_poolmanager(self, connections, maxsize, block=False):
+        self.poolmanager = urllib3.poolmanager.PoolManager(
+            num_pools=connections,
+            maxsize=maxsize,
+            block=block,
+            ssl_context=self.ssl_context,
+        )
+
+
+def get_session(
+    ctx: ssl.SSLContext = None, verify: bool = False, **kwargs
+) -> requests.Session:
+    """
+    Getter function to return session object which implements
+    CustomHttpAdapter
+    """
+    if ctx is None:
+        ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+        ctx.options |= 0x4  # OP_LEGACY_SERVER_CONNECT
+    if not verify:
+        ctx.check_hostname = False  # allows user to disable ssl verification
+    session = requests.Session(**kwargs)
+    session.mount("https://", CustomHttpAdapter(ctx))
+    return session
 
 
 class Core:
@@ -45,7 +71,7 @@ class Core:
         self.__credentials = user_credentials
         self.__oauth = oauth
         self.__verify = verify
-        self._session = requests.Session()
+        self._session = get_session()
 
         # Setup OAuth if needed.
         if self.__oauth:
