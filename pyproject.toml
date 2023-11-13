@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "py-jama-rest-client"
-version = "1.17.2b6"
+version = "1.17.2b7"
 description = "A client for the jama Connect REST API"
 authors = ["Nick McHale"]
 license = "MIT"
